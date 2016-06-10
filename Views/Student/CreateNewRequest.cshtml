@@ -1,0 +1,47 @@
+﻿@model DeanReports.ViewModels.RequestViewModel
+@{
+    ViewBag.Title = "יצירת בקשה חדשה";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section  mainContent {
+<form action="/Student/CreateNewRequest" method="post" class="">
+    <label for="" id="" name="" class="programsLbl">בחירת תוכנית</label>
+    <div class="programsSection">
+        <select id="" name="SelectedPrograms" class="programs" multiple="multiple">
+            @foreach (var program in Model.ProgramsCombo)
+            {
+                <option value="@program.ID">@program.Name</option>
+            }
+        </select>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <div class="requestedCourses">
+        <div class="courseWrapper">
+            <label for="" id="" name="" class="lecturerNameLbl">שם המרצה</label>
+            <input type="text" id="" name="LecturerName" class="lecturerNameTxt" />
+            <select id="" name="SelectedCourses" class="courses">
+                @foreach (var course in Model.CoursesCombo)
+                {
+                    <option value="@course.ID">@course.Name</option>
+                }
+            </select>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+    <a href="#" id="addCourse">הוסף קורס <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+    <div class="clear"></div>
+    <input type="submit" id="" name="submit" value="שלח" class="submitRequest" />
+    <div class="clear"></div>
+</form>
+<script type="text/javascript">
+    var coursesArr = [];
+
+    @foreach (var d in Model.CoursesCombo)
+    {
+        @:coursesArr.push({ id: "@d.ID", name: "@d.Name" });
+    }
+</script>
+}
