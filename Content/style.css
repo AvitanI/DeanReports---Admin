@@ -75,9 +75,61 @@ body {
 	text-decoration: none;
 	float: left;
 }
-
 .topMenu > li > a:hover {
 	background: rgba(0,0,0,0.1);
+}
+.userProfile {
+	display: none;
+	background: #3c8dbc;
+	width: 280px;
+	position: absolute;
+	top: 51px;
+	left: 48px;
+	border: 1px solid #ccc;
+}
+.userProfile.active {
+	display: block;
+}
+.profileImg {
+	height: 175px;
+    padding: 10px;
+    text-align: center;
+}
+.userProfileImg {
+	height: 90px;
+    width: 90px;
+    border-radius: 50%;
+    border: 3px solid rgba(255,255,255,0.2);
+}
+.userProfileDetails {
+	color: #fff;
+    font-size: 16px;
+    margin: 20px 0 10px 0;
+    line-height: 20px;
+}
+.since {
+	font-size: 12px;
+}
+.profileActions {
+	background: #f9f9f9;
+    padding: 10px;
+}
+.profile, .signOut {
+	color: #666666;
+	text-decoration: none;
+	padding: 6px 12px;
+	border: 1px solid#adadad;
+	transition: all 0.2s ease-in-out;
+	-webkit-transition: all 0.2s ease-in-out;
+}
+.profile:hover, .signOut:hover {
+	background: #DADADA;
+}
+.profile {
+	float: right;
+}
+.signOut {
+	float: left;
 }
 .clear {
 	clear: both;
@@ -301,4 +353,78 @@ body {
 }
 .removeIcon {
     padding: 0 10px 0 0;
+}
+/*user profile*/
+.memberDetails {
+	background: #fff;
+    border-top: 3px solid #3c8dbc;
+    width: 40%;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    float: right;
+}
+.memberDetailsTitle {
+	border-bottom: 1px solid #f4f4f4;
+    padding: 10px;
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: inherit;
+    text-align: right;
+}
+.memberDetailsForm {
+	padding: 10px 50px;
+}
+.inputWrapper {
+	width: 100%;
+	margin: 0 0 20px 0;
+}
+.loginInputs {
+	float: right;
+	height: 34px;
+	border: 1px solid #ccc;
+	border-left: none;
+	width: calc(100% - 34px);
+	padding: 0 6px 0 0;
+	color: #666;
+}
+.inputsIcons {
+	width: 34px;
+	height: 34px;
+	border: 1px solid #ccc;
+	border-right: none;
+	padding: 8px;
+	color: #666;
+}
+.select2-container {
+	float: right;
+	/*width: calc(100% - 34px) !important;*/
+	width: 527px !important;
+	border: 1px solid #ccc;
+	border-left: none;
+}
+.select2-container--default .select2-selection--single {
+	float: right;
+	height: 32px;
+	text-align: right;
+	width: 100%;
+	border: none;
+	color: #666;
+	border-radius: 0px;
+}
+.memberPic {
+	background: #fff;
+    border-top: 3px solid #f39c12;
+    margin: 0 40px 0 0px;
+    width: 40%;
+    min-height: 200px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    float: left;
+}
+.memberDetailsPicWrapper {
+	padding: 10px;
+}
+.memberDetailsPic {
+	border-radius: 50%;
+    border: 2px solid #f39c12;
 }

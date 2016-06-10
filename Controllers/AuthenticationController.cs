@@ -25,11 +25,14 @@ namespace DeanReports.Controllers
                 User user = bl.GetUserValidity(new User() { UserName = u.UserName, Password = u.Password });
                 if (user != null && user.Type != Types.NonUser)
                 {
+                    Member member = bl.GetMemberByUsername(u.UserName);
                     //FormsAuthentication.SetAuthCookie(u.UserName, false);
                     Session["Username"] = u.UserName;
-                    Session["Type"] = user.Type;
-                    //Session["LastLogin"] = user.LastLogin;
-                    // To-Do: update last login
+                    Session["Type"] = Utilities.GetUserTypeName(user.Type);
+                    Session["LastLoginDate"] = user.LastLogin.ToString("dd/MM/yy");
+                    Session["LastLoginHour"] = user.LastLogin.ToString("HH:mm");
+                    Session["FullName"] = member.FirstName + " " + member.LastName;
+                    Session["DepartmentID"] = member.DepartmentID;
                     return RedirectToAction("GetAllMembers", "Member");
                 }
                 else
@@ -56,7 +59,8 @@ namespace DeanReports.Controllers
         }
         public ActionResult Logout()
         {
-            FormsAuthentication.SignOut();
+            Session.Abandon();
+            //FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
         public ActionResult Register()
@@ -132,6 +136,9 @@ namespace DeanReports.Controllers
                 return RedirectToAction("Register", "Authentication");
             }
         }
-    
+        public ActionResult UserProfile()
+        {
+            return View("ShowUserProfile");
+        }
     }
 }

@@ -1,4 +1,9 @@
-﻿$(".fancyTrigger").fancybox();
+﻿$('#userToggle').click(function (event) {
+    event.stopPropagation();
+    $('.userProfile').toggleClass('active');
+});
+
+$(".fancyTrigger").fancybox();
 $(".fancyTrigger").trigger('click');
 
 // combobox for departments

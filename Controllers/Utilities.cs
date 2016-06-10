@@ -20,6 +20,25 @@ namespace DeanReports.Controllers
                 Birth = m.Birth,
                 Phone = m.Phone
             };
-        }   
+        }
+
+        public static string GetUserTypeName(Types type)
+        {
+            string t = "אינו משתמש";
+
+            if(type == Types.Admin)
+            {
+                t = "אדמין";
+            }
+            else if(type == Types.Teacher)
+            {
+                t = "חונך";
+            }
+            else if (type == Types.Student)
+            {
+                t = "חניך";
+            }
+            return t;
+        }
     }
 }

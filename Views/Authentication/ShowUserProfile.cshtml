@@ -1,0 +1,57 @@
+﻿
+@{
+    ViewBag.Title = "פרופיל משתמש";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent {
+<div class="memberDetails">
+    <div class="memberDetailsTitle">
+        עריכת פרטי משתמש
+    </div>
+    <form method="post" action="" class="memberDetailsForm">
+        <div class="inputWrapper">
+            <input type="text" name="FirstName" placeholder="שם פרטי" class="loginInputs" />
+            <i class="fa fa-male inputsIcons" aria-hidden="true"></i>
+            <div class="clear"></div>
+        </div>
+        <div class="inputWrapper">
+            <input type="text" name="LastName" placeholder="שם משפחה" class="loginInputs" />
+            <i class="fa fa-male inputsIcons" aria-hidden="true"></i>
+            <div class="clear"></div>
+        </div>
+        <div class="inputWrapper">
+            <input type="text" name="Birth" placeholder="תאריך לידה" class="loginInputs datepicker" />
+            <i class="fa fa-calendar inputsIcons" aria-hidden="true"></i>
+            <div class="clear"></div>
+        </div>
+        <div class="inputWrapper">
+            <select name="DepartmentID" class="departmentCombo">
+                <option value="AL">בחר חוג</option>
+                <option value="AL">מערכות מידע ניהוליות</option>
+                <option value="AL">כלכלה</option>
+                <option value="AL">פסיכולוגיה</option>
+            </select>
+            <i class="fa fa-university inputsIcons" aria-hidden="true"></i>
+            <div class="clear"></div>
+        </div>
+        <div class="inputWrapper">
+            <input type="text" name="Year" placeholder="שנת לימודים" class="loginInputs" />
+            <i class="fa fa-hourglass-half inputsIcons" aria-hidden="true"></i>
+            <div class="clear"></div>
+        </div>
+        <div class="inputWrapper">
+            <input type="text" name="Phone" placeholder="טלפון נייד" class="loginInputs" />
+            <i class="fa fa-phone inputsIcons" aria-hidden="true"></i>
+            <div class="clear"></div>
+        </div>
+</div>
+<div class="memberPic">
+    <div class="memberDetailsTitle">
+        עריכת תמונה
+    </div>
+    <div class="memberDetailsPicWrapper">
+        <img src="~/Content/images/user.jpg" alt="" class="memberDetailsPic">
+    </div>
+</div>
+}

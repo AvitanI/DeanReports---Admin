@@ -529,6 +529,20 @@ namespace DeanReports.Models
                 return new List<Member>();
             }
         }
+        public Member GetMemberByUsername(string username)
+        {
+            try
+            {
+                Object[] parameters = { new SqlParameter("MemberUserName", username) };
+                Member member = dbContext.Database.SqlQuery<Member>(@"GetMemberByUsername @MemberUserName", parameters).ToList()[0];
+                return member;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetMemberByUsername function: " + e);
+                return new Member();
+            }
+        }
 
         // programs
         public List<Programs> GetAllPrograms()

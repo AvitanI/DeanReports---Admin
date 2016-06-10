@@ -5,7 +5,7 @@
 <head>
     <title>משרד הדיקן - עמק יזרעאל</title>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.min.css" />
     <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
@@ -28,11 +28,25 @@
                         <i class="fa fa-cogs" aria-hidden="true"></i>
                     </a>
                 </li>
-                <li>
+                <li id="userToggle">
                     <a href="#">
                         <img src="~/Content/images/user.jpg" alt="" class="user">
                         <span class="userName">@Session["Username"]</span>
                     </a>
+                    <div class="userProfile">
+                        <div class="profileImg">
+                            <img src="~/Content/images/user.jpg" alt="" class="userProfileImg" />
+                            <div class="userProfileDetails">
+                                @Session["FullName"] - @Session["Type"]<br>
+                                <span class="since">חבר במערכת מנובמבר 2015</span>
+                            </div>
+                        </div>
+                        <div class="profileActions">
+                            <a href="/Authentication/UserProfile" class="profile">פרופיל</a>
+                            <a href="/Authentication/Logout" class="signOut">צא</a>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
                 </li>
                 <li>
                     <a href="#">
@@ -62,7 +76,7 @@
             <div class="userDetailsWrapper">
                 <img src="~/Content/images/user.jpg" alt="" class="userDetailsImg" />
                 <div class="userDetails">
-                    <span class="fullname">@Session["Username"]</span>
+                    <span class="fullname">כניסה אחרונה: <br>@Session["LastLoginHour"] @Session["LastLoginDate"]</span>
                     <br>
                     <span class="type">סוג: @Session["Type"]</span>
                 </div>
