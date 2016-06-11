@@ -1,4 +1,7 @@
-﻿using System;
+﻿using DeanReports.DataAccessLayer;
+using DeanReports.Models;
+using DeanReports.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,9 +18,11 @@ namespace DeanReports.Controllers
             return View();
         }
 
-        public ActionResult Test()
+        public string Test()
         {
-            return View("PartialTest");
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            UserProfile vm = bl.GetUserProfileByUsername("bogi@bogi.com");
+            return vm.Identity + "||" + vm.FirstName + "||" + vm.Password;
         }
 
         public string koko()

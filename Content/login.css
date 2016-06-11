@@ -6,6 +6,12 @@ form, p{margin:0;padding:0;}
 input, textarea, select{font-family: Arial;	font-size: 16px;-webkit-appearance:none;-moz-appearance:none;appearance:none;border-radius:0;}
 textarea{overflow:auto;resize:none;}
 input[type="button"], input[type="submit"], input[type="image"], input[type="reset"], a, select, button{cursor:pointer;}
+input[type="text"], input[type="password"] {transition: all 0.2s linear;}
+input[type="text"]:focus, input[type="password"]:focus {border: 1px solid #1C90F3;}
+/* Change the white to any color ;) */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
 table{border-collapse:collapse;}
 ::-webkit-input-placeholder{color: #666;}
 :-moz-placeholder{color: #666;}

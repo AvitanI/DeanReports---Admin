@@ -1,9 +1,8 @@
-﻿@model DeanReports.ViewModels.BaseViewModel
-
+﻿
 <!DOCTYPE html>
 <html>
 <head>
-    <title>משרד הדיקן - עמק יזרעאל</title>
+    <title>@ViewBag.Title</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css" />
@@ -16,6 +15,15 @@
     <script src="~/Scripts/jquery.fancybox.js"></script>
 </head>
 <body>
+    @{
+        var fb = TempData["FancyBox"] as DeanReports.ViewModels.FancyBox;
+        if (fb != null && !fb.Valid)
+        {
+            <a class="fancyTrigger" href="#TheFancybox"></a>
+            <!-- <hr> -->
+            <div id="TheFancybox">@fb.Message</div>
+        }
+    }
     <div class="header">
         <a href="#" class="logoHref"><span class="bold">Admin</span>LTE</a>
         <div class="topMenuWrapper">

@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Security;
 using System.Diagnostics;
+using System.Linq;
+using Postal;
+using System;
 
 namespace DeanReports.Controllers
 {
@@ -122,6 +125,11 @@ namespace DeanReports.Controllers
                         Phone = registerViewModel.Phone
                     };
                     bl.AddMember(member);
+
+                    dynamic email = new Email("Example");
+                    email.To = "Avitanidan@gmail.com";
+                    email.Send();
+
                     return RedirectToAction("GetAllMembers", "Member");
                 }
             }
@@ -138,7 +146,93 @@ namespace DeanReports.Controllers
         }
         public ActionResult UserProfile()
         {
-            return View("ShowUserProfile");
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            string userame = Session["Username"] as string;
+            UserProfile userProfileModel = bl.GetUserProfileByUsername(userame);
+            UserProfileViewModel userProfileVM = new UserProfileViewModel()
+            {
+                Identity = userProfileModel.Identity,
+                FirstName = userProfileModel.FirstName,
+                LastName = userProfileModel.LastName,
+                DepartmentID = userProfileModel.DepartmentID,
+                Year = userProfileModel.Year,
+                Birth = userProfileModel.Birth.ToString("dd/MM/yyyy"),
+                Phone = userProfileModel.Phone,
+                UserName = userProfileModel.UserName,
+                Password = userProfileModel.Password,
+                Type = userProfileModel.Type,
+                LastLogin = userProfileModel.LastLogin
+            };
+            List<Department> departments = bl.GetAllDepartments();
+            List<DepartmentViewModel> departmentViewModelList = new List<DepartmentViewModel>();
+            foreach (Department item in departments)
+            {
+                departmentViewModelList.Add(new DepartmentViewModel()
+                {
+                    ID = item.ID,
+                    Name = item.Name
+                });
+            }
+            userProfileVM.DepartmentName = (from a in departments
+                                           where a.ID == userProfileModel.DepartmentID
+                                           select a.Name).Single();
+            userProfileVM.Departments = departmentViewModelList;
+            return View("ShowUserProfile", userProfileVM);
+        }
+        [HttpPost]
+        public ActionResult UpdateUserProfile(UserProfileViewModel userProfileVM)
+        {
+            FancyBox fb;
+            if (ModelState.IsValid)
+            {
+                BussinesLayer bl = new BussinesLayer(new FinalDB());
+                if (Session["Username"] as string != userProfileVM.UserName && bl.IsUserExist(userProfileVM.UserName))
+                {
+                    fb = new FancyBox()
+                    {
+                        Valid = false,
+                        Message = "שם המשתמש קיים כבר במערכת"
+                    };
+                    TempData["FancyBox"] = fb;
+                    return RedirectToAction("UserProfile");
+                }
+                User userModel = new User()
+                {
+                    UserName = userProfileVM.UserName,
+                    Password = userProfileVM.Password
+                };
+                bl.EditUser(userModel);
+                Member memberModel = new Member()
+                {
+                    MemberUserName = userProfileVM.UserName,
+                    Identity = userProfileVM.Identity,
+                    DepartmentID = userProfileVM.DepartmentID,
+                    Year = userProfileVM.Year,
+                    FirstName = userProfileVM.FirstName,
+                    LastName = userProfileVM.LastName,
+                    Birth = Convert.ToDateTime(userProfileVM.Birth),
+                    Phone = userProfileVM.Phone
+                };
+                bl.EditMember(memberModel);
+
+                fb = new FancyBox()
+                {
+                    Valid = false,
+                    Message = "הפרופיל עודכן בהצלחה"
+                };
+                TempData["FancyBox"] = fb;
+                return RedirectToAction("UserProfile");
+            }
+            else
+            {
+                fb = new FancyBox()
+                {
+                    Valid = false,
+                    Message = "שדות לא תקינים"
+                };
+                TempData["FancyBox"] = fb;
+                return RedirectToAction("UserProfile");
+            }
         }
     }
 }

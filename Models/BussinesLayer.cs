@@ -316,6 +316,22 @@ namespace DeanReports.Models
             }
         }
 
+        // user profile
+        public UserProfile GetUserProfileByUsername(string username)
+        {
+            try
+            {
+                Object[] parameters = { new SqlParameter("UserName", username) };
+                UserProfile userProfile = dbContext.Database.SqlQuery<UserProfile>(@"GetUserProfileByUsername @UserName", parameters).ToList()[0];
+                return userProfile;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetUserProfileByUsername function: " + e);
+                return new UserProfile();
+            }
+        }
+
         // user section
         public bool IsUserExist(string username)
         {
@@ -350,6 +366,23 @@ namespace DeanReports.Models
                 Debug.WriteLine("There is more than one result!");
             }
             return new User() { Type = Types.NonUser };
+        }
+        public User GetUserByUsername(string username)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("UserName", username)
+                };
+                User u = dbContext.Database.SqlQuery<User>(@"GetUserByUsername @UserName", parameters).ToList()[0];
+                return u;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetUserByUsername function: " + e);
+                return new User();
+            }
         }
         public bool AddUser(User u)
         {
