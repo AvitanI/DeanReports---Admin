@@ -9,11 +9,10 @@ $(".fancyTrigger").trigger('click');
 // combobox for departments
 $(".departmentCombo").length && (function () {
     $(".departmentCombo").select2({
-        // placeholder: "בחר חוג",
-        // allowClear: true,
         dir: "rtl"
     });
 }());
+
 // date for birth
 $(".datepicker").length && (function () {
     $(".datepicker").datepicker({
@@ -23,13 +22,9 @@ $(".datepicker").length && (function () {
 }());
 
 $(".programs").select2({
-    // placeholder: "בחר חוג",
-    // allowClear: true,
     dir: "rtl"
 });
 $(".courses").select2({
-    // placeholder: "בחר חוג",
-    // allowClear: true,
     dir: "rtl"
 });
 // add dynamic course request
