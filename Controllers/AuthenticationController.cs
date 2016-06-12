@@ -173,9 +173,9 @@ namespace DeanReports.Controllers
                     Name = item.Name
                 });
             }
-            userProfileVM.DepartmentName = (from a in departments
-                                           where a.ID == userProfileModel.DepartmentID
-                                           select a.Name).Single();
+            //userProfileVM.DepartmentName = (from a in departments
+            //                               where a.ID == userProfileModel.DepartmentID
+            //                               select a.Name).Single();
             userProfileVM.Departments = departmentViewModelList;
             return View("ShowUserProfile", userProfileVM);
         }

@@ -27,6 +27,12 @@ $(".programs").select2({
 $(".courses").select2({
     dir: "rtl"
 });
+// add class to courses select2
+$(".courses").length && (function () {
+    $(".courses").next().addClass("coursesContainer");
+}());
+
+
 // add dynamic course request
 $(document).ready(function () {
     var max_fields = 10;
@@ -40,10 +46,11 @@ $(document).ready(function () {
             x++;
             var comboID = 'combo' + x;
             $(wrapper).append('<div class="courseWrapper"> \
-                                    <label for="" id="" name="" class="lecturerNameLbl">שם המרצה</label> \
-                                    <input type="text" id="" name="LecturerName" class="lecturerNameTxt" /> \
+                                    <label for="" id="" name="" class="requestLbl">שם הקורס</label> \
                                     <select id="' + comboID + '" name="SelectedCourses" class="courses"></select> \
-                                    <a href="#" id="removeCourse">הסר<i class="fa fa-times removeIcon" aria-hidden="true"></i></a> \
+                                    <label for="" id="" name="" class="requestLbl">שם המרצה</label> \
+                                    <input type="text" id="" name="LecturerName" class="requestInputs" /> \
+                                    <button type="button" id="removeCourse">הסר<i class="fa fa-times removeIcon" aria-hidden="true"></i></button> \
                                     <div class="clear"></div> \
                               </div> \
                               <div class="clear">');
@@ -51,6 +58,7 @@ $(document).ready(function () {
             $('#'+comboID).select2({
                 dir: "rtl"
             });
+            $('#' + comboID).next().addClass("coursesContainer");
         }
     });
 
