@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DeanReports.App_Start;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +12,7 @@ namespace DeanReports
     {
         protected void Application_Start()
         {
+            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }

@@ -797,7 +797,6 @@ namespace DeanReports.Models
                     new SqlParameter("Date", date)
                 };
                 List<Request> requests = dbContext.Database.SqlQuery<Request>("GetRequestsByMemberID @StudentUserName, @Date", parameters).ToList();
-                dbContext.SaveChanges();
                 return requests;
             }
             catch (SqlException e)
@@ -895,13 +894,23 @@ namespace DeanReports.Models
                 return false;
             }
         }
-        public List<CourseRequest> GetCourseRequests(int requestID, string studentUserName)
+        public List<CourseRequest> GetCourseRequestsByRequestID(int requestID, string studentUserName)
         {
-            List<CourseRequest> courseRequests = dbContext.Database.SqlQuery<CourseRequest>(@"SELECT * 
-                                                                            FROM [dbo].[CourseRequest]
-                                                                            WHERE RequestID = '" + requestID +
-                                                                         "' StudentUserName = '" + studentUserName + "';").ToList();
-            return courseRequests;
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("RequestID", requestID),
+                    new SqlParameter("StudentUserName", studentUserName)
+                };
+                List<CourseRequest> courseRequest = dbContext.Database.SqlQuery<CourseRequest>("GetCourseRequestsByRequestID @RequestID, @StudentUserName", parameters).ToList();
+                return courseRequest;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with Delete Get Request By Member Request Details function: " + e);
+                return new List<CourseRequest>();
+            }
         }
 
         // refund section

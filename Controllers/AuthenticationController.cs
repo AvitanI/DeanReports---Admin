@@ -11,14 +11,15 @@ using System;
 
 namespace DeanReports.Controllers
 {
-    [AllowAnonymous]
     public class AuthenticationController : Controller
-    {
+    {   
+        [AllowAnonymous]
         public ActionResult Login()
         {
             return View("Login", new UserViewModel() {});
         }
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Login(UserViewModel u)
         {
             //Debug.WriteLine("ModelState: " + ModelState.IsValid);
@@ -29,7 +30,7 @@ namespace DeanReports.Controllers
                 if (user != null && user.Type != Types.NonUser)
                 {
                     Member member = bl.GetMemberByUsername(u.UserName);
-                    //FormsAuthentication.SetAuthCookie(u.UserName, false);
+                    FormsAuthentication.SetAuthCookie(u.UserName, false);
                     Session["Username"] = u.UserName;
                     Session["Type"] = Utilities.GetUserTypeName(user.Type);
                     Session["LastLoginDate"] = user.LastLogin.ToString("dd/MM/yy");
@@ -62,6 +63,8 @@ namespace DeanReports.Controllers
         }
         public ActionResult Logout()
         {
+            Session.Clear();
+            Session.RemoveAll();
             Session.Abandon();
             //FormsAuthentication.SignOut();
             return RedirectToAction("Login");
@@ -144,6 +147,7 @@ namespace DeanReports.Controllers
                 return RedirectToAction("Register", "Authentication");
             }
         }
+        [Authorize]
         public ActionResult UserProfile()
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
@@ -233,6 +237,11 @@ namespace DeanReports.Controllers
                 TempData["FancyBox"] = fb;
                 return RedirectToAction("UserProfile");
             }
+        }
+
+        public string Test()
+        {
+            return HttpContext.User.Identity.Name + "";
         }
     }
 }

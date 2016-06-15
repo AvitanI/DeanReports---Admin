@@ -495,3 +495,7 @@ body {
     color: #666;
     border: 1px solid #ccc;
 }
+@media screen and (max-width:1300px) {
+    .sideBarWrapper, .logoHref{ width:15%; }
+    .mainContent, .topMenuWrapper{ width:85%; }
+}

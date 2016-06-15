@@ -18,7 +18,6 @@ namespace DeanReports.Controllers
         {
             return View();
         }
-
         public ActionResult CreateNewRequest()
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
@@ -50,17 +49,16 @@ namespace DeanReports.Controllers
             requestViewModel.CoursesCombo = coursesViewModel;
             return View("CreateNewRequest", requestViewModel);
         }
-
         [HttpPost]
-        public string CreateNewRequest(RequestViewModel requestViewModel)
+        public ActionResult CreateNewRequest(RequestViewModel requestViewModel)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             string userName = Session["Username"] as string;
             int requestID = bl.AddRequest(new Request()
             {
                 StudentUserName = userName,
-                Type = requestViewModel.Type,
-                Cause = requestViewModel.Cause,
+                Type = "סוג כלשהו",
+                Cause = "סיבה כלשהי",
                 Date = DateTime.Now
             });
             if (requestID != -1)
@@ -81,8 +79,39 @@ namespace DeanReports.Controllers
                     }
                 }
             }
-            else { return "error"; }
-            return "success: " + requestID + " " + userName;
+            return Redirect("ShowRequests");
         }
+        public ActionResult ShowRequests()
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            string username = Session["Username"] as string;
+            List<Request> requestListModel = bl.GetRequestsByMemberID(username, new DateTime(2016,6,1));
+            RequestListViewModel requestListVM = new RequestListViewModel();
+            List<RequestViewModel> rvm = new List<RequestViewModel>();
+            foreach (Request request in requestListModel)
+            {
+                List<CourseRequest> courseReqestList = bl.GetCourseRequestsByRequestID(request.ID, username);
+                List<CourseRequestViewModel> courseReqestListVM = new List<CourseRequestViewModel>();
+                foreach (CourseRequest cr in courseReqestList)
+	            {
+		            courseReqestListVM.Add(new CourseRequestViewModel()
+                    {
+                        CourseID = cr.CourseID,
+                        LecturerName = cr.LecturerName
+                    });
+	            }
+                rvm.Add(new RequestViewModel()
+                {
+                    ID = request.ID,
+                    Type = request.Type,
+                    Cause = request.Cause,
+                    Date = request.Date,
+                    CourseRequests = courseReqestListVM
+                });
+            }
+            requestListVM.List = rvm;
+            return View("ShowRequests", requestListVM);
+        }
+    
     }
 }
