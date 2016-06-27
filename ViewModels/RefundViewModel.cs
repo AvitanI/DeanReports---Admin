@@ -11,11 +11,13 @@ namespace DeanReports.ViewModels
         public string TeacherUserName { get; set; }
         public DateTime Date { get; set; }
         public int CourseID { get; set; }
-        public string LectuerName { get; set; }
+        public string SelectedCourses { get; set; }
+        public string LecturerName { get; set; }
         // internal use
         public string ManagerUserName { get; set; }
         public int? BudgetNumber { get; set; }
         // each refund has list of sessions
         public List<SessionViewModel> RefundSessions { get; set; }
+        public List<CourseViewModel> CoursesCombo { get; set; }
     }
 }

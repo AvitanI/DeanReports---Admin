@@ -1,0 +1,36 @@
+﻿@model DeanReports.ViewModels.RefundViewModel
+@{
+    ViewBag.Title = "יצירת טופס חונכות";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent {
+    <div class="blockWrapper" style="width:100%;">
+    <div class="block borderTopBlue">
+        <div class="blockTitle">
+            פרטי חונכות
+        </div>
+        <form action="/Teacher/CreateNewRefund" method="post" class="formWrapper">
+            <div class="requestedCourses">
+                <div class="courseWrapper">
+                    <label for="" id="" name="" class="requestLbl">שם הקורס</label>
+                    <select id="" name="SelectedCourses" class="courses">
+                        @foreach (var course in Model.CoursesCombo)
+                        {
+                            <option value="@course.ID">@course.Name</option>
+                        }
+                    </select>
+                    <label for="" id="" name="" class="requestLbl">שם המרצה</label>
+                    <input type="text" id="" name="LecturerName" class="requestInputs" />
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="updateSubmitWraspper">
+                <input type="submit" name="submit" value="שלח בקשה" class="updateSubmit" />
+            </div>
+        </form>
+    </div>
+</div>
+}
+

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using Postal;
 using System;
+using DeanReports.Filters;
 
 namespace DeanReports.Controllers
 {
@@ -61,6 +62,7 @@ namespace DeanReports.Controllers
                 return View("Login", new UserViewModel() { });
             }
         }
+        [AllowAnonymous]
         public ActionResult Logout()
         {
             Session.Clear();
@@ -69,6 +71,7 @@ namespace DeanReports.Controllers
             //FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
+        [AllowAnonymous]
         public ActionResult Register()
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
@@ -148,6 +151,7 @@ namespace DeanReports.Controllers
             }
         }
         [Authorize]
+        //[AdminFilter]
         public ActionResult UserProfile()
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());

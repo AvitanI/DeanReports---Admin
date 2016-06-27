@@ -936,7 +936,6 @@ namespace DeanReports.Models
             {
                 Object[] parameters =
                 {
-                    new SqlParameter("ID", r.ID),
                     new SqlParameter("TeacherUserName", r.TeacherUserName),
                     new SqlParameter("Date", r.Date),
                     new SqlParameter("CourseID", r.CourseID),
@@ -945,7 +944,7 @@ namespace DeanReports.Models
                     new SqlParameter("BudgetNumber", r.BudgetNumber ?? SqlInt32.Null)
                 };
 
-                dbContext.Database.ExecuteSqlCommand("Create_Refund @ID, @TeacherUserName, @Date, @CourseName, @LecturerName, @ManagerUserName, @BudgetNumber",
+                dbContext.Database.ExecuteSqlCommand("Create_Refund @TeacherUserName, @Date, @CourseID, @LecturerName, @ManagerUserName, @BudgetNumber",
                                                                           parameters);
                 dbContext.SaveChanges();
                 return true;
@@ -1340,7 +1339,7 @@ namespace DeanReports.Models
                             TeacherUserName = refund.TeacherUserName,
                             Date = refund.Date,
                             CourseID = refund.CourseID,
-                            LectuerName = refund.LecturerName,
+                            LecturerName = refund.LecturerName,
                             ManagerUserName = refund.ManagerUserName,
                             BudgetNumber = refund.BudgetNumber,
                             RefundSessions = sessions

@@ -7,7 +7,7 @@ namespace DeanReports.Filters
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (filterContext.HttpContext.Session["Status"] != null && 
+            if (filterContext.HttpContext.Session["Status"] == null ||
                 (Types)filterContext.HttpContext.Session["Status"] != Types.Admin)
             {
                 filterContext.Result = new ContentResult()
