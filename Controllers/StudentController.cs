@@ -85,7 +85,7 @@ namespace DeanReports.Controllers
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             string username = Session["Username"] as string;
-            List<Request> requestListModel = bl.GetRequestsByMemberID(username, new DateTime(2016,6,1));
+            List<Request> requestListModel = bl.GetRequestsByMemberID(username);
             RequestListViewModel requestListVM = new RequestListViewModel();
             List<RequestViewModel> rvm = new List<RequestViewModel>();
             foreach (Request request in requestListModel)

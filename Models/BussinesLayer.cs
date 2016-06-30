@@ -787,16 +787,15 @@ namespace DeanReports.Models
                 return false;
             }
         }
-        public List<Request> GetRequestsByMemberID(string StudentUserName, DateTime date)
+        public List<Request> GetRequestsByMemberID(string StudentUserName)
         {
             try
             {
                 Object[] parameters =
                 {
-                    new SqlParameter("StudentUserName", StudentUserName),
-                    new SqlParameter("Date", date)
+                    new SqlParameter("StudentUserName", StudentUserName)
                 };
-                List<Request> requests = dbContext.Database.SqlQuery<Request>("GetRequestsByMemberID @StudentUserName, @Date", parameters).ToList();
+                List<Request> requests = dbContext.Database.SqlQuery<Request>("GetRequestsByMemberID @StudentUserName", parameters).ToList();
                 return requests;
             }
             catch (SqlException e)
@@ -1242,7 +1241,7 @@ namespace DeanReports.Models
 
             try
             {
-                List<Request> requests = this.GetRequestsByMemberID(StudentUserName, date);
+                List<Request> requests = this.GetRequestsByMemberID(StudentUserName);
                 // for each request get the matching courses
                 foreach (var item in requests)
                 {
