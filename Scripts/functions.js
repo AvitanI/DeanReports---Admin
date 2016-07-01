@@ -78,3 +78,10 @@ function initCourseComboByID(comboID) {
         }));
     });
 }
+
+$(document).ready(function () {
+    var path = window.location.pathname; // Returns path only
+    $('.sideBar li').removeClass();
+    var href = "a[href = \'" + path + "\']";
+    $(href).parent().addClass('active');
+});

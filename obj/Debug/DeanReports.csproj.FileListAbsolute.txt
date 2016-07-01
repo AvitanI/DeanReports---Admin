@@ -24,3 +24,4 @@ C:\Users\Idan's\documents\visual studio 2013\Projects\DeanReports\bin\RazorEngin
 C:\Users\Idan's\documents\visual studio 2013\Projects\DeanReports\bin\Postal.xml
 C:\Users\Idan's\documents\visual studio 2013\Projects\DeanReports\bin\RazorEngine.pdb
 C:\Users\Idan's\documents\visual studio 2013\Projects\DeanReports\bin\RazorEngine.xml
+C:\Users\Idan's\documents\visual studio 2013\Projects\DeanReports\obj\Debug\DeanReports.csprojResolveAssemblyReference.cache

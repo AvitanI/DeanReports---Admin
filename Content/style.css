@@ -285,7 +285,7 @@ body {
 	text-decoration: none;
 	color: #b8c7ce;
 	border-right: 4px solid transparent;
-	padding: 10px 15px 10px 15px;
+	padding: 12px 5px 12px 15px;
 	position: relative;
 }
 .sideBar > li > a:hover {
@@ -301,6 +301,16 @@ body {
 .sideBar > li > a > i:last-child {
 	display: inline-block;
 	width: 10%;
+}
+.sideBar > li.active > a:hover {
+    background: none;
+    border-right-color: transparent;
+}
+.sideBar > li.active {
+    background: #1a2226;
+}
+.sideBar > li.active > a {
+    color: #fff;
 }
 .sideBarTitles {
 	display: inline-block;
