@@ -187,6 +187,7 @@
     <Content Include="Views\Student\ShowRequests.cshtml" />
     <Content Include="Views\Teacher\CreateNewSession.cshtml" />
     <Content Include="Views\Teacher\CreateNewRefund.cshtml" />
+    <Content Include="Views\Teacher\ShowSessions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

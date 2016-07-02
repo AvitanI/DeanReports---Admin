@@ -14,7 +14,7 @@ namespace DeanReports.ViewModels
         public DateTime Date { get; set; }
         public TimeSpan StartHour { get; set; }
         public TimeSpan EndHour { get; set; }
-        public int SumHoursPerSession { get; set; }
+        public int SumHoursPerSession { get { return DateTime.Parse(EndHour.ToString()).Subtract(DateTime.Parse(StartHour.ToString())).Hours ; } }
         public string Details { get; set; }
         public bool? StudentSignature { get; set; }
     }

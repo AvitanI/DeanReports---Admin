@@ -19,5 +19,6 @@ namespace DeanReports.ViewModels
         // each refund has list of sessions
         public List<SessionViewModel> RefundSessions { get; set; }
         public List<CourseViewModel> CoursesCombo { get; set; }
+        public List<MemberViewModel> Students { get; set; }
     }
 }

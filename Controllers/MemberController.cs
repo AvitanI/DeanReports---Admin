@@ -12,7 +12,7 @@ using System.Web.Mvc;
 namespace DeanReports.Controllers
 {
     //[Authorize]
-    [AllowAnonymous]
+    //[AllowAnonymous]
     public class MemberController : Controller
     {
         [AllowAnonymous]
@@ -39,6 +39,13 @@ namespace DeanReports.Controllers
             }
             memberListVm.List = membersViewModel;
             return View("GetAllMembers", memberListVm);
+        }
+
+        public ActionResult GetMemberStatistics()
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            StatisticsViewModel statVM = new StatisticsViewModel();
+            return View("GetMemberStatistics", statVM);
         }
     }
 }

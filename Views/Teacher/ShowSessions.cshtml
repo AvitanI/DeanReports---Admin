@@ -1,0 +1,36 @@
+﻿@model DeanReports.ViewModels.RefundListViewModel
+@{
+    ViewBag.Title = "הפגישות שלי";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent {
+    @foreach (var r in Model.List)
+    {
+        <h3 style="text-align:right;">@r.ID - @r.TeacherUserName - @r.LecturerName- @r.CourseID</h3>
+        <table border="1" cellpadding="5">
+            <tr>
+                <th>קוד בקשה</th>
+                <th>שם סטודנט</th>
+                <th>קוד טופס</th>
+                <th>שם חונך</th>
+                <th>תאריך</th>
+                <th>שעת התחלה</th>
+                <th>שעת סיום</th>
+            </tr>
+            @foreach (var sesssion in r.RefundSessions)
+            {
+                <tr>
+                    <td>@sesssion.ID</td>
+                    <td>@sesssion.StudentUserName</td>
+                    <td>@sesssion.RefundID</td>
+                    <td>@sesssion.TeacherUserName</td>
+                    <td>@sesssion.Date</td>
+                    <td>@sesssion.StartHour</td>
+                    <td>@sesssion.EndHour</td>
+                </tr>
+            }
+        </table>
+        <br><br>
+    }
+}

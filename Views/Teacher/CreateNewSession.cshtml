@@ -1,8 +1,45 @@
-﻿
+﻿@model DeanReports.ViewModels.RefundViewModel
 @{
     ViewBag.Title = "יצירת פגישה חדשה";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+@section mainContent {
+    <div class="blockWrapper" style="width:100%;">
+        <div class="block borderTopBlue">
+            <div class="blockTitle">
+                פרטי פגישה
+            </div>
+            <form action="/Teacher/CreateNewSession" method="post" class="formWrapper">
+                <input type="hidden" name="RefundID" value="@Model.ID" />
+                <div class="sessionWrapper">
+                    תאריך
+                    <input type="text" value="1/1/1111" disabled />
+                    <br>
+                    משעה
+                    <input type="text" name="StartHour" />
+                    <br>
+                    עד שעה
+                    <input type="text" name="EndHour" />
+                    <br>
+                    סה"כ שעות ליום
+                    <input type="text" name="SumHoursPerSession" disabled />
+                    <br>
+                    הערות
+                    <input type="text" name="Details" />
+                    <br>
+                    <select id="" name="StudentUserName" class="courses">
+                        @foreach (var students in Model.Students)
+                        {
+                            <option value="@students.MemberUserName">@students.MemberUserName</option>
+                        }
+                    </select>
+                </div>
+                <div class="updateSubmitWraspper">
+                    <input type="submit" name="submit" value="שלח טופס" class="updateSubmit" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
 

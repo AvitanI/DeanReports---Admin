@@ -562,6 +562,23 @@ namespace DeanReports.Models
                 return new List<Member>();
             }
         }
+        public List<Member>GetAllMembersByType(Types type)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("MemberType", type)
+                };
+                List<Member> members = dbContext.Database.SqlQuery<Member>(@"GetAllMembersByType @MemberType", parameters).ToList();
+                return members;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetAllMembersByType function: " + e);
+                return new List<Member>();
+            }
+        }
         public Member GetMemberByUsername(string username)
         {
             try
@@ -929,7 +946,7 @@ namespace DeanReports.Models
             }
             return null;
         }
-        public bool AddRefund(Refund r)
+        public int AddRefund(Refund r)
         {
             try
             {
@@ -943,15 +960,15 @@ namespace DeanReports.Models
                     new SqlParameter("BudgetNumber", r.BudgetNumber ?? SqlInt32.Null)
                 };
 
-                dbContext.Database.ExecuteSqlCommand("Create_Refund @TeacherUserName, @Date, @CourseID, @LecturerName, @ManagerUserName, @BudgetNumber",
-                                                                          parameters);
+                decimal x = dbContext.Database.SqlQuery<decimal>("Create_Refund @TeacherUserName, @Date, @CourseID, @LecturerName, @ManagerUserName, @BudgetNumber",
+                                                                          parameters).First();
                 dbContext.SaveChanges();
-                return true;
+                return (int)x;
             }
             catch (SqlException e)
             {
                 Debug.WriteLine("Problem with Add Refund function: " + e);
-                return false;
+                return -1;
             }
         }
         public bool EditRefund(Refund r)
@@ -996,23 +1013,39 @@ namespace DeanReports.Models
                 return false;
             }
         }
-        public List<Refund> GetRefundsByMemberID(string teacherUserName, DateTime date)
+        public List<Refund> GetRefundsByMemberID(string teacherUserName)
         {
             try
             {
                 Object[] parameters =
                 {
-                    new SqlParameter("TeacherUserName", teacherUserName),
-                    new SqlParameter("Date", date)
+                    new SqlParameter("TeacherUserName", teacherUserName)
                 };
-                List<Refund> refunds = dbContext.Database.SqlQuery<Refund>("GetRefundsByMemberID @TeacherUserName, @Date", parameters).ToList();
+                List<Refund> refunds = dbContext.Database.SqlQuery<Refund>("GetRefundsByMemberID @TeacherUserName", parameters).ToList();
                 dbContext.SaveChanges();
                 return refunds;
             }
             catch (SqlException e)
             {
-                Debug.WriteLine("Problem with Delete Get Refund By Member Request Details function: " + e);
+                Debug.WriteLine("Problem with GetRefundsByMemberID function: " + e);
                 return new List<Refund>();
+            }
+        }
+        public Refund GetRefundByID(int refundID)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("ID", refundID)
+                };
+                Refund refund = dbContext.Database.SqlQuery<Refund>("GetRefundByID @ID", parameters).Single();
+                return refund;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetRefundByID function: " + e);
+                return new Refund();
             }
         }
 
@@ -1039,7 +1072,6 @@ namespace DeanReports.Models
             {
                 Object[] parameters =
                 {
-                    new SqlParameter("ID", s.ID),
                     new SqlParameter("StudentUserName", s.StudentUserName),
                     new SqlParameter("RefundID", s.RefundID),
                     new SqlParameter("TeacherUserName", s.TeacherUserName ?? SqlString.Null),
@@ -1050,7 +1082,7 @@ namespace DeanReports.Models
                     new SqlParameter("Details", s.Details ?? SqlString.Null),
                     new SqlParameter("StudentSignature", s.StudentSignature ?? SqlBoolean.Null)
                 };
-                dbContext.Database.ExecuteSqlCommand(@"Create_Session @ID, @StudentUserName, @RefundID, @TeacherUserName, @Date,
+                dbContext.Database.ExecuteSqlCommand(@"Create_Session @StudentUserName, @RefundID, @TeacherUserName, @Date,
                                                                           @StartHour, @EndHour, @SumOfHoursPerSession, @Details, @StudentSignature",
                                                                      parameters);
                 dbContext.SaveChanges();
@@ -1107,14 +1139,22 @@ namespace DeanReports.Models
                 return false;
             }
         }
-        public List<Session> GetSessions(string StudentUserName, DateTime date)
+        public List<Session> GetSessionsByRefundID(int refundID)
         {
-            List<Session> sessions = dbContext.Database.SqlQuery<Session>(@"SELECT * 
-                                                                        FROM [dbo].[Session]
-                                                                        WHERE StudentUserName = '" + StudentUserName +
-                                                                        "' AND year(Date) = '" + date.Year +
-                                                                        "' AND month(Date) = '" + date.Month + "';").ToList();
-            return sessions;
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("RefundID", refundID)
+                };
+                List<Session> sessions = dbContext.Database.SqlQuery<Session>("GetSessionsByRefundID @RefundID", parameters).ToList();
+                return sessions;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetSessionsByRefundID function: " + e);
+                return new List<Session>();
+            }
         }
 
         // charge section
@@ -1230,133 +1270,18 @@ namespace DeanReports.Models
                 return new List<Course>();
             }
         }
-
-        // student bussiness
-        public RequestListViewModel GetStudentRequests(string StudentUserName, DateTime date)
-        {
-            // create list of request instance
-            RequestListViewModel listRequestsViewModel = new RequestListViewModel();
-            // initialize list of requsets
-            List<RequestViewModel> list = new List<RequestViewModel>();
-
-            try
-            {
-                List<Request> requests = this.GetRequestsByMemberID(StudentUserName);
-                // for each request get the matching courses
-                foreach (var item in requests)
-                {
-                    try
-                    {
-                        List<CourseRequestViewModel> courseRequestsViewModel = dbContext.Database.SqlQuery<CourseRequestViewModel>(@"SELECT c.ID as CourseID,
-                                                                                                                                            c.Name as Name,
-                                                                                                                                            cr.LecturerName as LecturerName
-                                                                                                                                     FROM [dbo].[CourseRequest] cr
-                                                                                                                                     INNER JOIN [dbo].[Course] c
-                                                                                                                                     ON cr.CourseID = c.ID
-                                                                                                                                     WHERE cr.RequestID = '" + item.ID + "';").ToList();
-
-                        list.Add(new RequestViewModel()
-                        {
-                            ID = item.ID,
-                            StudentUserName = item.StudentUserName,
-                            Type = item.Type,
-                            Cause = item.Cause,
-                            Date = item.Date,
-                            ManagerUserName = item.ManagerUserName,
-                            ApprovalHours = item.ApprovalHours,
-                            BudgetNumber = item.BudgetNumber,
-                            Notes = item.Notes,
-                            ManagerSignature = item.ManagerSignature,
-                            SignatureDate = item.SignatureDate,
-                            CourseRequests = courseRequestsViewModel
-                        });
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine("Problem with requests: " + e);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Problem with GetRequestByUser function: " + e);
-            }
-            //add list
-            listRequestsViewModel.List = list;
-            return listRequestsViewModel;
-        }
-        public SessionListViewModel GetStudentSessions(string StudentUserName, DateTime date)
-        {
-            SessionListViewModel sessionListViewModel = new SessionListViewModel();
-            List<Session> sessions = this.GetSessions(StudentUserName, date);
-            List<SessionViewModel> sessionViewModelList = new List<SessionViewModel>();
-
-            foreach (var item in sessions)
-            {
-                sessionViewModelList.Add(new SessionViewModel()
-                {
-                    ID = item.ID,
-                    StudentUserName = item.StudentUserName,
-                    RefundID = item.RefundID,
-                    TeacherUserName = item.TeacherUserName,
-                    Date = item.Date,
-                    StartHour = item.StartHour,
-                    EndHour = item.EndHour,
-                    SumHoursPerSession = item.SumHoursPerSession,
-                    Details = item.Details,
-                    StudentSignature = item.StudentSignature
-                });
-            }
-            sessionListViewModel.List = sessionViewModelList;
-            return sessionListViewModel;
-        }
-
+    
         // teacher bussiness
-        public RefundListViewModel GetTeacherRefunds(string teacherUserName, DateTime date)
+
+        public List<Refund> GetTeacherRefunds(string teacherUserName)
         {
-            // create list of refunds instance
-            RefundListViewModel listRefundsViewModel = new RefundListViewModel();
-            // initialize list of refunds
-            List<RefundViewModel> list = new List<RefundViewModel>();
+            List<Refund> refunds = this.GetRefundsByMemberID(teacherUserName);
 
-            try
+            foreach (Refund refund in refunds)
             {
-                List<Refund> refunds = this.GetRefundsByMemberID(teacherUserName, date);
-
-                // for each refund get the matching sessions
-                foreach (var refund in refunds)
-                {
-                    try
-                    {
-                        List<SessionViewModel> sessions = dbContext.Database.SqlQuery<SessionViewModel>(@"SELECT *
-                                                                                                        FROM [dbo].[Session]
-                                                                                                        WHERE RefundID = '" + refund.ID + "';").ToList();
-
-                        list.Add(new RefundViewModel()
-                        {
-                            ID = refund.ID,
-                            TeacherUserName = refund.TeacherUserName,
-                            Date = refund.Date,
-                            CourseID = refund.CourseID,
-                            LecturerName = refund.LecturerName,
-                            ManagerUserName = refund.ManagerUserName,
-                            BudgetNumber = refund.BudgetNumber,
-                            RefundSessions = sessions
-                        });
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.WriteLine("Problem with refunds: " + e);
-                    }
-                }
+                refund.Sessions = this.GetSessionsByRefundID(refund.ID);
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine("Problem with GetTeacherRefunds function: " + e);
-            }
-            //add list
-            listRefundsViewModel.List = list;
-            return listRefundsViewModel;
+            return refunds;
         }
     }
 }
