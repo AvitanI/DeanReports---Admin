@@ -1,4 +1,5 @@
 ﻿using DeanReports.DataAccessLayer;
+using DeanReports.Filters;
 using DeanReports.Models;
 using DeanReports.ViewModels;
 using System;
@@ -9,6 +10,7 @@ using System.Web.Mvc;
 
 namespace DeanReports.Controllers
 {
+    [TeacherFilter]
     public class TeacherController : Controller
     {
         // GET: Teacher

@@ -761,20 +761,21 @@ namespace DeanReports.Models
                     new SqlParameter("ID", r.ID),
                     new SqlParameter("StudentUserName", r.StudentUserName),
                     new SqlParameter("Type", r.Type),
+                    new SqlParameter("Cause", r.Cause),
                     new SqlParameter("Date", r.Date),
-                    new SqlParameter("ManagerUserName", r.ManagerUserName),
-                    new SqlParameter("ApprovalHours", r.ApprovalHours),
-                    new SqlParameter("BudgetNumber", r.BudgetNumber),
-                    new SqlParameter("Notes", r.Notes),
-                    new SqlParameter("ManagerSignature", r.ManagerSignature),
-                    new SqlParameter("SignatureDate", r.SignatureDate)
+                    new SqlParameter("ManagerUserName", r.ManagerUserName ?? SqlString.Null),
+                    new SqlParameter("ApprovalHours", r.ApprovalHours ?? SqlInt32.Null),
+                    new SqlParameter("BudgetNumber", r.BudgetNumber ?? SqlInt32.Null),
+                    new SqlParameter("Notes", r.Notes ?? SqlString.Null),
+                    new SqlParameter("ManagerSignature", r.ManagerSignature ?? SqlBoolean.Null),
+                    new SqlParameter("SignatureDate", r.SignatureDate ?? SqlDateTime.Null)
                 };
 
                 dbContext.Database.ExecuteSqlCommand(@"Update_Request @ID, @StudentUserName, @Type, @Cause, @Date, @ManagerUserName, 
                                                                        @ApprovalHours, @BudgetNumber, @Notes, @ManagerSignature, @SignatureDate",
                                                                         parameters);
                 dbContext.SaveChanges();
-                Console.WriteLine("success");
+                //Console.WriteLine("success");
                 return true;
             }
             catch (SqlException e)
@@ -783,18 +784,17 @@ namespace DeanReports.Models
                 return false;
             }
         }
-        public bool RemoveRequest(Request r)
+        public bool RemoveRequest(int requestID)
         {
             try
             {
                 Object[] parameters =
                 {
-                    new SqlParameter("ID", r.ID),
-                    new SqlParameter("StudentUserName", r.StudentUserName)
+                    new SqlParameter("ID", requestID)
                 };
-                dbContext.Database.ExecuteSqlCommand("Delete_Request @ID, @StudentUserName", parameters);
+                dbContext.Database.ExecuteSqlCommand("Delete_Request @ID", parameters);
                 dbContext.SaveChanges();
-                Console.WriteLine("success");
+                //Console.WriteLine("success");
                 return true;
             }
             catch (SqlException e)
@@ -818,6 +818,23 @@ namespace DeanReports.Models
             {
                 Debug.WriteLine("Problem with Delete Get Request By Member Request Details function: " + e);
                 return new List<Request>();
+            }
+        }
+        public Request GetRequestByID(int requestID)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("ID", requestID)
+                };
+                Request request = dbContext.Database.SqlQuery<Request>("GetRequestByID @ID", parameters).Single();
+                return request;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetRequestByID function: " + e);
+                return new Request();
             }
         }
 
@@ -909,16 +926,15 @@ namespace DeanReports.Models
                 return false;
             }
         }
-        public List<CourseRequest> GetCourseRequestsByRequestID(int requestID, string studentUserName)
+        public List<CourseRequest> GetCourseRequestsByRequestID(int requestID)
         {
             try
             {
                 Object[] parameters =
                 {
-                    new SqlParameter("RequestID", requestID),
-                    new SqlParameter("StudentUserName", studentUserName)
+                    new SqlParameter("RequestID", requestID)
                 };
-                List<CourseRequest> courseRequest = dbContext.Database.SqlQuery<CourseRequest>("GetCourseRequestsByRequestID @RequestID, @StudentUserName", parameters).ToList();
+                List<CourseRequest> courseRequest = dbContext.Database.SqlQuery<CourseRequest>("GetCourseRequestsByRequestID @RequestID", parameters).ToList();
                 return courseRequest;
             }
             catch (SqlException e)
@@ -1281,6 +1297,22 @@ namespace DeanReports.Models
                 refund.Sessions = this.GetSessionsByRefundID(refund.ID);
             }
             return refunds;
+        }
+
+        // admin bussiness
+
+        public List<Request> GetNonConfirmedRequests()
+        {
+            try
+            {
+                List<Request> requests = dbContext.Database.SqlQuery<Request>("GetNonConfirmedRequests").ToList();
+                return requests;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetNonConfirmedRequests function: " + e);
+                return new List<Request>();
+            }
         }
     }
 }

@@ -7,10 +7,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DeanReports.Filters;
 
 namespace DeanReports.Controllers
 {
-    
+    [StudentFilter]
     public class StudentController : Controller
     {
         // GET: Student
@@ -90,7 +91,7 @@ namespace DeanReports.Controllers
             List<RequestViewModel> rvm = new List<RequestViewModel>();
             foreach (Request request in requestListModel)
             {
-                List<CourseRequest> courseReqestList = bl.GetCourseRequestsByRequestID(request.ID, username);
+                List<CourseRequest> courseReqestList = bl.GetCourseRequestsByRequestID(request.ID);
                 List<CourseRequestViewModel> courseReqestListVM = new List<CourseRequestViewModel>();
                 foreach (CourseRequest cr in courseReqestList)
 	            {

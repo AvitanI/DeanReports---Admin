@@ -78,6 +78,8 @@ function initCourseComboByID(comboID) {
     });
 }
 
+// mark sidebar elements
+
 $(document).ready(function () {
     var path = window.location.pathname; // Returns path only
     $('.sideBar li').removeClass();
@@ -93,7 +95,7 @@ $('#startHour').timepicker(
 $("#startHour").length && (function () {
     $("#startHour").datetimepicker({
         dateFormat: '',
-        timeFormat: 'hh:mm tt',
+        timeFormat: 'hh:mm',
         timeOnly: true
     });
 }());
@@ -101,7 +103,7 @@ $("#startHour").length && (function () {
 $("#endHour").length && (function () {
     $("#endHour").datetimepicker({
         dateFormat: '',
-        timeFormat: 'hh:mm tt',
+        timeFormat: 'hh:mm',
         timeOnly: true
     });
 }());

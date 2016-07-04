@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -128,6 +129,8 @@
     <Compile Include="DataAccessLayer\FinalDB.cs" />
     <Compile Include="Filters\AdminFilter.cs" />
     <Compile Include="Filters\HeaderFooterFilter.cs" />
+    <Compile Include="Filters\StudentFilter.cs" />
+    <Compile Include="Filters\TeacherFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -163,6 +166,7 @@
     <Compile Include="ViewModels\RequestViewModel.cs" />
     <Compile Include="ViewModels\SessionListViewModel.cs" />
     <Compile Include="ViewModels\SessionViewModel.cs" />
+    <Compile Include="ViewModels\SideBarMenuViewModel.cs" />
     <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -192,6 +196,7 @@
     <Content Include="Views\Teacher\CreateNewSession.cshtml" />
     <Content Include="Views\Teacher\CreateNewRefund.cshtml" />
     <Content Include="Views\Teacher\ShowSessions.cshtml" />
+    <Content Include="Views\Admin\ShowNewRequests.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

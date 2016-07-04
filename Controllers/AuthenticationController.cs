@@ -34,10 +34,13 @@ namespace DeanReports.Controllers
                     FormsAuthentication.SetAuthCookie(u.UserName, false);
                     Session["Username"] = u.UserName;
                     Session["Type"] = Utilities.GetUserTypeName(user.Type);
+                    Session["Role"] = user.Type;
                     Session["LastLoginDate"] = user.LastLogin.ToString("dd/MM/yy");
                     Session["LastLoginHour"] = user.LastLogin.ToString("HH:mm");
                     Session["FullName"] = member.FirstName + " " + member.LastName;
                     Session["DepartmentID"] = member.DepartmentID;
+                    //Session["MenuList"] = new List<SideBarMenuViewModel>() { new SideBarMenuViewModel(){MenuItemName="test", MenuItemHref="test"}};
+                    //Session["test"] = "test";
                     bl.UpdateLastLogin(new User() {UserName = u.UserName, LastLogin = DateTime.Now });
                     return RedirectToAction("GetAllMembers", "Member");
                 }
