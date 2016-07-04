@@ -79,7 +79,7 @@ namespace DeanReports.Controllers
             return View("CreateNewSession", refundVM);
         }
         [HttpPost]
-        public string CreateNewSession(SessionViewModel sessionVM)
+        public ActionResult CreateNewSession(SessionViewModel sessionVM)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             Session sessionModel = new Session()
@@ -95,7 +95,7 @@ namespace DeanReports.Controllers
                 StudentSignature = false
             };
             bl.AddSession(sessionModel);
-            return sessionModel.RefundID + " || " + sessionModel.StartHour + " || " + sessionModel.StudentUserName + " || " + sessionModel.SumHoursPerSession + " || " + sessionModel.TeacherUserName;
+            return RedirectToAction("ShowSessions");
         }
         public ActionResult ShowSessions()
         {
@@ -134,7 +134,11 @@ namespace DeanReports.Controllers
             refundListVM.List = refundVM;
             return View("ShowSessions", refundListVM);
         }
-
-
+        public ActionResult DeleteSession(int sessionID)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            bl.RemoveSession(sessionID);
+            return RedirectToAction("ShowSessions");
+        }
     }
 }

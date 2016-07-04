@@ -454,7 +454,6 @@ namespace DeanReports.Models
                 };
                 dbContext.Database.ExecuteSqlCommand("UpdateLastLogin @UserName, @LastLogin", parameters);
                 dbContext.SaveChanges();
-                Console.WriteLine("success");
                 return true;
             }
             catch (SqlException e)
@@ -1123,11 +1122,11 @@ namespace DeanReports.Models
                 return false;
             }
         }
-        public bool RemoveSession(Session s)
+        public bool RemoveSession(int sessionID)
         {
             try
             {
-                var ID = new SqlParameter("ID", s.ID);
+                var ID = new SqlParameter("ID", sessionID);
                 dbContext.Database.ExecuteSqlCommand(@"Delete_Session @ID", ID);
                 dbContext.SaveChanges();
                 Console.WriteLine("success");

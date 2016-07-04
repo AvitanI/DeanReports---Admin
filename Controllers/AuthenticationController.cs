@@ -38,6 +38,7 @@ namespace DeanReports.Controllers
                     Session["LastLoginHour"] = user.LastLogin.ToString("HH:mm");
                     Session["FullName"] = member.FirstName + " " + member.LastName;
                     Session["DepartmentID"] = member.DepartmentID;
+                    bl.UpdateLastLogin(new User() {UserName = u.UserName, LastLogin = DateTime.Now });
                     return RedirectToAction("GetAllMembers", "Member");
                 }
                 else

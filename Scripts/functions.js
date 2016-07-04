@@ -32,7 +32,6 @@ $(".courses").length && (function () {
     $(".courses").next().addClass("coursesContainer");
 }());
 
-
 // add dynamic course request
 $(document).ready(function () {
     var max_fields = 10;
@@ -85,3 +84,30 @@ $(document).ready(function () {
     var href = "a[href = \'" + path + "\']";
     $(href).parent().addClass('active');
 });
+
+
+// set time picker for sessions
+$('#startHour').timepicker(
+	$.timepicker.regional['he']
+);
+$("#startHour").length && (function () {
+    $("#startHour").datetimepicker({
+        dateFormat: '',
+        timeFormat: 'hh:mm tt',
+        timeOnly: true
+    });
+}());
+
+$("#endHour").length && (function () {
+    $("#endHour").datetimepicker({
+        dateFormat: '',
+        timeFormat: 'hh:mm tt',
+        timeOnly: true
+    });
+}());
+
+//$('#endHour').on('input', function () {
+//    if ($('#startHour').val()) {
+//        console.log($(this).val());
+//    }
+//});

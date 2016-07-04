@@ -96,6 +96,7 @@
     <Content Include="Content\fancybox_sprite%402x.png" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\user.jpg" />
+    <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\jquery-ui.min.css" />
     <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\login.css" />
@@ -106,8 +107,11 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\functions.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
+    <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
+    <Content Include="Scripts\jquery-ui-timepicker-he.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
+    <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -117,7 +121,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AuthenticationController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
@@ -160,6 +163,7 @@
     <Compile Include="ViewModels\RequestViewModel.cs" />
     <Compile Include="ViewModels\SessionListViewModel.cs" />
     <Compile Include="ViewModels\SessionViewModel.cs" />
+    <Compile Include="ViewModels\StatisticsViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
   </ItemGroup>

@@ -7,7 +7,7 @@
 @section mainContent {
     @foreach (var r in Model.List)
     {
-        <h3 style="text-align:right;">@r.ID - @r.TeacherUserName - @r.LecturerName- @r.CourseID</h3>
+        <h3 style="text-align:right;">@r.ID - @r.TeacherUserName - @r.LecturerName- @r.CourseID - @r.Date</h3>
         <table border="1" cellpadding="5">
             <tr>
                 <th>קוד בקשה</th>
@@ -17,6 +17,8 @@
                 <th>תאריך</th>
                 <th>שעת התחלה</th>
                 <th>שעת סיום</th>
+                <th>סה"כ שעות</th>
+                <th>מחיקה</th>
             </tr>
             @foreach (var sesssion in r.RefundSessions)
             {
@@ -28,9 +30,13 @@
                     <td>@sesssion.Date</td>
                     <td>@sesssion.StartHour</td>
                     <td>@sesssion.EndHour</td>
+                    <td>@sesssion.SumHoursPerSession</td>
+                    <td><a href="/Teacher/DeleteSession?sessionID=@sesssion.ID">מחק פגישה</a></td>
                 </tr>
             }
         </table>
+        <br><br>
+        <a href="/Teacher/CreateNewSession?refundID=@r.ID" style="float: right;">הוסף פגישה לטופס הנוכחי</a>
         <br><br>
     }
 }
