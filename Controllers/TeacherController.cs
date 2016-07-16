@@ -21,7 +21,8 @@ namespace DeanReports.Controllers
         public ActionResult CreateNewRefund()
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
-            int departmentID = (int)Session["DepartmentID"];
+            //int departmentID = (int)Session["DepartmentID"];
+            int departmentID = 1;
             RefundViewModel refundVM = new RefundViewModel();
             List<Course> courses = bl.GetCoursesByDepartmentID(departmentID);
             List<CourseViewModel> coursesViewModel = new List<CourseViewModel>();
@@ -48,6 +49,15 @@ namespace DeanReports.Controllers
             refundModel.LecturerName = refundVM.LecturerName;
             int refundID = bl.AddRefund(refundModel);
             return RedirectToAction("CreateNewSession", new { refundID = refundID });
+        }
+        public ActionResult ShowRefunds()
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            string teacherUsername = Session["Username"] as string;
+            List<Refund> refundListModel = bl.GetRefundsByMemberID(teacherUsername);
+
+
+            return View("ShowRefunds", new RefundListViewModel());
         }
         public ActionResult CreateNewSession(int refundID)
         {

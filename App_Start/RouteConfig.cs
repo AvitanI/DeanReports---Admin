@@ -12,11 +12,11 @@ namespace DeanReports
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
-
+            routes.MapMvcAttributeRoutes(); // add for data annotation
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Authentication", action = "UserProfile", id = UrlParameter.Optional }
+                defaults: new { controller = "Authentication", action = "Login", id = UrlParameter.Optional }
             );
         }
     }

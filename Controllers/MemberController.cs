@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using DeanReports.Services;
 
 namespace DeanReports.Controllers
 {
@@ -35,7 +36,7 @@ namespace DeanReports.Controllers
             MemberListViewModel memberListVm = new MemberListViewModel();
             foreach (Member member in members)
             {
-                membersViewModel.Add(Utilities.ConvertToMemberViewModel(member));
+                membersViewModel.Add(ConverterService.ToMemberViewModel(member));
             }
             memberListVm.List = membersViewModel;
             return View("GetAllMembers", memberListVm);
@@ -46,6 +47,16 @@ namespace DeanReports.Controllers
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             StatisticsViewModel statVM = new StatisticsViewModel();
             return View("GetMemberStatistics", statVM);
+        }
+        [HttpGet]
+        public JsonResult GetMemberDetails(string username)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            Member m = bl.GetMemberByUsername(username);
+
+            return Json(new { firstName = m.FirstName,
+                              lastName = m.LastName }, 
+                        JsonRequestBehavior.AllowGet);
         }
     }
 }

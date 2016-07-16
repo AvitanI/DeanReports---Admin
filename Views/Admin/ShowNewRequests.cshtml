@@ -7,22 +7,63 @@
 @section mainContent {
     @foreach (var r in Model.List)
     {
-        <h3 style="text-align:right;">@r.ID - @r.StudentUserName - @r.Type - @r.Cause</h3>
-        <a href="/Admin/DeleteRequest?requestID=@r.ID" style="float:right;">מחק בקשה</a><br>
-        <a href="/Admin/ConfirmRequest?requestID=@r.ID" style="float:right;">אשר בקשה</a>
-        <table border="1" cellpadding="5">
-            <tr>
-                <th>קוד קורס</th>
-                <th>שם מרצה</th>
-            </tr>
-            @foreach (var cr in r.CourseRequests)
-            {
-                <tr>
-                    <td>@cr.CourseID</td>
-                    <td>@cr.LecturerName</td>
-                </tr>
-            }
-        </table>
-        <br><br>
+        <div class="blockWrapper" style="width:55%;">
+            <div class="block borderTopBlue">
+                <div class="blockTitle">
+                    פרטי בקשה
+                    <button type="button" class="actions">
+                        <i class="fa fa-wrench"></i>
+                    </button>
+                    <ul class="dropDownActions">
+                        <li><a href="/Admin/DeleteRequest?requestID=@r.ID">מחק בקשה</a></li>
+                        <li><a href="/Admin/ConfirmRequest?requestID=@r.ID">אשר בקשה</a></li>
+                    </ul>
+                </div>
+                <div class="requestDetails">
+                    <label for="">מס' בקשה:</label>
+                    <span>@r.ID</span>
+                    <div class="clear"></div>
+                    <label for="">שם סטודנט:</label>
+                    <span class="requestUsername">@r.StudentUserName</span>
+                    <div class="userDetailsWindow">
+                        <span class="firstName"></span>
+                        <br>
+                        <span class="lastName"></span>
+                    </div>
+                    <div class="clear"></div>
+                    <label for="">סוג:</label>
+                    <span>@r.Type</span>
+                    <div class="clear"></div>
+                    <label for="">סיבה:</label>
+                    <span>@r.Cause</span>
+                    <div class="clear"></div>
+                </div>
+                <form action="/" method="post" class="requestInternal">
+                    <input type="hidden" name="RequestID" value="@r.ID" />
+                    שעות מאושר:<br>
+                    <input type="text" name="ApprovalHours" value="" />
+                    פרטי חונך:<br>
+                    <input type="text" name="TeacherName" value="" />
+                    מס. תקציב:<br />
+                    <input type="text" name="BudgetNumber" value=" " />
+                    הערות:<br />
+                    <textarea name="Notes" rows="4" cols="20"></textarea>
+                </form>
+                <table border="1" cellpadding="5">
+                    <tr>
+                        <th>קוד קורס</th>
+                        <th>שם מרצה</th>
+                    </tr>
+                    @foreach (var cr in r.CourseRequests)
+                    {
+                        <tr>
+                            <td>@cr.CourseID</td>
+                            <td>@cr.LecturerName</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        
     }
 }

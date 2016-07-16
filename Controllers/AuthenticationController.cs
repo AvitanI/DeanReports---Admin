@@ -90,7 +90,18 @@ namespace DeanReports.Controllers
                     Name = item.Name
                 });
             }
+            List<ProgramsViewModel> programsVM = new List<ProgramsViewModel>();
+            List<Programs> programsModel = bl.GetAllPrograms();
+            foreach (Programs p in programsModel)
+            {
+                programsVM.Add(new ProgramsViewModel() 
+                {
+                    ID = p.ID,
+                    Name = p.Name
+                });
+            }
             registerViewModel.DepartmentList = departmentViewModelList;
+            registerViewModel.Programs = programsVM;
             return View("Register", registerViewModel);
         }
         [HttpPost]
@@ -246,10 +257,10 @@ namespace DeanReports.Controllers
                 return RedirectToAction("UserProfile");
             }
         }
-
-        public string Test()
+        [HttpGet]
+        public JsonResult IsUserExist(string username)
         {
-            return HttpContext.User.Identity.Name + "";
+            return Json(new { answer = new BussinesLayer(new FinalDB()).IsUserExist(username) }, JsonRequestBehavior.AllowGet);
         }
     }
 }

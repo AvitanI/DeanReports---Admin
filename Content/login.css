@@ -111,3 +111,16 @@ body {
 	color: #666;
 	border-radius: 0px;
 }
+.markRed {
+    color: #ff0000 !important;
+}
+.hrefBlue {
+    color: #427fed;
+    font-size: 15px;
+    display: block;
+    text-align: right;
+    padding: 0 0 6px 0;
+}
+.hrefBlue:hover {
+    color: #3b5e9e;
+}

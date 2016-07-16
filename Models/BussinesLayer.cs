@@ -51,6 +51,10 @@ namespace DeanReports.Models
                 });
             }
 
+            users.Add(new User() { UserName = "student@gmail.com", Password = "1234", Type = Types.Student, LastLogin = DateTime.Now });
+            users.Add(new User() { UserName = "teacher@gmail.com", Password = "1234", Type = Types.Teacher, LastLogin = DateTime.Now });
+            users.Add(new User() { UserName = "admin@gmail.com", Password = "1234", Type = Types.Admin, LastLogin = DateTime.Now });
+
             // create departments 
 
             List<Department> departments = new List<Department>()
@@ -119,6 +123,10 @@ namespace DeanReports.Models
                     Phone = "000-000-0000"
                 });
             }
+
+            members.Add(new Member(){ MemberUserName = "student@gmail.com", DepartmentID = 1, FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000"});
+            members.Add(new Member() { MemberUserName = "teacher@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000" });
+            members.Add(new Member() { MemberUserName = "admin@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000" });
 
             users.Add(new User() { UserName = "admin1", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin });
             users.Add(new User() { UserName = "admin2", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin });
@@ -253,6 +261,7 @@ namespace DeanReports.Models
                     StudentUserName = students.ElementAt(j).UserName,
                     Type = "test" + j,
                     Cause = "test" + j,
+                    FormType = "כללי",
                     Date = DateTime.Now,
                     ManagerUserName = managers.ElementAt(manager).UserName,
                     ApprovalHours = hours,
@@ -583,7 +592,7 @@ namespace DeanReports.Models
             try
             {
                 Object[] parameters = { new SqlParameter("MemberUserName", username) };
-                Member member = dbContext.Database.SqlQuery<Member>(@"GetMemberByUsername @MemberUserName", parameters).ToList()[0];
+                Member member = dbContext.Database.SqlQuery<Member>(@"GetMemberByUsername @MemberUserName", parameters).FirstOrDefault();
                 return member;
             }
             catch (SqlException e)
@@ -731,6 +740,7 @@ namespace DeanReports.Models
                     new SqlParameter("StudentUserName", r.StudentUserName),
                     new SqlParameter("Type", r.Type),
                     new SqlParameter("Cause", r.Cause),
+                    new SqlParameter("FormType", r.FormType),
                     new SqlParameter("Date", r.Date),
                     new SqlParameter("ManagerUserName", r.ManagerUserName ?? SqlString.Null),
                     new SqlParameter("ApprovalHours", r.ApprovalHours ?? SqlInt32.Null),
@@ -740,7 +750,7 @@ namespace DeanReports.Models
                     new SqlParameter("SignatureDate", r.SignatureDate ?? SqlDateTime.Null),
                 };
 
-                decimal x = dbContext.Database.SqlQuery<decimal>(@"Create_Request @StudentUserName, @Type, @Cause, @Date, @ManagerUserName, 
+                decimal x = dbContext.Database.SqlQuery<decimal>(@"Create_Request @StudentUserName, @Type, @Cause, @FormType, @Date, @ManagerUserName, 
                                                                        @ApprovalHours, @BudgetNumber, @Notes, @ManagerSignature, @SignatureDate",
                                                                         parameters).First();
                 dbContext.SaveChanges();

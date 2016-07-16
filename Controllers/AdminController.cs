@@ -39,6 +39,7 @@ namespace DeanReports.Controllers
                 rvm.Add(new RequestViewModel()
                 {
                     ID = request.ID,
+                    StudentUserName = request.StudentUserName,
                     Type = request.Type,
                     Cause = request.Cause,
                     Date = request.Date,
@@ -60,7 +61,13 @@ namespace DeanReports.Controllers
             Request request = bl.GetRequestByID(requestID);
             request.ManagerSignature = true;
             request.SignatureDate = DateTime.Now;
+            bl.EditRequest(request);
             return RedirectToAction("ShowNewRequests"); 
+        }        
+        [Route("Admin/SomeName")]
+        public string test(int x)
+        {
+            return x + "";
         }
     }
 }

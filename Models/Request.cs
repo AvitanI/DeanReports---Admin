@@ -20,6 +20,8 @@ namespace DeanReports.Models
         public string Cause { get; set; }
         [Required]
         public DateTime Date { get; set; }
+        [Required]
+        public string FormType { get; set; }
 
         // internal use
 

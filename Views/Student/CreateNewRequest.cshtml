@@ -10,19 +10,18 @@
             פרטי בקשה
         </div>
         <form action="/Student/CreateNewRequest" method="post" class="formWrapper">
-            @*<label for="" id="" name="" class="programsLbl">בחירת תוכנית</label>*@
-            @*<div class="inputWrapper">
-                <select id="" name="SelectedPrograms" class="programs" multiple="multiple">
-                    @foreach (var program in Model.ProgramsCombo)
-                    {
-                        <option value="@program.ID">@program.Name</option>
-                    }
-                </select>
-                <div class="clear"></div>
-            </div>*@
+            <input type="hidden" name="FormType" value="General" />
             <div class="clear"></div>
             <div class="requestedCourses">
                 <div class="courseWrapper">
+                    <label for="" id="" name="" class="requestLbl">סיבת פנייה</label>
+                    <select id="" name="SelectedCause" class="causes courses">
+                        @for (int i = 0; i < Model.generalCauseCombo.Length; i++)
+                        {
+                            <option value="@i">@Model.generalCauseCombo[i]</option>
+                        }
+                    </select>
+                    <div class="clear"></div>
                     <label for="" id="" name="" class="requestLbl">שם הקורס</label>
                     <select id="" name="SelectedCourses" class="courses">
                         @foreach (var course in Model.CoursesCombo)

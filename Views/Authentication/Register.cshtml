@@ -80,22 +80,22 @@
                     <div class="clear"></div>
                 </div>
                 <div class="inputWrapper">
-                    <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs" />
-                    <i class="fa fa-envelope inputsIcons" aria-hidden="true"></i>
+                    <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs checkEmail" />
+                    <i id="markFont" class="fa fa-envelope inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
                 <div class="inputWrapper">
-                    <input type="text" name="Password" placeholder="סיסמה" class="loginInputs" />
+                    <input id="password" type="text" name="Password" placeholder="סיסמה" class="loginInputs" />
                     <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
                 <div class="inputWrapper">
-                    <input type="text" placeholder="אימות סיסמה" class="loginInputs" />
+                    <input id="confirmPassword" type="text" placeholder="אימות סיסמה" class="loginInputs" />
                     <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
-                <input type="submit" name="submit" value="הירשם" class="submit" />
+                <input type="submit" name="submit" value="הירשם" class="submit" onclick="return checkPasswords();"/>
             </form>
         </div>
     </div>

@@ -8,47 +8,49 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DeanReports.Filters;
+using DeanReports.Services;
 
 namespace DeanReports.Controllers
 {
     [StudentFilter]
     public class StudentController : Controller
     {
+        // class variables
+
+        
+        
+
         // GET: Student
         public ActionResult Index()
         {
             return View();
         }
-        public ActionResult CreateNewRequest()
+        public ActionResult CreateNewRequest(string formType)
+        {
+            switch (formType.ToLower())
+            {
+                case "general":
+                    return View("CreateNewRequest", LoadRequestViewModel(false));
+
+                case "english":
+                    return View("CreateNewEnglishRequest", LoadRequestViewModel(true));
+                default:
+                    return new EmptyResult();
+            }
+        }
+        private RequestViewModel LoadRequestViewModel(bool isEnglish)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
-            List<Programs> programs = bl.GetAllPrograms();
-            List<ProgramsViewModel> programsViewModel = new List<ProgramsViewModel>();
-            //ProgramsListViewModel programsListViewModel = new ProgramsListViewModel();
             RequestViewModel requestViewModel = new RequestViewModel();
-            foreach (Programs p in programs)
+            List<Programs> programs = bl.GetAllPrograms();
+            requestViewModel.ProgramsCombo = ConverterService.ToProgramsViewModel(programs);
+            if (!isEnglish)
             {
-                programsViewModel.Add(new ProgramsViewModel()
-                {
-                    ID = p.ID,
-                    Name = p.Name
-                });
+                int departmentID = (int)Session["DepartmentID"];
+                List<Course> courses = bl.GetCoursesByDepartmentID(departmentID);
+                requestViewModel.CoursesCombo = ConverterService.ToCoursesViewModel(courses);
             }
-            // need to be dynamic
-            int departmentID = 1;
-            List<Course> courses = bl.GetCoursesByDepartmentID(departmentID);
-            List<CourseViewModel> coursesViewModel = new List<CourseViewModel>();
-            foreach (Course c in courses)
-            {
-                coursesViewModel.Add(new CourseViewModel()
-                {
-                    ID = c.ID,
-                    Name = c.Name
-                });
-            }
-            requestViewModel.ProgramsCombo = programsViewModel;
-            requestViewModel.CoursesCombo = coursesViewModel;
-            return View("CreateNewRequest", requestViewModel);
+            return requestViewModel;
         }
         [HttpPost]
         public ActionResult CreateNewRequest(RequestViewModel requestViewModel)
@@ -59,8 +61,9 @@ namespace DeanReports.Controllers
             {
                 StudentUserName = userName,
                 Type = "סוג כלשהו",
-                Cause = "סיבה כלשהי",
-                Date = DateTime.Now
+                Cause = requestViewModel.GetCauseName,
+                Date = DateTime.Now,
+                FormType = requestViewModel.FormType
             });
             if (requestID != -1)
             {
@@ -92,27 +95,15 @@ namespace DeanReports.Controllers
             foreach (Request request in requestListModel)
             {
                 List<CourseRequest> courseReqestList = bl.GetCourseRequestsByRequestID(request.ID);
-                List<CourseRequestViewModel> courseReqestListVM = new List<CourseRequestViewModel>();
-                foreach (CourseRequest cr in courseReqestList)
-	            {
-		            courseReqestListVM.Add(new CourseRequestViewModel()
-                    {
-                        CourseID = cr.CourseID,
-                        LecturerName = cr.LecturerName
-                    });
-	            }
-                rvm.Add(new RequestViewModel()
-                {
-                    ID = request.ID,
-                    Type = request.Type,
-                    Cause = request.Cause,
-                    Date = request.Date,
-                    CourseRequests = courseReqestListVM
-                });
+                RequestViewModel requestViewModel = ConverterService.ToRequestViewModel(request, courseReqestList);
+                rvm.Add(requestViewModel);
             }
             requestListVM.List = rvm;
             return View("ShowRequests", requestListVM);
         }
-    
+        public JsonResult Test()
+        {
+            return Json(new {foo="bar", baz="Blech"}, JsonRequestBehavior.AllowGet);
+        }
     }
 }

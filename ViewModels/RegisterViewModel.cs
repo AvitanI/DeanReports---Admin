@@ -15,7 +15,6 @@ namespace DeanReports.ViewModels
         public string LastName { get; set; }
         [Required]
         public int? DepartmentID { get; set; }
-        [Required]
         public string Year { get; set; }
         [Required]
         public DateTime Birth { get; set; }
@@ -26,5 +25,7 @@ namespace DeanReports.ViewModels
         [Required]
         public string Password { get; set; }
         public List<DepartmentViewModel> DepartmentList { get; set; }
+        public List<ProgramsViewModel> Programs { get; set; }
+        public int[] SelectedPrograms { get; set; }
     }
 }

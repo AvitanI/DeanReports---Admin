@@ -3,12 +3,22 @@
     $('.userProfile').toggleClass('active');
 });
 
+$('.toggleMenu').click(function () {
+    $('.innerMenu').slideToggle("slow");
+});
+
 $(".fancyTrigger").fancybox();
 $(".fancyTrigger").trigger('click');
 
 // combobox for departments
 $(".departmentCombo").length && (function () {
     $(".departmentCombo").select2({
+        dir: "rtl"
+    });
+}());
+
+$(".programsCombo").length && (function () {
+    $(".programsCombo").select2({
         dir: "rtl"
     });
 }());
@@ -25,6 +35,9 @@ $(".programs").select2({
     dir: "rtl"
 });
 $(".courses").select2({
+    dir: "rtl"
+});
+$(".causes").select2({
     dir: "rtl"
 });
 // add class to courses select2
@@ -82,16 +95,16 @@ function initCourseComboByID(comboID) {
 
 $(document).ready(function () {
     var path = window.location.pathname; // Returns path only
-    $('.sideBar li').removeClass();
+    $('.sideBar li').removeClass('active');
     var href = "a[href = \'" + path + "\']";
     $(href).parent().addClass('active');
 });
 
 
 // set time picker for sessions
-$('#startHour').timepicker(
-	$.timepicker.regional['he']
-);
+//$('#startHour').timepicker(
+//	$.timepicker.regional['he']
+//);
 $("#startHour").length && (function () {
     $("#startHour").datetimepicker({
         dateFormat: '',
@@ -108,8 +121,72 @@ $("#endHour").length && (function () {
     });
 }());
 
+//function test() {
+//    $.get("/Student/Test").done(function (data) {
+//        console.log(data);
+//    });
+//}
+
+$('.checkEmail').focusout(function () {
+    var username = $(this).val();
+    if (username) {
+        $.get("/Authentication/IsUserExist?username=" + username).done(function (data) {
+            console.log(data);
+            if (data.answer == false) {
+                $('#markFont').addClass("markRed");
+            }
+            else {
+                $('#markFont').removeClass("markRed");
+            }
+        });
+    }
+});
+
+function checkPasswords() {
+    var password = $('#password').val();
+    var passwordToConfirm = $('#confirmPassword').val();
+    if (password != passwordToConfirm) {
+        return false;
+    }
+    return true;
+}
+
+
 //$('#endHour').on('input', function () {
 //    if ($('#startHour').val()) {
 //        console.log($(this).val());
 //    }
 //});
+
+
+//$('.programsCombo').select2("val", "").trigger('change')
+
+
+$(".requestUsername").hover(function () {
+        var username = $(this).text();
+        var self = $(this);
+        var fName = self.parent().find('.firstName');
+        var lName = self.parent().find('.lastName');
+
+        if (fName.text() == "" && lName.text() == "") {
+            $.get("/Member/GetMemberDetails?username=" + username).done(function (data) {
+                console.log(data);
+                self.parent().find('.firstName').text("שם: " + data.firstName);
+                self.parent().find('.lastName').text("שם משפחה: " + data.firstName);
+                self.next().show();
+            });
+        }
+        else {
+            $(this).next().show();
+        }
+        
+    },
+    function () {
+        $(this).next().hide();
+    });
+
+$('.actions').click(function () {
+    $(this).toggleClass('active');
+    //$(this).next().toggle();
+    $(this).next().slideToggle("slow");
+});
