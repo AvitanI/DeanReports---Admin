@@ -142,6 +142,7 @@
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Manager.cs" />
     <Compile Include="Models\Member.cs" />
+    <Compile Include="Models\Messages.cs" />
     <Compile Include="Models\Programs.cs" />
     <Compile Include="Models\ProgramsMembers.cs" />
     <Compile Include="Models\Refund.cs" />

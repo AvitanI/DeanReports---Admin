@@ -3,6 +3,11 @@
     $('.userProfile').toggleClass('active');
 });
 
+$('#messagesParent').click(function (event) {
+    event.stopPropagation();
+    $('.messagesDropDown').toggleClass('active');
+});
+
 $('.toggleMenu').click(function () {
     $('.innerMenu').slideToggle("slow");
 });

@@ -38,16 +38,21 @@
                     <span>@r.Cause</span>
                     <div class="clear"></div>
                 </div>
-                <form action="/" method="post" class="requestInternal">
-                    <input type="hidden" name="RequestID" value="@r.ID" />
-                    שעות מאושר:<br>
+                <form action="/Admin/UpdateRequest" method="post" class="requestInternal">
+                    <input type="hidden" name="ID" value="@r.ID" />
+                    <label for="">שעות מאושר:</label>
                     <input type="text" name="ApprovalHours" value="" />
-                    פרטי חונך:<br>
+                    <div class="clear"></div>
+                    <label for="">פרטי חונך:</label>
                     <input type="text" name="TeacherName" value="" />
-                    מס. תקציב:<br />
+                    <div class="clear"></div>
+                    <label for="">מס. תקציב:</label>
                     <input type="text" name="BudgetNumber" value=" " />
-                    הערות:<br />
+                    <div class="clear"></div>
+                    <label for="">הערות:</label>
                     <textarea name="Notes" rows="4" cols="20"></textarea>
+                    <div class="clear"></div>
+                    <input type="submit" name="submit" value="שלח" />
                 </form>
                 <table border="1" cellpadding="5">
                     <tr>

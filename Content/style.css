@@ -120,6 +120,109 @@ body {
 	background: #f9f9f9;
     padding: 10px;
 }
+#messagesParent {
+    position: relative;
+}
+.messagesDropDown {
+    list-style-type: none;
+    padding:0;
+    margin:0;
+    position: absolute;
+    top: 50px;
+    left: 244px;
+    background: #fff;
+    width: 280px;
+    border: 1px solid #eee;
+    display: none;
+}
+.messagesDropDown.active {
+    display: block;
+}
+.messagesDropDown > li {
+
+}
+.messagesDropDown > li > a {
+    text-decoration: none;
+    margin: 0;
+    padding: 10px 10px;
+    display: block;
+    white-space: nowrap;
+    border-bottom: 1px solid #f4f4f4;
+}
+.messagesDropDown > li > a:hover {
+
+}
+.messagesTitle {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: #ffffff;
+    padding: 7px 10px;
+    border-bottom: 1px solid #f4f4f4;
+    color: #444444;
+    font-size: 14px;
+    text-align: right;
+}
+.messagesContent{
+    position: relative;
+    overflow: hidden;
+    width: auto;
+    height: 200px;
+    border-bottom: 1px solid #f4f4f4;
+}
+.seeAllMessages {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    font-size: 12px;
+    background-color: #fff;
+    padding: 7px 10px;
+    border-bottom: 1px solid #eeeeee;
+    color: #444 !important;
+    text-align: center;
+}
+.messagesList {
+    list-style-type: none;
+    padding: 3px;
+    margin: 0;
+}
+.messagesList > li {
+
+}
+.messagesList > li > a {
+    display: block;
+    margin: 0;
+    padding: 10px 10px;
+    text-decoration: none;
+}
+.messagesList > li > a:hover {
+    background: #f4f4f4;
+}
+.userMessageImg {
+    margin: auto auto auto 10px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    vertical-align: middle;
+    float: right;
+}
+.messageHeader {
+    padding: 0;
+    margin: 0px 45px 0 0px;
+    color: #444444;
+    font-size: 15px;
+    position: relative;
+    text-align: right;
+}
+.messageShortContent {
+    margin: 0px 45px 0 0px;
+    font-size: 12px;
+    color: #888888;
+    text-align: right;
+    display: block;
+}
 .profile, .signOut {
 	color: #666666;
 	text-decoration: none;
@@ -614,6 +717,12 @@ body {
 }
 .requestInternal {
     width: 50%;
+    float: right;
+}
+.requestInternal > input {
+    float: right;
+}
+.requestInternal > label {
     float: right;
 }
 @media screen and (max-width:1300px) {

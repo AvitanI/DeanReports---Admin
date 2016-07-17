@@ -61,10 +61,46 @@
                     </div>
                 </li>
                 <li>
-                    <a href="#">
+                    <a id="messagesParent" href="#">
                         <i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i>
-                        <span class="label label-success">4</span>
+                        @{
+                            if ((int)Session["NumOfMessages"] > 0)
+                            { 
+                                <span class="label label-success">@Session["NumOfMessages"]</span>
+                            }
+                        }
                     </a>
+                    <ul class="messagesDropDown">
+                        <li class="messagesTitle">יש לך 4 הודעות</li>
+                        <li>
+                            <div class="messagesContent">
+                                <ul class="messagesList">
+                                    <li>
+                                        <a href="#">
+                                            <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
+                                            <h4 class="messageHeader">הודעה בקשר לבקשת סיוע</h4>
+                                            <span class="messageShortContent">קיבלת אישור מאדמין</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
+                                            <h4 class="messageHeader">הודעה בקשר לבקשת סיוע</h4>
+                                            <span class="messageShortContent">קיבלת אישור מאדמין</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
+                                            <h4 class="messageHeader">הודעה בקשר לבקשת סיוע</h4>
+                                            <span class="messageShortContent">קיבלת אישור מאדמין</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a class="seeAllMessages" href="#">ראה את כל ההודעות</a></li>
+                    </ul>
                 </li>
                 <li>
                     <a href="#">

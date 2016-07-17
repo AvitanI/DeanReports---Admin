@@ -17,7 +17,6 @@ namespace DeanReports.Controllers
         {
             return View();
         }
-
         public ActionResult ShowNewRequests()
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
@@ -63,7 +62,33 @@ namespace DeanReports.Controllers
             request.SignatureDate = DateTime.Now;
             bl.EditRequest(request);
             return RedirectToAction("ShowNewRequests"); 
-        }        
+        }
+        public ActionResult UpdateRequest(RequestViewModel requestViewModel)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            Request request = bl.GetRequestByID(requestViewModel.ID);
+            request.ApprovalHours = requestViewModel.ApprovalHours;
+            request.BudgetNumber = requestViewModel.BudgetNumber;
+            request.Notes = requestViewModel.Notes;
+            request.ManagerUserName = Session["Username"] as string;
+            request.SignatureDate = DateTime.Now;
+            request.ManagerSignature = true;
+            bl.EditRequest(request);
+            this.SendMessage(new Messages() 
+            {
+                From = Session["Username"] as string,
+                ToUser = request.StudentUserName,
+                Subject = "request",
+                Content = "test"
+            });
+            return RedirectToAction("ShowNewRequests");
+        }
+        private bool SendMessage(Messages message)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            bl.AddMessage(message);
+            return false;
+        }
         [Route("Admin/SomeName")]
         public string test(int x)
         {

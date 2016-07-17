@@ -22,5 +22,6 @@ namespace DeanReports.DataAccessLayer
         public DbSet<Refund> Refunds { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<CourseRequest> CourseRequest { get; set; }
+        public DbSet<Messages> Messages { get; set; }
     }
 }

@@ -1324,5 +1324,41 @@ namespace DeanReports.Models
                 return new List<Request>();
             }
         }
+        public bool AddMessage(Messages message)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("From", message.From),
+                    new SqlParameter("ToUser", message.ToUser),
+                    new SqlParameter("Subject", message.Subject),
+                    new SqlParameter("Content", message.Content)
+                };
+
+                dbContext.Database.ExecuteSqlCommand("Create_Message @From, @ToUser, @Subject, @Content", parameters);
+                return true;
+
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with AddMessage function: " + e);
+                return false;
+            }
+        }
+        public List<Messages> GetMessagesByUser(string username)
+        {
+            try
+            {
+                var Username = new SqlParameter("Username", username);
+                List<Messages> messages = dbContext.Database.SqlQuery<Messages>(@"GetMessagesByUser @Username", Username).ToList();
+                return messages;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetMessagesByUser function: " + e);
+                return new List<Messages>();
+            }
+        }
     }
 }
