@@ -331,7 +331,7 @@ namespace DeanReports.Models
             try
             {
                 Object[] parameters = { new SqlParameter("UserName", username) };
-                UserProfile userProfile = dbContext.Database.SqlQuery<UserProfile>(@"GetUserProfileByUsername @UserName", parameters).ToList()[0];
+                UserProfile userProfile = dbContext.Database.SqlQuery<UserProfile>(@"GetUserProfileByUsername @UserName", parameters).Single();
                 return userProfile;
             }
             catch (SqlException e)

@@ -151,6 +151,7 @@ function checkPasswords() {
     var password = $('#password').val();
     var passwordToConfirm = $('#confirmPassword').val();
     if (password != passwordToConfirm) {
+        alert("not equal")
         return false;
     }
     return true;

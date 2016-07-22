@@ -30,20 +30,10 @@ namespace DeanReports.Controllers
                 User user = bl.GetUserValidity(new User() { UserName = u.UserName, Password = u.Password });
                 if (user != null && user.Type != Types.NonUser)
                 {
-                    Member member = bl.GetMemberByUsername(u.UserName);
                     FormsAuthentication.SetAuthCookie(u.UserName, false);
-                    Session["Username"] = u.UserName;
-                    Session["Type"] = Utilities.GetUserTypeName(user.Type);
-                    Session["Role"] = user.Type;
-                    Session["LastLoginDate"] = user.LastLogin.ToString("dd/MM/yy");
-                    Session["LastLoginHour"] = user.LastLogin.ToString("HH:mm");
-                    Session["FullName"] = member.FirstName + " " + member.LastName;
-                    Session["DepartmentID"] = member.DepartmentID;
-                    Session["NumOfMessages"] = bl.GetMessagesByUser(u.UserName).Count();
-                    //Session["MenuList"] = new List<SideBarMenuViewModel>() { new SideBarMenuViewModel(){MenuItemName="test", MenuItemHref="test"}};
-                    //Session["test"] = "test";
-                    bl.UpdateLastLogin(new User() {UserName = u.UserName, LastLogin = DateTime.Now });
-                    return RedirectToAction("GetAllMembers", "Member");
+                    this.CreateMemberShipByUser(user);
+                    bl.UpdateLastLogin(new User() { UserName = u.UserName, LastLogin = DateTime.Now });
+                    return RedirectToAction("UserProfile");
                 }
                 else
                 {
@@ -66,6 +56,19 @@ namespace DeanReports.Controllers
                 TempData["FancyBox"] = fb;
                 return View("Login", new UserViewModel() { });
             }
+        }
+        private void CreateMemberShipByUser(User u)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            Member member = bl.GetMemberByUsername(u.UserName);
+            Session["Username"] = u.UserName;
+            Session["Type"] = Utilities.GetUserTypeName(u.Type);
+            Session["Role"] = u.Type;
+            Session["LastLoginDate"] = u.LastLogin.ToString("dd/MM/yy");
+            Session["LastLoginHour"] = u.LastLogin.ToString("HH:mm");
+            Session["FullName"] = member.FirstName + " " + member.LastName;
+            Session["DepartmentID"] = member.DepartmentID;
+            Session["Messages"] = bl.GetMessagesByUser(u.UserName); 
         }
         [AllowAnonymous]
         public ActionResult Logout()

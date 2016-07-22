@@ -92,6 +92,7 @@ body {
 	top: 51px;
 	left: 48px;
 	border: 1px solid #ccc;
+    z-index: 5;
 }
 .userProfile.active {
 	display: block;
@@ -134,6 +135,7 @@ body {
     width: 280px;
     border: 1px solid #eee;
     display: none;
+    z-index: 5;
 }
 .messagesDropDown.active {
     display: block;
@@ -168,7 +170,7 @@ body {
     position: relative;
     overflow: hidden;
     width: auto;
-    height: 200px;
+    /*height: 200px;*/
     border-bottom: 1px solid #f4f4f4;
 }
 .seeAllMessages {

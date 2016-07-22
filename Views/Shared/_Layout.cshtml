@@ -10,13 +10,6 @@
     <link rel="stylesheet" type="text/css" href="~/Content/jquery.fancybox.css" />
     <link href="~/Content/jquery-ui-timepicker-addon.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
-    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
-    <script src="~/Scripts/select2.js"></script>
-    <script src="~/Scripts/jquery-ui.min.js"></script>
-    <script src="~/Scripts/jquery.fancybox.js"></script>
-    <script src="~/Scripts/moment.js"></script>
-    <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
-    <script src="~/Scripts/jquery-ui-timepicker-he.js"></script>
 </head>
 <body>
     @{
@@ -64,38 +57,34 @@
                     <a id="messagesParent" href="#">
                         <i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i>
                         @{
-                            if ((int)Session["NumOfMessages"] > 0)
+                            List<DeanReports.Models.Messages> messages = 
+                                Session["Messages"] as List<DeanReports.Models.Messages>;
+                            int NUM_OF_MESSAGES = 0;
+                            if (messages != null)
+                            {
+                                NUM_OF_MESSAGES = messages.Count();
+                            }
+                            if (NUM_OF_MESSAGES > 0)
                             { 
-                                <span class="label label-success">@Session["NumOfMessages"]</span>
+                                <span class="label label-success">@NUM_OF_MESSAGES</span>
                             }
                         }
                     </a>
                     <ul class="messagesDropDown">
-                        <li class="messagesTitle">יש לך 4 הודעות</li>
+                        <li class="messagesTitle">יש לך @NUM_OF_MESSAGES הודעות</li>
                         <li>
                             <div class="messagesContent">
                                 <ul class="messagesList">
-                                    <li>
-                                        <a href="#">
-                                            <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
-                                            <h4 class="messageHeader">הודעה בקשר לבקשת סיוע</h4>
-                                            <span class="messageShortContent">קיבלת אישור מאדמין</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
-                                            <h4 class="messageHeader">הודעה בקשר לבקשת סיוע</h4>
-                                            <span class="messageShortContent">קיבלת אישור מאדמין</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
-                                            <h4 class="messageHeader">הודעה בקשר לבקשת סיוע</h4>
-                                            <span class="messageShortContent">קיבלת אישור מאדמין</span>
-                                        </a>
-                                    </li>
+                                    @foreach (DeanReports.Models.Messages item in messages)
+                                    {
+                                        <li>
+                                            <a href="#">
+                                                <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
+                                                <h4 class="messageHeader">@item.Subject</h4>
+                                                <span class="messageShortContent">@item.Content</span>
+                                            </a>
+                                        </li>
+                                    }
                                 </ul>
                             </div>
                         </li>
@@ -247,6 +236,13 @@
     <div class="footer">
         <span class="rights">&reg; All the rights reserved to Idan &amp; Nisim</span>
     </div>
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    <script src="~/Scripts/select2.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.fancybox.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/jquery-ui-timepicker-he.js"></script>
     <script src="~/Scripts/functions.js"></script>
 </body>
 </html>
