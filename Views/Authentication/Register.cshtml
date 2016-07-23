@@ -39,22 +39,22 @@
             <div class="formTitle">הרשמה למערכת</div>
             <form method="post" action="/Authentication/Register" class="loginForm">
                 <div class="inputWrapper">
-                    <input type="text" name="Identity" placeholder="תז" class="loginInputs" />
+                    <input type="text" name="Identity" placeholder="תז" class="loginInputs" value="@Model.Identity" />
                     <i class="fa fa-key inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
                 <div class="inputWrapper">
-                    <input type="text" name="FirstName" placeholder="שם פרטי" class="loginInputs" />
+                    <input type="text" name="FirstName" placeholder="שם פרטי" class="loginInputs" value="@Model.FirstName" />
                     <i class="fa fa-male inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
                 <div class="inputWrapper">
-                    <input type="text" name="LastName" placeholder="שם משפחה" class="loginInputs" />
+                    <input type="text" name="LastName" placeholder="שם משפחה" class="loginInputs" value="@Model.LastName" />
                     <i class="fa fa-male inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
                 <div class="inputWrapper">
-                    <input type="text" name="Birth" placeholder="תאריך לידה" class="loginInputs datepicker" />
+                    <input type="text" name="Birth" placeholder="תאריך לידה" class="loginInputs datepicker" value="@Model.Birth" />
                     <i class="fa fa-calendar inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
@@ -70,17 +70,25 @@
                     <div class="clear"></div>
                 </div>
                 <div class="inputWrapper">
-                    <input type="text" name="Year" placeholder="שנת לימודים" class="loginInputs" />
+                    @*<input type="text" name="Year" placeholder="שנת לימודים" class="loginInputs" />*@
+                    <select name="SelectedYear" class="yearsCombo">
+                        @*<option value="">שנת לימוד</option>*@
+                        <option value=""></option>
+                        @for (int i = 0; i < Model.AcademicYears.Length; i++)
+                        {
+                            <option value="@i">@Model.AcademicYears[i]</option>
+                        }
+                    </select>
                     <i class="fa fa-hourglass-half inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
                 <div class="inputWrapper">
-                    <input type="text" name="Phone" placeholder="טלפון נייד" class="loginInputs" />
+                    <input type="text" name="Phone" placeholder="טלפון נייד" class="loginInputs" value="@Model.Phone" />
                     <i class="fa fa-phone inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
                 <div class="inputWrapper">
-                    <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs checkEmail" />
+                    <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs checkEmail" value="@Model.UserName" />
                     <i id="markFont" class="fa fa-envelope inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
@@ -95,7 +103,7 @@
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>
-                <input type="submit" name="submit" value="הירשם" class="submit" onclick="return checkPasswords();"/>
+                <input type="submit" name="submit" value="הירשם" class="submit" onclick="return checkPasswords();" />
             </form>
         </div>
     </div>

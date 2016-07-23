@@ -1,0 +1,44 @@
+﻿@model DeanReports.ViewModels.SessionListViewModel
+@{
+    ViewBag.Title = "הפגישות שלי";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section  mainContent{
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>קוד בקשה</th>
+            <th>שם סטודנט</th>
+            <th>קוד טופס</th>
+            <th>שם חונך</th>
+            <th>תאריך</th>
+            <th>שעת התחלה</th>
+            <th>שעת סיום</th>
+            <th>סה"כ שעות</th>
+            <th>סטטוס</th>
+        </tr>
+        @foreach (var sesssion in Model.List)
+        {
+            <tr>
+                <td>@sesssion.ID</td>
+                <td>@sesssion.StudentUserName</td>
+                <td>@sesssion.RefundID</td>
+                <td>@sesssion.TeacherUserName</td>
+                <td>@sesssion.Date</td>
+                <td>@sesssion.StartHour</td>
+                <td>@sesssion.EndHour</td>
+                <td>@sesssion.SumHoursPerSession</td>
+                <td>
+                    @if (sesssion.StudentSignature)
+                    {
+                        <span><b>אושר</b></span>
+                    }
+                    else
+                    {
+                        <a href="/Student/ConfirmSession?sessionID=@sesssion.ID">אשר פגישה</a>
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}

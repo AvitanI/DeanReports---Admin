@@ -11,13 +11,12 @@
     <link href="~/Content/login.css" rel="stylesheet" />
     <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
     <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
-    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
-    <script src="~/Scripts/jquery.fancybox.js"></script>
     <style>
         #TheFancybox {
             display: none;
         }
     </style>
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
 </head>
 <body>
     @{
@@ -33,7 +32,7 @@
         <a class="loginTitle"><span class="bold">Admin</span>LTE</a>
         <div class="loginFormWrapper">
             <div class="formTitle">התחברות למערכת</div>
-            <form method="post" action="/Authentication/Login" class="loginForm">
+            <form id="loginForm" method="post" action="/Authentication/Login" class="loginForm">
                 <div class="inputWrapper">
                     <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs" />
                     <i class="fa fa-envelope inputsIcons" aria-hidden="true"></i>
@@ -44,15 +43,17 @@
                     <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
-                <a href="Authentication/Register" class="hrefBlue">הרשמה לאתר</a>
+                <a href="/Authentication/Register" class="hrefBlue">הרשמה לאתר</a>
                 <div class="clear"></div>
                 <a href="#" class="hrefBlue">שכחתי סיסמה</a>
                 <div class="clear"></div>
                 <input type="submit" name="submit" value="התחבר" class="submit" />
-                
+
             </form>
         </div>
     </div>
+    <script src="~/Scripts/jquery.fancybox.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/functions.js"></script>
 </body>
 </html>

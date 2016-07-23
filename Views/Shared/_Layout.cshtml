@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/jquery.fancybox.css" />
     <link href="~/Content/jquery-ui-timepicker-addon.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
 </head>
 <body>
     @{
@@ -75,15 +76,17 @@
                         <li>
                             <div class="messagesContent">
                                 <ul class="messagesList">
-                                    @foreach (DeanReports.Models.Messages item in messages)
-                                    {
-                                        <li>
-                                            <a href="#">
-                                                <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
-                                                <h4 class="messageHeader">@item.Subject</h4>
-                                                <span class="messageShortContent">@item.Content</span>
-                                            </a>
-                                        </li>
+                                    @if (messages != null) { 
+                                        foreach (DeanReports.Models.Messages item in messages)
+                                        {
+                                            <li>
+                                                <a href="#">
+                                                    <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
+                                                    <h4 class="messageHeader">@item.Subject</h4>
+                                                    <span class="messageShortContent">@item.Content</span>
+                                                </a>
+                                            </li>
+                                        }
                                     }
                                 </ul>
                             </div>
@@ -137,90 +140,31 @@
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
                 </li>
-                <li class="toggleMenu">
-                    <a href="#">
-                        <i class="fa fa-files-o" aria-hidden="true"></i>
-                        <span class="sideBarTitles">הגשת בקשות</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                        @*<span class="label labelBlue labelLeft">4</span>*@
-                    </a>
-                    <ul class="innerMenu">
-                        <li><a href="/Student/CreateNewRequest?FormType=General"><i class="fa fa-circle-o"></i>כללי</a></li>
-                        <li><a href="/Student/CreateNewRequest?FormType=English"><i class="fa fa-circle-o"></i>אנגלית</a></li>
-                    </ul>
-                </li>
-                <li id="ShowRequests">
-                    <a href="/Student/ShowRequests">
-                        <i class="fa fa-th" aria-hidden="true"></i>
-                        <span class="sideBarTitles">צפייה בבקשות</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="/Teacher/CreateNewRefund">
-                        <i class="fa fa-pie-chart" aria-hidden="true"></i>
-                        <span class="sideBarTitles">יצירת טופס חונכות</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="/Teacher/CreateNewSession">
-                        <i class="fa fa-laptop" aria-hidden="true"></i>
-                        <span class="sideBarTitles">יצירת פגישה</span>
-                         <i class="fa fa-angle-right" aria-hidden="true"></i> 
-                        @*<span class="label labelGreen labelLeft">8</span>*@
-                    </a>
-                </li>
-                <li>
-                    <a href="/Teacher/ShowSessions">
-                        <i class="fa fa-edit" aria-hidden="true"></i>
-                        <span class="sideBarTitles">צפייה בפגישות</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="/Admin/ShowNewRequests">
-                        <i class="fa fa-table" aria-hidden="true"></i>
-                        <span class="sideBarTitles">בקשות חדשות</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                        <span class="sideBarTitles">פריט</span>
-                         <i class="fa fa-angle-right" aria-hidden="true"></i> 
-                        @*<span class="label labelRed labelLeft">6</span>*@
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-envelope" aria-hidden="true"></i>
-                        <span class="sideBarTitles">פריט</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-folder" aria-hidden="true"></i>
-                        <span class="sideBarTitles">פריט</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-share" aria-hidden="true"></i>
-                        <span class="sideBarTitles">פריט</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        <i class="fa fa-book" aria-hidden="true"></i>
-                        <span class="sideBarTitles">פריט</span>
-                        <i class="fa fa-angle-right" aria-hidden="true"></i>
-                    </a>
-                </li>
+                @{List<DeanReports.ViewModels.SideBarMenuViewModel> listt = 
+                      Session["Menu"] as List<DeanReports.ViewModels.SideBarMenuViewModel>;}
+                @foreach (var item in listt)
+                {
+                    var classs = (item.SubMenus != null) ? "toggleMenu" : "";
+                    <li class="@classs">
+                        @if(item.ParentID == -1){
+                            <a href="@item.MenuItemHref">
+                                <i class="fa @item.Icon" aria-hidden="true"></i>
+                                <span class="sideBarTitles">@item.MenuItemName</span>
+                                <i class="fa fa-angle-right" aria-hidden="true"></i>
+                                @*<span class="label labelBlue labelLeft">4</span>*@
+                            </a>
+                        }
+                        @if (item.SubMenus != null)
+                        {
+                            <ul class="innerMenu">
+                            @foreach(var subMenu in item.SubMenus)
+                            {
+                                <li><a href="@subMenu.MenuItemHref"><i class="fa @subMenu.Icon"></i>@subMenu.MenuItemName</a></li>
+                            }
+                            </ul>
+                        }
+                    </li>
+                }
             </ul>
             <div class="clear"></div>
             <div class="title">
@@ -236,13 +180,13 @@
     <div class="footer">
         <span class="rights">&reg; All the rights reserved to Idan &amp; Nisim</span>
     </div>
-    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
     <script src="~/Scripts/select2.js"></script>
     <script src="~/Scripts/jquery-ui.min.js"></script>
     <script src="~/Scripts/jquery.fancybox.js"></script>
     <script src="~/Scripts/moment.js"></script>
     <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
     <script src="~/Scripts/jquery-ui-timepicker-he.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/functions.js"></script>
 </body>
 </html>

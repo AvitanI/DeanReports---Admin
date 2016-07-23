@@ -94,6 +94,7 @@
   <ItemGroup>
     <Content Include="Content\fancybox_overlay.png" />
     <Content Include="Content\fancybox_sprite%402x.png" />
+    <Content Include="Content\fancybox_sprite.png" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\images\user.jpg" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
@@ -111,6 +112,7 @@
     <Content Include="Scripts\jquery-ui-timepicker-he.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Web.config">
@@ -125,7 +127,7 @@
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
-    <Compile Include="Controllers\Utilities.cs" />
+    <Compile Include="Services\Utilities.cs" />
     <Compile Include="DataAccessLayer\FinalDB.cs" />
     <Compile Include="Filters\AdminFilter.cs" />
     <Compile Include="Filters\HeaderFooterFilter.cs" />
@@ -194,13 +196,14 @@
     <Content Include="Views\Authentication\ShowUserProfile.cshtml" />
     <Content Include="Views\Emails\Web.config" />
     <Content Include="Views\Emails\_ViewStart.cshtml" />
-    <Content Include="Views\Emails\Example.cshtml" />
+    <Content Include="Views\Emails\ConfirmMail.cshtml" />
     <Content Include="Views\Student\ShowRequests.cshtml" />
     <Content Include="Views\Teacher\CreateNewSession.cshtml" />
     <Content Include="Views\Teacher\CreateNewRefund.cshtml" />
     <Content Include="Views\Teacher\ShowSessions.cshtml" />
     <Content Include="Views\Admin\ShowNewRequests.cshtml" />
     <Content Include="Views\Student\CreateNewEnglishRequest.cshtml" />
+    <Content Include="Views\Student\ShowSessions.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

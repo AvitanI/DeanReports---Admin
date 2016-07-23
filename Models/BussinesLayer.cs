@@ -395,6 +395,7 @@ namespace DeanReports.Models
         }
         public bool AddUser(User u)
         {
+            Debug.WriteLine(u.UserName + " || " + u.Password + " || " + u.LastLogin + " || " + u.Type);
             try
             {
                 Object[] parameters =
@@ -1105,7 +1106,7 @@ namespace DeanReports.Models
                     new SqlParameter("EndHour", s.EndHour),
                     new SqlParameter("SumOfHoursPerSession", s.SumHoursPerSession),
                     new SqlParameter("Details", s.Details ?? SqlString.Null),
-                    new SqlParameter("StudentSignature", s.StudentSignature ?? SqlBoolean.Null)
+                    new SqlParameter("StudentSignature", false)
                 };
                 dbContext.Database.ExecuteSqlCommand(@"Create_Session @StudentUserName, @RefundID, @TeacherUserName, @Date,
                                                                           @StartHour, @EndHour, @SumOfHoursPerSession, @Details, @StudentSignature",
@@ -1179,6 +1180,38 @@ namespace DeanReports.Models
             {
                 Debug.WriteLine("Problem with GetSessionsByRefundID function: " + e);
                 return new List<Session>();
+            }
+        }
+        public List<Session> GetSessionsByMemberID(string studentUsername)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("StudentUserName", studentUsername)
+                };
+                List<Session> sessions = dbContext.Database.SqlQuery<Session>("GetSessionsByMemberID @StudentUserName", parameters).ToList();
+                return sessions;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetSessionsByMemberID function: " + e);
+                return new List<Session>();
+            }
+        }
+        public bool ConfirmSessionByID(int sessionID)
+        {
+            try
+            {
+                var ID = new SqlParameter("ID", sessionID);
+                dbContext.Database.ExecuteSqlCommand(@"ConfirmSessionByID @ID", ID);
+                dbContext.SaveChanges();
+                return true;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with ConfirmSessionByID function: " + e);
+                return false;
             }
         }
 

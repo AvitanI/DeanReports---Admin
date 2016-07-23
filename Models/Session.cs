@@ -30,7 +30,7 @@ namespace DeanReports.Models
         //public int SumHoursPerSession { get; set; }
         [StringLength(250)]
         public string Details { get; set; }
-        public bool? StudentSignature { get; set; }
+        public bool StudentSignature { get; set; }
 
         // navigation properties
 

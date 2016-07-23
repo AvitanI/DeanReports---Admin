@@ -71,5 +71,25 @@ namespace DeanReports.Services
                 Phone = model.Phone
             };
         }
+        public static List<SessionViewModel> ToSessionViewModel(List<Session> model)
+        {
+            List<SessionViewModel> viewModel = new List<SessionViewModel>();
+            foreach (Session s in model)
+            {
+                viewModel.Add(new SessionViewModel()
+                {
+                    ID = s.ID,
+                    StudentUserName = s.StudentUserName,
+                    RefundID = s.RefundID,
+                    TeacherUserName = s.TeacherUserName,
+                    Date = s.Date,
+                    StartHour = s.StartHour,
+                    EndHour = s.EndHour,
+                    Details = s.Details,
+                    StudentSignature = s.StudentSignature
+                });
+            }
+            return viewModel;
+        }
     }
 }

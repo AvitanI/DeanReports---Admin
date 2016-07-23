@@ -15,11 +15,6 @@ namespace DeanReports.Controllers
     [StudentFilter]
     public class StudentController : Controller
     {
-        // class variables
-
-        
-        
-
         // GET: Student
         public ActionResult Index()
         {
@@ -100,6 +95,22 @@ namespace DeanReports.Controllers
             }
             requestListVM.List = rvm;
             return View("ShowRequests", requestListVM);
+        }
+        public ActionResult ShowSessions()
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            SessionListViewModel sessionListVM = new SessionListViewModel();
+            string username = Session["Username"] as string;
+            List<Session> sessionModelList = bl.GetSessionsByMemberID(username);
+            List<SessionViewModel> sessionVM = Services.ConverterService.ToSessionViewModel(sessionModelList);
+            sessionListVM.List = sessionVM;
+            return View("ShowSessions", sessionListVM);
+        }
+        public ActionResult ConfirmSession(int sessionID)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            bl.ConfirmSessionByID(sessionID);
+            return Redirect("ShowSessions");
         }
         public JsonResult Test()
         {

@@ -12,6 +12,7 @@ using DeanReports.Filters;
 
 namespace DeanReports.Controllers
 {
+    [AllowAnonymous]
     public class AuthenticationController : Controller
     {   
         [AllowAnonymous]
@@ -62,13 +63,14 @@ namespace DeanReports.Controllers
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             Member member = bl.GetMemberByUsername(u.UserName);
             Session["Username"] = u.UserName;
-            Session["Type"] = Utilities.GetUserTypeName(u.Type);
+            Session["Type"] = Services.Utilities.GetUserTypeName(u.Type);
             Session["Role"] = u.Type;
             Session["LastLoginDate"] = u.LastLogin.ToString("dd/MM/yy");
             Session["LastLoginHour"] = u.LastLogin.ToString("HH:mm");
             Session["FullName"] = member.FirstName + " " + member.LastName;
             Session["DepartmentID"] = member.DepartmentID;
-            Session["Messages"] = bl.GetMessagesByUser(u.UserName); 
+            Session["Messages"] = bl.GetMessagesByUser(u.UserName);
+            Session["Menu"] = Services.Utilities.GetMenuByUserType(u);
         }
         [AllowAnonymous]
         public ActionResult Logout()
@@ -106,11 +108,19 @@ namespace DeanReports.Controllers
             }
             registerViewModel.DepartmentList = departmentViewModelList;
             registerViewModel.Programs = programsVM;
+            registerViewModel.AcademicYears = Services.Utilities.AcademicYears;
             return View("Register", registerViewModel);
         }
         [HttpPost]
         public ActionResult Register(RegisterViewModel registerViewModel)
         {
+            string validationErrors = string.Join(",",
+                    ModelState.Values.Where(E => E.Errors.Count > 0)
+                    .SelectMany(E => E.Errors)
+                    .Select(E => E.ErrorMessage)
+                    .ToArray());
+            Debug.WriteLine(validationErrors);
+
             if (ModelState.IsValid)
             {
                 BussinesLayer bl = new BussinesLayer(new FinalDB());
@@ -143,19 +153,16 @@ namespace DeanReports.Controllers
                         MemberUserName = registerViewModel.UserName,
                         Identity = registerViewModel.Identity,
                         DepartmentID = registerViewModel.DepartmentID,
-                        Year = registerViewModel.Year,
+                        Year = Services.Utilities.AcademicYears[registerViewModel.SelectedYear],
                         FirstName = registerViewModel.FirstName,
                         LastName = registerViewModel.LastName,
-                        Birth = registerViewModel.Birth,
+                        Birth = DateTime.ParseExact(registerViewModel.Birth, "dd/MM/yyyy", null),
                         Phone = registerViewModel.Phone
                     };
                     bl.AddMember(member);
-
-                    dynamic email = new Email("Example");
-                    email.To = "Avitanidan@gmail.com";
-                    email.Send();
-
-                    return RedirectToAction("GetAllMembers", "Member");
+                    // send confirm mail to user
+                    Services.Utilities.SendEmail(registerViewModel.UserName, "ConfirmMail");
+                    return RedirectToAction("Login");
                 }
             }
             else
@@ -166,11 +173,11 @@ namespace DeanReports.Controllers
                     Message = "שדות לא תקינים"
                 };
                 TempData["FancyBox"] = fb;
-                return RedirectToAction("Register", "Authentication");
+                registerViewModel.AcademicYears = Services.Utilities.AcademicYears;
+                return View("Register", registerViewModel);
             }
         }
         [Authorize]
-        //[AdminFilter]
         public ActionResult UserProfile()
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
@@ -265,6 +272,13 @@ namespace DeanReports.Controllers
         public JsonResult IsUserExist(string username)
         {
             return Json(new { answer = new BussinesLayer(new FinalDB()).IsUserExist(username) }, JsonRequestBehavior.AllowGet);
+        }
+
+        public string test()
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            return bl.AddUser(new User() { UserName="test1234@gmail.com", Password="1234", LastLogin=DateTime.Now, Type=Types.Admin}) + "";
+            //return "successe";
         }
     }
 }

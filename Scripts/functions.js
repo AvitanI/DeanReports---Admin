@@ -28,21 +28,29 @@ $(".programsCombo").length && (function () {
     });
 }());
 
+$(".yearsCombo").length && (function () {
+    $(".yearsCombo").select2({
+        dir: "rtl",
+        placeholder: "שנה אקדמית"
+    });
+}());
+
 // date for birth
 $(".datepicker").length && (function () {
     $(".datepicker").datepicker({
         changeYear: true,
-        yearRange: "-100:+0"
+        yearRange: "-100:+0",
+        dateFormat: 'dd/mm/yy'
     });
 }());
 
-$(".programs").select2({
+$(".programs").length && $(".programs").select2({
     dir: "rtl"
 });
-$(".courses").select2({
+$(".courses").length && $(".courses").select2({
     dir: "rtl"
 });
-$(".causes").select2({
+$(".causes").length && $(".causes").select2({
     dir: "rtl"
 });
 // add class to courses select2
@@ -196,3 +204,39 @@ $('.actions').click(function () {
     //$(this).next().toggle();
     $(this).next().slideToggle("slow");
 });
+
+
+$.validator.addMethod("regx", function (value, element, regexpr) {
+    return regexpr.test(value);
+}, "");
+
+$("#loginForm").length && $("#loginForm").validate({
+
+    rules: {
+        UserName: {
+            required: true,
+            //change regexp to suit your needs
+            regx: /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i
+        },
+        Password: {
+            required: true,
+            minlength: 4
+        }
+    },
+    messages: {
+        "UserName": {
+            required: "זהו שדה חובה!",
+            regx: "הכנס מייל תקני"
+        },
+        "Password": {
+            required: "זהו שדה חובה!",
+            minlength: "הכנס לפחות 4 תווים!"
+        },
+    },
+    errorPlacement: function (error, element) {
+        error.appendTo(element.next("i").next());
+    },
+    submitHandler: function (form) {
+        return true;
+    }
+})
