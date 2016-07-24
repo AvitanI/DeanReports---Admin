@@ -11,6 +11,9 @@
     <link href="~/Content/jquery-ui-timepicker-addon.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
     <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    <script>
+        var CKEDITOR_BASEPATH = '/Scripts/ckeditor/';
+    </script>
 </head>
 <body>
     @{
@@ -180,12 +183,17 @@
     <div class="footer">
         <span class="rights">&reg; All the rights reserved to Idan &amp; Nisim</span>
     </div>
+    @*<script src="http://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.2/ckeditor.js"></script>*@
+    @*<script src="http://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.2/adapters/jquery.js"></script>*@
+    <script src="~/Scripts/ckeditor.js"></script>
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/config.js"></script>
     <script src="~/Scripts/select2.js"></script>
     <script src="~/Scripts/jquery-ui.min.js"></script>
     <script src="~/Scripts/jquery.fancybox.js"></script>
     <script src="~/Scripts/moment.js"></script>
     <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
-    <script src="~/Scripts/jquery-ui-timepicker-he.js"></script>
+    @*<script src="~/Scripts/jquery-ui-timepicker-he.js"></script>*@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/functions.js"></script>
 </body>

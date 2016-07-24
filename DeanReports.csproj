@@ -106,12 +106,20 @@
     <Content Include="Content\style.css" />
     <Content Include="Content\Fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\ckeditor.js" />
+    <Content Include="Scripts\ckeditor\lang\he.js" />
+    <Content Include="Scripts\ckeditor\skins\contents.css" />
+    <Content Include="Scripts\ckeditor\skins\moono\editor.css" />
+    <Content Include="Scripts\ckeditor\skins\moono\icons.png" />
+    <Content Include="Scripts\ckeditor\styles.js" />
+    <Content Include="Scripts\config.js" />
     <Content Include="Scripts\functions.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\jquery-ui-timepicker-he.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
+    <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\select2.js" />
@@ -161,6 +169,7 @@
     <Compile Include="ViewModels\FancyBox.cs" />
     <Compile Include="ViewModels\MemberListViewModel.cs" />
     <Compile Include="ViewModels\MemberViewModel.cs" />
+    <Compile Include="ViewModels\MessagesViewModel.cs" />
     <Compile Include="ViewModels\ProgramsListViewModel.cs" />
     <Compile Include="ViewModels\ProgramsMembersViewModel.cs" />
     <Compile Include="ViewModels\ProgramsViewModel.cs" />
@@ -204,6 +213,7 @@
     <Content Include="Views\Admin\ShowNewRequests.cshtml" />
     <Content Include="Views\Student\CreateNewEnglishRequest.cshtml" />
     <Content Include="Views\Student\ShowSessions.cshtml" />
+    <Content Include="Views\Admin\ShowCKEditor.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

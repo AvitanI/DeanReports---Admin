@@ -83,6 +83,16 @@ namespace DeanReports.Controllers
             });
             return RedirectToAction("ShowNewRequests");
         }
+        public ActionResult ShowCKEditor()
+        {
+            return View("ShowCKEditor");
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public string SaveMessage(MessagesViewModel messageVM)
+        {
+            return messageVM.Content;
+        }
         private bool SendMessage(Messages message)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());

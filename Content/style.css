@@ -731,6 +731,10 @@ body {
 .requestInternal > label {
     float: right;
 }
+#ckContainer {
+    width: 1000px;
+    margin: auto;
+}
 @media screen and (max-width:1300px) {
     .sideBarWrapper, .logoHref{ width:15%; }
     .mainContent, .topMenuWrapper{ width:85%; }
