@@ -758,6 +758,7 @@ body {
 }
 .messageContent {
     display: none;
+    padding: 20px;
 }
 .blockWrapper {
     -webkit-animation: fadeOut 500ms;

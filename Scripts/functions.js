@@ -116,33 +116,23 @@ $(document).ready(function () {
     var href = "a[href = \'" + path + "\']";
     $(href).parent().addClass('active');
 });
+$.datetimepicker.setLocale('he');
+$('#startHour') && $('#endHour') && jQuery('#startHour, #endHour').datetimepicker({
+    datepicker: false,
+    format:'H:i',
+    allowTimes: ['07:00', '08:00', '09:00', '10:00', '11:00',
+                '12:00', '13:00', '14:00', '15:00', '16:00',
+                '17:00', '18:00', '19:00', '20:00', '21:00']
+    //yearStart: new Date().getFullYear()-1,
+    //yearEnd: new Date().getFullYear()
+});
 
-
-// set time picker for sessions
-//$('#startHour').timepicker(
-//	$.timepicker.regional['he']
-//);
-$("#startHour").length && (function () {
-    $("#startHour").datetimepicker({
-        dateFormat: '',
-        timeFormat: 'hh:mm',
-        timeOnly: true
-    });
-}());
-
-$("#endHour").length && (function () {
-    $("#endHour").datetimepicker({
-        dateFormat: '',
-        timeFormat: 'hh:mm',
-        timeOnly: true
-    });
-}());
-
-//function test() {
-//    $.get("/Student/Test").done(function (data) {
-//        console.log(data);
-//    });
-//}
+$('#birth').length && jQuery('#birth').datetimepicker({
+    timepicker: false,
+    yearStart: 1950,
+    yearEnd: 2020,
+    format: 'd/m/yy'
+});
 
 $('.checkEmail').focusout(function () {
     var username = $(this).val();
@@ -299,4 +289,26 @@ $('.plusMinus').click(function () {
     var icon = $(this).children();
     icon.removeClass('fa-minus').addClass('fa-plus').removeClass('fa-plus').addClass('fa-minus')
     $(this).parent(".blockTitle").next(".messageContent").slideToggle();
+});
+
+$('.addSession').click(function () {
+    var row = " <tr>\
+                    <td>-1</td>\
+                    <td><input type=\"text\" /></td>\
+                    <td><input type=\"text\" value=\"1/1/1111\" disabled /></td>\
+                    <td><input type=\"text\" name=\"StartHour\" id=\"startHour\" class=\"startHour\" /></td>\
+                    <td><input type=\"text\" name=\"EndHour\" id=\"endHour\" class=\"endHour\" /></td>\
+                    <td><label>0</label></td>\
+                    <td><input type=\"text\" name=\"Details\" /></td>\
+                    <td><label>false</label></td>\
+                    <td><a href=\"/Teacher/DeleteSession?sessionID=-1\"><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></a></td>\
+                <tr>";
+    $(this).parent('.refundTableWrapper').find('table').append(row);
+    $('.startHour') && $('.endHour') && jQuery('.startHour, .endHour').datetimepicker({
+        datepicker: false,
+        format: 'H:i',
+        allowTimes: ['07:00', '08:00', '09:00', '10:00', '11:00',
+                    '12:00', '13:00', '14:00', '15:00', '16:00',
+                    '17:00', '18:00', '19:00', '20:00', '21:00']
+    });
 });

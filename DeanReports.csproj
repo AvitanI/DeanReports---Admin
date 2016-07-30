@@ -102,6 +102,7 @@
     <Content Include="Content\images\user.jpg" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\jquery.datetimepicker.css" />
     <Content Include="Content\jquery.fancybox.css" />
     <Content Include="Content\login.css" />
     <Content Include="Content\register.css" />
@@ -118,9 +119,8 @@
     <Content Include="Scripts\ckeditor\config.js" />
     <Content Include="Scripts\functions.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
-    <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
-    <Content Include="Scripts\jquery-ui-timepicker-he.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.datetimepicker.full.min.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
