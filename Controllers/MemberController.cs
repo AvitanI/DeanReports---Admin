@@ -49,14 +49,80 @@ namespace DeanReports.Controllers
             return View("GetMemberStatistics", statVM);
         }
         [HttpGet]
-        public JsonResult GetMemberDetails(string username)
+        //public JsonResult GetMemberDetails(string username)
+        //{
+        //    BussinesLayer bl = new BussinesLayer(new FinalDB());
+        //    Member m = bl.GetMemberByUsername(username);
+
+        //    return Json(new { firstName = m.FirstName,
+        //                      lastName = m.LastName }, 
+        //                JsonRequestBehavior.AllowGet);
+        //}
+        //--------------------------------------------------------------
+        public ActionResult SendMessages()
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
-            Member m = bl.GetMemberByUsername(username);
+            MessagesViewModel messagesVM = new MessagesViewModel();
+            List<Member> membersModel = bl.GetAllMembers();
+            List<MemberViewModel> membersVM = new List<MemberViewModel>();
+            foreach (Member member in membersModel)
+            {
+                membersVM.Add(Services.ConverterService.ToMemberViewModel(member));
+            }
+            messagesVM.Members = membersVM;
+            return View("SendMessages", messagesVM);
+        }
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult SendMessages(MessagesViewModel messageVM)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            messageVM.From = Session["Username"] as string;
+            Messages messagesModel = Services.ConverterService.ToMessagesModel(messageVM);
+            messagesModel.Type = MessageType.General;
+            this.SendMessage(messagesModel);
+            return Redirect("ShowAllMessages");
+        }
+        [NonAction]
+        public bool SendMessage(Messages message)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            message.Date = DateTime.Now;
+            message.IsSeen = false;
+            bl.AddMessage(message);
+            return false;
+        }
+        //[Authorize]
+        public JsonResult GetMemberDetails(string query)
+        {
+            if (Session == null || Session["Role"] == null)
+            {
+                return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+            }
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            List<Member> members = bl.GetMemberByAjax(query);
+            if (members.Count() > 0)
+            {
+                return Json(members, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult ShowAllMessages()
+        {
+            var username = Session["Username"] as string;
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            MessagesListViewModel messagesListViewModel = new MessagesListViewModel();
+            List<Messages> messagesModel = bl.GetMessagesByUser(username);
+            messagesListViewModel.List = Services.ConverterService.ToMessagesViewModel(messagesModel);
+            return View("ShowAllMessages", messagesListViewModel);
+        }
+        public string test()
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            //string htmlContents = 
+            return bl.GetMessagesByUser("admin@gmail.com")[0].Content;
 
-            return Json(new { firstName = m.FirstName,
-                              lastName = m.LastName }, 
-                        JsonRequestBehavior.AllowGet);
+            
         }
     }
 }

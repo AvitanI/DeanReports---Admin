@@ -1363,13 +1363,16 @@ namespace DeanReports.Models
             {
                 Object[] parameters =
                 {
+                    new SqlParameter("Type", message.Type),
                     new SqlParameter("From", message.From),
                     new SqlParameter("ToUser", message.ToUser),
                     new SqlParameter("Subject", message.Subject),
-                    new SqlParameter("Content", message.Content)
+                    new SqlParameter("Content", message.Content),
+                    new SqlParameter("Date", message.Date),
+                    new SqlParameter("IsSeen", message.IsSeen)
                 };
 
-                dbContext.Database.ExecuteSqlCommand("Create_Message @From, @ToUser, @Subject, @Content", parameters);
+                dbContext.Database.ExecuteSqlCommand("Create_Message @Type, @From, @ToUser, @Subject, @Content, @Date, @IsSeen", parameters);
                 return true;
 
             }
@@ -1393,5 +1396,23 @@ namespace DeanReports.Models
                 return new List<Messages>();
             }
         }
+        public List<Member> GetMemberByAjax(string query)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("word", query)
+                };
+                List<Member> member = dbContext.Database.SqlQuery<Member>("GetMemberByAjax @word", parameters).ToList();
+                return member;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetMemberByAjax function: " + e);
+                return new List<Member>();
+            }
+        }
+    
     }
 }

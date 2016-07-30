@@ -35,6 +35,10 @@ $(".yearsCombo").length && (function () {
     });
 }());
 
+//$(".membersMessages").length && $(".membersMessages").select2({
+//    dir: "rtl"
+//});
+
 // date for birth
 $(".datepicker").length && (function () {
     $(".datepicker").datepicker({
@@ -245,4 +249,54 @@ $('textarea#ckAdmin').length && $('textarea#ckAdmin').ckeditor({
     height: "300px",
     toolbarStartupExpanded: true,
     width: "100%"
+});
+
+$(".membersMessages").select2({
+    ajax: {
+        url: "/Member/GetMemberDetails",
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+            console.log(params);
+            return {
+                query: params.term// search term
+                //page: params.page
+            };
+        },
+        processResults: function (data, params) {
+            // parse the results into the format expected by Select2
+            // since we are using custom formatting functions we do not need to
+            // alter the remote JSON data, except to indicate that infinite
+            // scrolling can be used
+            //params.page = params.page || 1;
+            return {
+                results: $.map(data, function (item) {
+                    console.log(item);
+                        return {
+                            text: item.MemberUserName + " || " + item.FirstName + " || " + item.LastName,
+                            //slug: item.slug,
+                            id: item.MemberUserName
+                        }
+                    })
+            };
+        },
+        cache: true
+    },
+    escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+    minimumInputLength: 1
+    //templateResult: formatRepo, // omitted for brevity, see the source of this page
+    //templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+});
+
+$('.remove').click(function () {
+    var block = $(this).parent(".blockTitle").parent(".block").parent(".blockWrapper");
+    $(block).fadeOut("slow", function () {
+        block.remove();
+    });
+});
+
+$('.plusMinus').click(function () {
+    var icon = $(this).children();
+    icon.removeClass('fa-minus').addClass('fa-plus').removeClass('fa-plus').addClass('fa-minus')
+    $(this).parent(".blockTitle").next(".messageContent").slideToggle();
 });

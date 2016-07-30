@@ -1,9 +1,11 @@
 ﻿using DeanReports.DataAccessLayer;
+using DeanReports.Filters;
 using DeanReports.Models;
 using DeanReports.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -74,31 +76,20 @@ namespace DeanReports.Controllers
             request.SignatureDate = DateTime.Now;
             request.ManagerSignature = true;
             bl.EditRequest(request);
-            this.SendMessage(new Messages() 
+            var memberController = DependencyResolver.Current.GetService<MemberController>();
+            memberController.SendMessage(new Messages() 
             {
                 From = Session["Username"] as string,
                 ToUser = request.StudentUserName,
+                Type = MessageType.Request,
                 Subject = "request",
-                Content = "test"
+                Content = "test",
+                Date = DateTime.Now,
+                IsSeen = false
             });
             return RedirectToAction("ShowNewRequests");
         }
-        public ActionResult ShowCKEditor()
-        {
-            return View("ShowCKEditor");
-        }
-        [HttpPost]
-        [ValidateInput(false)]
-        public string SaveMessage(MessagesViewModel messageVM)
-        {
-            return messageVM.Content;
-        }
-        private bool SendMessage(Messages message)
-        {
-            BussinesLayer bl = new BussinesLayer(new FinalDB());
-            bl.AddMessage(message);
-            return false;
-        }
+        
         [Route("Admin/SomeName")]
         public string test(int x)
         {

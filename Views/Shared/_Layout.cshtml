@@ -61,8 +61,8 @@
                     <a id="messagesParent" href="#">
                         <i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i>
                         @{
-                            List<DeanReports.Models.Messages> messages = 
-                                Session["Messages"] as List<DeanReports.Models.Messages>;
+                            List<DeanReports.ViewModels.MessagesViewModel> messages = 
+                                Session["Messages"] as List<DeanReports.ViewModels.MessagesViewModel>;
                             int NUM_OF_MESSAGES = 0;
                             if (messages != null)
                             {
@@ -79,14 +79,14 @@
                         <li>
                             <div class="messagesContent">
                                 <ul class="messagesList">
-                                    @if (messages != null) { 
-                                        foreach (DeanReports.Models.Messages item in messages)
+                                    @if (messages != null) {
+                                        foreach (DeanReports.ViewModels.MessagesViewModel item in messages)
                                         {
                                             <li>
                                                 <a href="#">
                                                     <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
                                                     <h4 class="messageHeader">@item.Subject</h4>
-                                                    <span class="messageShortContent">@item.Content</span>
+                                                    <span class="messageShortContent">@item.PureContent</span>
                                                 </a>
                                             </li>
                                         }
@@ -94,7 +94,7 @@
                                 </ul>
                             </div>
                         </li>
-                        <li><a class="seeAllMessages" href="#">ראה את כל ההודעות</a></li>
+                        <li><a class="seeAllMessages" href="/Member/ShowAllMessages">ראה את כל ההודעות</a></li>
                     </ul>
                 </li>
                 <li>
@@ -168,6 +168,20 @@
                         }
                     </li>
                 }
+                <li>
+                    <a href="/Member/SendMessages">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sideBarTitles">שליחת הודעות</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Member/ShowAllMessages">
+                        <i class="fa fa-envelope-square" aria-hidden="true"></i>
+                        <span class="sideBarTitles">צפייה בהודעות</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                </li>
             </ul>
             <div class="clear"></div>
             <div class="title">
@@ -183,8 +197,6 @@
     <div class="footer">
         <span class="rights">&reg; All the rights reserved to Idan &amp; Nisim</span>
     </div>
-    @*<script src="http://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.2/ckeditor.js"></script>*@
-    @*<script src="http://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.2/adapters/jquery.js"></script>*@
     <script src="~/Scripts/ckeditor.js"></script>
     <script src="~/Scripts/jquery.js"></script>
     <script src="~/Scripts/config.js"></script>

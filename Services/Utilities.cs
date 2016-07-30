@@ -87,12 +87,25 @@ namespace DeanReports.Services
             }
             return result;
         }
-
         public static void SendEmail(string to, string type)
         {
             dynamic email = new Email(type);
             email.To = to;
             email.Send();
         }
+        public static string GetTextWithoutHTML(string htmlContents)
+        {
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(htmlContents);
+            if (doc == null) return null;
+
+            string output = "";
+            foreach (var node in doc.DocumentNode.ChildNodes)
+            {
+                output += node.InnerText;
+            }
+            return output;
+        }
+
     }
 }

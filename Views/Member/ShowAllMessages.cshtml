@@ -1,0 +1,30 @@
+﻿@model DeanReports.ViewModels.MessagesListViewModel
+@{
+    ViewBag.Title = "הצגת כלל הודעות";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section  mainContent {
+    @{string[] borderColor = { "borderTopBlue", "borderTopRed", "borderTopGreen", "borderTopYellow" }; int index = -1;}
+    @foreach (var item in Model.List)
+    {
+        if (index == 3) { index = -1; }
+        index++;
+        <div class="blockWrapper" style="width:55%;">
+            <div class="block @borderColor[index]">
+                <div class="blockTitle">
+                    @item.From - @item.Date - @item.Subject
+                    <span class="remove">
+                        <i class="fa fa-times spin"></i>
+                    </span>
+                    <span class="plusMinus">
+                        <i class="fa fa-minus sizeIcon"></i>
+                    </span>
+                </div>
+                <div class="messageContent">
+                    @MvcHtmlString.Create(item.Content)
+                </div>
+            </div>
+        </div>
+    }
+}

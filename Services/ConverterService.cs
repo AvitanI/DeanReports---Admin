@@ -91,5 +91,35 @@ namespace DeanReports.Services
             }
             return viewModel;
         }
+        public static Messages ToMessagesModel(MessagesViewModel viewModel)
+        {
+            return new Messages()
+            {
+                From = viewModel.From,
+                ToUser = viewModel.ToUser,
+                Subject = viewModel.Subject,
+                Content = viewModel.Content
+            };
+        }
+        public static List<MessagesViewModel> ToMessagesViewModel(List<Messages> model)
+        {
+            List<MessagesViewModel> viewModel = new List<MessagesViewModel>();
+            foreach (Messages m in model)
+            {
+                viewModel.Add(new MessagesViewModel()
+                {
+                    ID = m.ID,
+                    From = m.From,
+                    ToUser = m.ToUser,
+                    Subject = m.Subject,
+                    Content = m.Content,
+                    PureContent = Services.Utilities.GetTextWithoutHTML(m.Content),
+                    Date = m.Date,
+                    IsSeen = m.IsSeen,
+                    SeenDate = m.SeenDate
+                });
+            }
+            return viewModel;
+        }
     }
 }

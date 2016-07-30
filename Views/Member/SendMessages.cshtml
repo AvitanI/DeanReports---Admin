@@ -1,0 +1,28 @@
+﻿@model DeanReports.ViewModels.MessagesViewModel
+@{
+    ViewBag.Title = "שליחת הודעות";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent{
+<form action="/Member/SendMessages" method="post">
+    <label for="" class="">נושא ההודעה:</label>
+    <br>
+    <input type="text" name="subject" value="" />
+    <br><br><br>
+    <select name="ToUser" class="membersMessages">
+        
+    </select>
+    <div id="ckContainer"> 
+        <textarea id="ckAdmin" name="Content"></textarea>
+    </div>
+    <input type="submit" name="submit" value="submit" />
+</form>
+}
+
+
+@*@foreach (var item in Model.Members)
+{
+    <option value="@item.MemberUserName">@item.MemberUserName</option>
+}*@
+

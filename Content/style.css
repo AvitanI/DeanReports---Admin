@@ -378,6 +378,7 @@ body {
 	height: 37px;
 	padding: 10px;
 	font-size: 14px;
+    margin: 10px 0;
 }
 .sideBar {
 	padding: 0;
@@ -733,7 +734,35 @@ body {
 }
 #ckContainer {
     width: 1000px;
-    margin: auto;
+    margin: 70px auto;
+}
+.spin {
+    transition: transform 0.5s;
+}
+.sizeIcon {
+    transition: transform 0.5s;
+}
+.sizeIcon:hover {
+    transform: scale(1.5,1.5);
+}
+.spin:hover {
+    transform-origin: center center;
+    transform: rotate(360deg);
+}
+.remove, .plusMinus {
+    color: #606c84;
+    float: left;
+    padding-right: 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.messageContent {
+    display: none;
+}
+.blockWrapper {
+    -webkit-animation: fadeOut 500ms;
+    -moz-animation: fadeOut 500ms;
+    animation: fadeOut 500ms;
 }
 @media screen and (max-width:1300px) {
     .sideBarWrapper, .logoHref{ width:15%; }
