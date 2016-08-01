@@ -599,6 +599,65 @@ body {
 .memberDetailsPic {
 	border-radius: 50%;
     border: 2px solid #f39c12;
+    width: 200px;
+    height: 200px;
+    display: block;
+    margin: auto;
+}
+.caruselList {
+    list-style-type: none;
+}
+.carouselParagraph {
+    float: left;
+    height: 194px;
+}
+#next {
+    position: relative;
+    top: 80px;
+    right: 50px;
+    float: right;
+    overflow: visible;
+    z-index: 5;
+}
+#next::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top: 2px solid #000;
+    border-right: 2px solid #000;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    transform: rotate(45deg);
+    height: 15px;
+    width: 15px;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+#prev {
+    position: relative;
+    bottom: 130px;
+    left: 30px;
+    float: left;
+    overflow: visible;
+    z-index: 5;
+}
+#prev::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top: 2px solid #000;
+    border-right: 2px solid #000;
+    -webkit-transform: rotate(225deg);
+    -moz-transform: rotate(225deg);
+    transform: rotate(225deg);
+    height: 15px;
+    width: 15px;
+    -webkit-transition: all .2s ease-in-out;
+    -moz-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
 }
 .userSectionForm {
 	padding: 10px 50px;

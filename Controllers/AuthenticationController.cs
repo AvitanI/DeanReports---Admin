@@ -67,6 +67,7 @@ namespace DeanReports.Controllers
             Session["Role"] = u.Type;
             Session["LastLoginDate"] = u.LastLogin.ToString("dd/MM/yy");
             Session["LastLoginHour"] = u.LastLogin.ToString("HH:mm");
+            Session["UserImg"] = u.UserImg;
             Session["FullName"] = member.FirstName + " " + member.LastName;
             Session["DepartmentID"] = member.DepartmentID;
             Session["Messages"] = Services.ConverterService.ToMessagesViewModel(bl.GetMessagesByUser(u.UserName));
@@ -190,12 +191,14 @@ namespace DeanReports.Controllers
                 LastName = userProfileModel.LastName,
                 DepartmentID = userProfileModel.DepartmentID,
                 Year = userProfileModel.Year,
+                Gender = userProfileModel.Gender,
                 Birth = userProfileModel.Birth.ToString("dd/MM/yyyy"),
                 Phone = userProfileModel.Phone,
                 UserName = userProfileModel.UserName,
                 Password = userProfileModel.Password,
                 Type = userProfileModel.Type,
-                LastLogin = userProfileModel.LastLogin
+                LastLogin = userProfileModel.LastLogin,
+                UserImg = userProfileModel.UserImg
             };
             List<Department> departments = bl.GetAllDepartments();
             List<DepartmentViewModel> departmentViewModelList = new List<DepartmentViewModel>();
@@ -233,7 +236,8 @@ namespace DeanReports.Controllers
                 User userModel = new User()
                 {
                     UserName = userProfileVM.UserName,
-                    Password = userProfileVM.Password
+                    Password = userProfileVM.Password,
+                    UserImg = userProfileVM.UserImg
                 };
                 bl.EditUser(userModel);
                 Member memberModel = new Member()
@@ -242,6 +246,7 @@ namespace DeanReports.Controllers
                     Identity = userProfileVM.Identity,
                     DepartmentID = userProfileVM.DepartmentID,
                     Year = userProfileVM.Year,
+                    Gender = userProfileVM.Gender,
                     FirstName = userProfileVM.FirstName,
                     LastName = userProfileVM.LastName,
                     Birth = Convert.ToDateTime(userProfileVM.Birth),

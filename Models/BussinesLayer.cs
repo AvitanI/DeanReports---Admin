@@ -48,12 +48,13 @@ namespace DeanReports.Models
                     Password = "1234",
                     Type = type,
                     LastLogin = DateTime.Now,
+                    UserImg = "/Content/images/avatars/boy1.png"
                 });
             }
 
-            users.Add(new User() { UserName = "student@gmail.com", Password = "1234", Type = Types.Student, LastLogin = DateTime.Now });
-            users.Add(new User() { UserName = "teacher@gmail.com", Password = "1234", Type = Types.Teacher, LastLogin = DateTime.Now });
-            users.Add(new User() { UserName = "admin@gmail.com", Password = "1234", Type = Types.Admin, LastLogin = DateTime.Now });
+            users.Add(new User() { UserName = "student@gmail.com", Password = "1234", Type = Types.Student, LastLogin = DateTime.Now, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User() { UserName = "teacher@gmail.com", Password = "1234", Type = Types.Teacher, LastLogin = DateTime.Now, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User() { UserName = "admin@gmail.com", Password = "1234", Type = Types.Admin, LastLogin = DateTime.Now, UserImg = "/Content/images/avatars/boy1.png" });
 
             // create departments 
 
@@ -120,18 +121,19 @@ namespace DeanReports.Models
                     FirstName = "fname" + i,
                     LastName = "lname" + i,
                     Birth = new DateTime(year, month, day),
-                    Phone = "000-000-0000"
+                    Phone = "000-000-0000",
+                    Gender = "Male"
                 });
             }
 
-            members.Add(new Member(){ MemberUserName = "student@gmail.com", DepartmentID = 1, FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000"});
-            members.Add(new Member() { MemberUserName = "teacher@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000" });
-            members.Add(new Member() { MemberUserName = "admin@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000" });
+            members.Add(new Member(){ MemberUserName = "student@gmail.com", DepartmentID = 1, FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender="Male"});
+            members.Add(new Member() { MemberUserName = "teacher@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "Male" });
+            members.Add(new Member() { MemberUserName = "admin@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "Male" });
 
-            users.Add(new User() { UserName = "admin1", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin });
-            users.Add(new User() { UserName = "admin2", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin });
-            users.Add(new User() { UserName = "admin3", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin });
-            users.Add(new User() { UserName = "admin4", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin });
+            users.Add(new User() { UserName = "admin1", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User() { UserName = "admin2", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User() { UserName = "admin3", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User() { UserName = "admin4", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
 
             // create managers
 
@@ -404,9 +406,10 @@ namespace DeanReports.Models
                     new SqlParameter("Password", u.Password),
                     new SqlParameter("Type", u.Type),
                     new SqlParameter("LastLogin", u.LastLogin),
+                    new SqlParameter("UserImg", u.UserImg)
                 };
 
-                dbContext.Database.ExecuteSqlCommand("Create_User @UserName, @Password, @Type, @LastLogin", parameters);
+                dbContext.Database.ExecuteSqlCommand("Create_User @UserName, @Password, @Type, @LastLogin, @UserImg", parameters);
                 int num = dbContext.SaveChanges();
                 Debug.WriteLine("Numbers of rows " + num);
                 return true;
@@ -425,9 +428,10 @@ namespace DeanReports.Models
                 Object[] parameters =
                 {
                     new SqlParameter("UserName", u.UserName),
-                    new SqlParameter("Password", u.Password)
+                    new SqlParameter("Password", u.Password),
+                    new SqlParameter("UserImg", u.UserImg)
                 };
-                dbContext.Database.ExecuteSqlCommand(@"Update_User @UserName, @Password", parameters);
+                dbContext.Database.ExecuteSqlCommand(@"Update_User @UserName, @Password, @UserImg", parameters);
                 dbContext.SaveChanges();
                 return true;
             }
@@ -503,10 +507,11 @@ namespace DeanReports.Models
                     new SqlParameter("FirstName", m.FirstName),
                     new SqlParameter("LastName", m.LastName),
                     new SqlParameter("Birth", m.Birth),
-                    new SqlParameter("Phone", m.Phone)
+                    new SqlParameter("Phone", m.Phone),
+                    new SqlParameter("Gender", m.Gender)
                 };
                 dbContext.Database.ExecuteSqlCommand(@"Create_Member @MemberUserName, @Identity, @DepartmentID, @Year, 
-                                                                    @FirstName, @LastName, @Birth, @Phone",
+                                                                    @FirstName, @LastName, @Birth, @Phone, @Gender",
                                                                     parameters);
                 dbContext.SaveChanges();
                 return true;
@@ -525,13 +530,15 @@ namespace DeanReports.Models
                 {
                     new SqlParameter("MemberUserName", m.MemberUserName),
                     new SqlParameter("DepartmentID", m.DepartmentID),
+                    new SqlParameter("Year", m.Year),
                     new SqlParameter("FirstName", m.FirstName),
                     new SqlParameter("LastName", m.LastName),
                     new SqlParameter("Birth", m.Birth),
-                    new SqlParameter("Phone", m.Phone)
+                    new SqlParameter("Phone", m.Phone),
+                    new SqlParameter("Gender", m.Gender)
                 };
-                dbContext.Database.ExecuteSqlCommand(@"Update_Member @MemberUserName, @DepartmentID, 
-                                                                    @FirstName, @LastName, @Birth, @Phone",
+                dbContext.Database.ExecuteSqlCommand(@"Update_Member @MemberUserName, @DepartmentID, @Year, 
+                                                                    @FirstName, @LastName, @Birth, @Phone, @Gender",
                                                                     parameters);
                 dbContext.SaveChanges();
                 return true;

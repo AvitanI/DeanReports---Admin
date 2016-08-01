@@ -99,6 +99,12 @@
     <Content Include="Content\fancybox_sprite%402x.png" />
     <Content Include="Content\fancybox_sprite.png" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\images\avatars\boy1.png" />
+    <Content Include="Content\images\avatars\boy2.png" />
+    <Content Include="Content\images\avatars\boy3.png" />
+    <Content Include="Content\images\avatars\girl1.png" />
+    <Content Include="Content\images\avatars\girl2.png" />
+    <Content Include="Content\images\avatars\girl3.png" />
     <Content Include="Content\images\user.jpg" />
     <Content Include="Content\jquery-ui-timepicker-addon.css" />
     <Content Include="Content\jquery-ui.min.css" />
@@ -120,12 +126,14 @@
     <Content Include="Scripts\functions.js" />
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\jquery.carouFredSel.packed.js" />
     <Content Include="Scripts\jquery.datetimepicker.full.min.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\select2.js" />
+    <Content Include="Scripts\test.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

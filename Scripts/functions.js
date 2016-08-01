@@ -200,9 +200,9 @@ $('.actions').click(function () {
 });
 
 
-$.validator.addMethod("regx", function (value, element, regexpr) {
-    return regexpr.test(value);
-}, "");
+//$.validator.addMethod("regx", function (value, element, regexpr) {
+//    return regexpr.test(value);
+//}, "");
 
 //$("#loginForm").length && $("#loginForm").validate({
 
@@ -295,7 +295,7 @@ $('.addSession').click(function () {
     var row = " <tr>\
                     <td>-1</td>\
                     <td><input type=\"text\" /></td>\
-                    <td><input type=\"text\" value=\"1/1/1111\" disabled /></td>\
+                    <td><input type=\"text\" value=\"\" name=\"Date\" class=\"birth\" /></td>\
                     <td><input type=\"text\" name=\"StartHour\" id=\"startHour\" class=\"startHour\" /></td>\
                     <td><input type=\"text\" name=\"EndHour\" id=\"endHour\" class=\"endHour\" /></td>\
                     <td><label>0</label></td>\
@@ -311,4 +311,65 @@ $('.addSession').click(function () {
                     '12:00', '13:00', '14:00', '15:00', '16:00',
                     '17:00', '18:00', '19:00', '20:00', '21:00']
     });
+    $('.birth').length && jQuery('.birth').datetimepicker({
+        timepicker: false,
+        yearStart: 1950,
+        yearEnd: 2020,
+        format: 'd/m/yy'
+    });
 });
+
+$('.caruselList').carouFredSel({
+    //direction: "up",
+    auto: false,
+    responsive: true,
+    width: '100%',
+    swipe		: {
+    	onTouch	: true,
+    	onMouse	: true
+    },
+    prev: $('#prev'),
+    next: $('#next'),
+    items: {
+        height: 'variable',
+        visible: 1
+    },
+    //auto: {
+    //    pauseOnHover: true,
+    //    duration: 700
+    //},
+    //pagination: $(".pager",this),
+    scroll: 1,
+    scroll: {
+        onAfter: function (data) {
+            var item = data.items.visible[0];
+            var src = $(item).find('img').prop('src');
+            $('#userImg').val(src);
+        }
+    	//fx:"crossfade"
+    },
+    circular: true,
+    infinite: true
+});
+
+//$('.carouselParagraph').click(function(){
+//    console.log("clcickckc");
+//});
+
+//var rowCount = $('#myTable tr').length;
+
+function getTableRows(table) {
+    var x = table + ">tbody>tr";
+    var myRows = [];
+    var $headers = $("th");
+    var $rows = $(x).each(function (index) {
+        $cells = $(this).find("td");
+        myRows[index] = {};
+        $cells.each(function (cellIndex) {
+            myRows[index][$($headers[cellIndex]).html()] = $(this).html();
+        });
+    });
+    var myObj = {};
+    myObj.myrows = myRows;
+    return myObj;
+}

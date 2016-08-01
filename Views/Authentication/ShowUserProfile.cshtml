@@ -6,6 +6,7 @@
 
 @section mainContent {
 <form method="post" action="/Authentication/UpdateUserProfile" class="memberDetailsForm">
+    <input id="userImg" type="hidden" name="UserImg" value="@Model.UserImg" />
     <div class="rowGrid">
         <div class="blockWrapper">
             <div class="block borderTopBlue">
@@ -30,6 +31,11 @@
                     </div>
                     <div class="inputWrapper">
                         <input id="birth" type="text" name="Birth" placeholder="תאריך לידה" class="loginInputs" value="@Model.Birth" />
+                        <i class="fa fa-calendar inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input id="gender" type="text" name="Gender" placeholder="מגדר" class="loginInputs" value="@Model.Gender" />
                         <i class="fa fa-calendar inputsIcons" aria-hidden="true"></i>
                         <div class="clear"></div>
                     </div>
@@ -69,10 +75,25 @@
     <div class="blockWrapper">
         <div class="block borderTopYellow">
             <div class="blockTitle">
-                עריכת תמונה
+                עריכת תמונה  
             </div>
-            <div class="memberDetailsPicWrapper">
-                <img src="~/Content/images/user.jpg" alt="" class="memberDetailsPic">
+            <div class="swiper-container">
+                <button id="next" type="button"></button>
+                <ul class="caruselList">
+                    @if (Model.UserImg == "Male")
+                    {
+                        <li class="carouselParagraph"><img src="~/Content/images/avatars/boy1.png" class="memberDetailsPic" /></li>
+                        <li class="carouselParagraph"><img src="~/Content/images/avatars/boy2.png" class="memberDetailsPic" /></li>
+                        <li class="carouselParagraph"><img src="~/Content/images/avatars/boy3.png" class="memberDetailsPic" /></li>
+                    }
+                    else
+                    {
+                        <li class="carouselParagraph"><img src="~/Content/images/avatars/girl1.png" class="memberDetailsPic" /></li>
+                        <li class="carouselParagraph"><img src="~/Content/images/avatars/girl2.png" class="memberDetailsPic" /></li>
+                        <li class="carouselParagraph"><img src="~/Content/images/avatars/girl3.png" class="memberDetailsPic" /></li>
+                    }
+                </ul>
+                <button id="prev" type="button"></button>
             </div>
         </div>
         <div class="clear"></div>

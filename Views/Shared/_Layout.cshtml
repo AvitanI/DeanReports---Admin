@@ -40,12 +40,12 @@
                 </li>
                 <li id="userToggle">
                     <a href="#">
-                        <img src="~/Content/images/user.jpg" alt="" class="user">
+                        <img src="@Session["userimg"]" alt="" class="user">
                         <span class="userName">@Session["Username"]</span>
                     </a>
                     <div class="userProfile">
                         <div class="profileImg">
-                            <img src="~/Content/images/user.jpg" alt="" class="userProfileImg" />
+                            <img src="@Session["userimg"]" alt="" class="userProfileImg" />
                             <div class="userProfileDetails">
                                 @Session["FullName"] - @Session["Type"]<br>
                                 <span class="since">חבר במערכת מנובמבר 2015</span>
@@ -118,7 +118,7 @@
     <div class="content">
         <div class="sideBarWrapper">
             <div class="userDetailsWrapper">
-                <img src="~/Content/images/user.jpg" alt="" class="userDetailsImg" />
+                <img src="@Session["userimg"]" alt="" class="userDetailsImg" />
                 <div class="userDetails">
                     <span class="fullname">כניסה אחרונה: <br>@Session["LastLoginHour"] @Session["LastLoginDate"]</span>
                     <br>
@@ -138,7 +138,7 @@
             </div>
             <ul class="sideBar">
                 <li>
-                    <a href="#">
+                    <a href="/Authentication/UserProfile">
                         <i class="fa fa-tachometer" aria-hidden="true"></i>
                         <span class="sideBarTitles">איזור אישי</span>
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -207,6 +207,7 @@
     <script src="~/Scripts/moment.js"></script>
     <script src="~/Scripts/jquery.datetimepicker.full.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.carouFredSel.packed.js"></script>
     <script src="~/Scripts/functions.js"></script>
 </body>
 </html>

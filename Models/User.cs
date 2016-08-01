@@ -20,5 +20,7 @@ namespace DeanReports.Models
         public Types Type { get; set; }
         [Required]
         public DateTime LastLogin { get; set; }
+        [Required]
+        public string UserImg { get; set; }
     }
 }

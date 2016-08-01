@@ -26,6 +26,8 @@ namespace DeanReports.Models
         public DateTime Birth { get; set; }
         [Required, StringLength(50)]
         public string Phone { get; set; }
+        [Required]
+        public string Gender { get; set; }
 
         // navigation properties
 
