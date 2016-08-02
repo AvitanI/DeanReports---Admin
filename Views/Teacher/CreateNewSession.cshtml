@@ -1,4 +1,4 @@
-﻿@model DeanReports.ViewModels.RefundViewModel
+﻿@model DeanReports.ViewModels.SessionViewModel
 @{
     ViewBag.Title = "יצירת פגישה חדשה";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,29 +11,38 @@
                 פרטי פגישה
             </div>
             <form action="/Teacher/CreateNewSession" method="post" class="formWrapper">
-                <input type="hidden" name="RefundID" value="@Model.ID" />
+                <input type="hidden" name="RefundID" value="@Model.RefundID" />
                 <div class="sessionWrapper">
-                    תאריך
-                    <input type="text" value="1/1/1111" disabled />
-                    <br>
-                    משעה
-                    <input type="text" name="StartHour" id="startHour" />
-                    <br>
-                    עד שעה
-                    <input type="text" name="EndHour" id="endHour" />
-                    <br>
-                    סה"כ שעות ליום
-                    <input type="text" id="sumHours" name="SumHoursPerSession" disabled />
-                    <br>
-                    הערות
-                    <input type="text" name="Details" />
-                    <br>
-                    <select id="" name="StudentUserName" class="courses">
-                        @foreach (var students in Model.Students)
-                        {
-                            <option value="@students.MemberUserName">@students.MemberUserName</option>
-                        }
-                    </select>
+                    <div class="inputWrapper">
+                        <input id="birth" type="text" name="Date" placeholder="תאריך" class="loginInputs" value="" />
+                        <i class="fa fa-calendar inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input id="startHour" type="text" name="StartHour" placeholder="שעת התחלה" class="loginInputs" value="" />
+                        <i class="fa fa-clock-o inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input id="endHour" type="text" name="EndHour" placeholder="שעת סיום" class="loginInputs" value="" />
+                        <i class="fa fa-clock-o inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input id="sumHours" type="text" placeholder="סהכ שעות" class="loginInputs" value="" disabled />
+                        <i class="fa fa-hourglass inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input type="text" name="Details" placeholder="הערות" class="loginInputs" value="" />
+                        <i class="fa fa-sticky-note-o inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <select name="StudentUserName" class="membersMessages"></select>
+                        <i class="fa fa-user inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
                 </div>
                 <div class="updateSubmitWraspper">
                     <input type="submit" name="submit" value="שלח טופס" class="updateSubmit" />

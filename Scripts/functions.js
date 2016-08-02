@@ -128,10 +128,12 @@ $('#startHour') && $('#endHour') && jQuery('#startHour, #endHour').datetimepicke
 });
 
 $('#birth').length && jQuery('#birth').datetimepicker({
+    scrollMonth: false,
     timepicker: false,
     yearStart: 1950,
     yearEnd: 2020,
-    format: 'd/m/yy'
+    format: 'd/m/y',
+    placeholder: "בחר משתמש"
 });
 
 $('.checkEmail').focusout(function () {
@@ -261,13 +263,15 @@ $(".membersMessages").select2({
             //params.page = params.page || 1;
             return {
                 results: $.map(data, function (item) {
-                    console.log(item);
+                    //console.log(item);
+                    if (item) {
                         return {
                             text: item.MemberUserName + " || " + item.FirstName + " || " + item.LastName,
                             //slug: item.slug,
                             id: item.MemberUserName
                         }
-                    })
+                    }
+                })
             };
         },
         cache: true
@@ -357,6 +361,27 @@ $('.caruselList').carouFredSel({
 //});
 
 //var rowCount = $('#myTable tr').length;
+
+function getSumOfHours() {
+    // get times from inputs
+    var startHour = $('#startHour').val();
+    var endHour = $('#endHour').val();
+    // calc the diff between hours
+    var start = moment(startHour, "HH:mm");
+    var end = moment(endHour, "HH:mm");
+    var hours = end.diff(start, 'hours');
+    // update sum element
+    $('#sumHours').val(hours);
+}
+
+$("#startHour, #endHour").change(function () {
+    var startHour = $('#startHour').val();
+    var endHour = $('#endHour').val();
+
+    if (startHour && endHour) {
+        getSumOfHours();
+    }
+});
 
 function getTableRows(table) {
     var x = table + ">tbody>tr";

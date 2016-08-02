@@ -824,6 +824,10 @@ body {
     -moz-animation: fadeOut 500ms;
     animation: fadeOut 500ms;
 }
+.sessionWrapper {
+    width: 900px;
+    margin: auto;
+}
 @media screen and (max-width:1300px) {
     .sideBarWrapper, .logoHref{ width:15%; }
     .mainContent, .topMenuWrapper{ width:85%; }

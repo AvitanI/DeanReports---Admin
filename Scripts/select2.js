@@ -4401,7 +4401,8 @@ S2.define('select2/i18n/en',[],function () {
     inputTooShort: function (args) {
       var remainingChars = args.minimum - args.input.length;
 
-      var message = 'Please enter ' + remainingChars + ' or more characters';
+      //var message = 'Please enter ' + remainingChars + ' or more characters';
+      var message = 'אנא הזן תו ' + remainingChars + ' או יותר';
 
       return message;
     },

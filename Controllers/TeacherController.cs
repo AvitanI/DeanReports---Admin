@@ -59,55 +59,82 @@ namespace DeanReports.Controllers
 
             return View("ShowRefunds", new RefundListViewModel());
         }
-        public ActionResult CreateNewSession(int refundID)
+        public ActionResult CreateNewSession(int? refundID)
         {
-            BussinesLayer bl = new BussinesLayer(new FinalDB());
-            Refund refund = bl.GetRefundByID(refundID);
-            RefundViewModel refundVM = new RefundViewModel()
-            {
-                ID = refund.ID,      
-                TeacherUserName = refund.TeacherUserName,
-                Date = refund.Date,
-                CourseID = refund.CourseID,
-                LecturerName = refund.LecturerName
-            };
-            List<Member> students = bl.GetAllMembersByType(Types.Student);
-            List<MemberViewModel> studentsVM = new List<MemberViewModel>();
-            foreach (Member s in students)
-            {
-                studentsVM.Add(new MemberViewModel()
-                {
-                    MemberUserName = s.MemberUserName,
-                    Identity = s.Identity,
-                    DepartmentID = s.DepartmentID,
-                    Year = s.Year,
-                    FirstName = s.FirstName,
-                    LastName = s.LastName,
-                    Birth = s.Birth,
-                    Phone = s.Phone
-                });
-            }
-            refundVM.Students = studentsVM;
-            return View("CreateNewSession", refundVM);
+            //BussinesLayer bl = new BussinesLayer(new FinalDB());
+            //Refund refund = bl.GetRefundByID(refundID);
+            //RefundViewModel refundVM = new RefundViewModel()
+            //{
+            //    ID = refund.ID,      
+            //    TeacherUserName = refund.TeacherUserName,
+            //    Date = refund.Date,
+            //    CourseID = refund.CourseID,
+            //    LecturerName = refund.LecturerName
+            //};
+            SessionViewModel sessionVM = new SessionViewModel();
+            sessionVM.RefundID = (int)refundID;
+            return View("CreateNewSession", sessionVM);
         }
         [HttpPost]
         public ActionResult CreateNewSession(SessionViewModel sessionVM)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
-            Session sessionModel = new Session()
+            if (ModelState.IsValid)
             {
-                StudentUserName = sessionVM.StudentUserName,
-                RefundID = sessionVM.RefundID,
-                TeacherUserName = Session["Username"] as string,
-                Date = DateTime.Now,
-                StartHour = sessionVM.StartHour,
-                EndHour = sessionVM.EndHour,
-                SumHoursPerSession = sessionVM.SumHoursPerSession,
-                Details = sessionVM.Details,
-                StudentSignature = false
-            };
-            bl.AddSession(sessionModel);
-            return RedirectToAction("ShowSessions");
+                // check hours
+                var hours = sessionVM.SumHoursPerSession;
+                if (hours < 1)
+                {
+                    this.SetErrorMsg("מס השעות חייב להיות לפחות 1");
+                    return RedirectToAction("CreateNewSession", new { RefundID = sessionVM.RefundID });
+                }
+
+
+
+                var session = new Session()
+                {
+                    TeacherUserName = Session["Username"] as string,
+                    Date = sessionVM.Date,
+                    StartHour = sessionVM.StartHour,
+                    EndHour = sessionVM.EndHour
+                };
+                var x = bl.GetDuplicateSessions(session).Count();
+                var str = "";
+                foreach (var item in bl.GetDuplicateSessions(session))
+                {
+                    str += item.ID + " || ";
+                }
+                if (x > 0)
+                {
+                    this.SetErrorMsg("פגישה קיימת " + str);
+                    return RedirectToAction("CreateNewSession", new { RefundID = sessionVM.RefundID });
+                }
+
+                // check for duplicates
+
+                Session sessionModel = new Session()
+                {
+                    StudentUserName = sessionVM.StudentUserName,
+                    RefundID = sessionVM.RefundID,
+                    TeacherUserName = Session["Username"] as string,
+                    Date = DateTime.Now,
+                    StartHour = sessionVM.StartHour,
+                    EndHour = sessionVM.EndHour,
+                    SumHoursPerSession = sessionVM.SumHoursPerSession,
+                    Details = sessionVM.Details,
+                    StudentSignature = false
+                };
+                bl.AddSession(sessionModel);
+                //return "success";
+                return RedirectToAction("ShowSessions");
+            }
+            else
+            {
+                this.SetErrorMsg("שדות לא תקינים");
+                return RedirectToAction("CreateNewSession", new { RefundID = sessionVM.RefundID});
+                //return "failed";
+            }
+            //return RedirectToAction("ShowSessions");
         }
         public ActionResult ShowSessions()
         {
@@ -130,7 +157,8 @@ namespace DeanReports.Controllers
                         TeacherUserName = sessions.TeacherUserName,
                         Date = sessions.Date,
                         StartHour = sessions.StartHour,
-                        EndHour = sessions.EndHour
+                        EndHour = sessions.EndHour,
+                        Details = sessions.Details
                     });
                 }
                 refundVM.Add(new RefundViewModel() 
@@ -151,6 +179,16 @@ namespace DeanReports.Controllers
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             bl.RemoveSession(sessionID);
             return RedirectToAction("ShowSessions");
+        }
+        [NonAction]
+        public void SetErrorMsg(string msg)
+        {
+            FancyBox fb = new FancyBox()
+            {
+                Valid = false,
+                Message = msg
+            };
+            TempData["FancyBox"] = fb;
         }
     }
 }
