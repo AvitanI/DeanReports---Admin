@@ -13,6 +13,7 @@ namespace DeanReports.ViewModels
         public int CourseID { get; set; }
         public string SelectedCourses { get; set; }
         public string LecturerName { get; set; }
+        public bool IsGrouped { get; set; }
         // internal use
         public string ManagerUserName { get; set; }
         public int? BudgetNumber { get; set; }

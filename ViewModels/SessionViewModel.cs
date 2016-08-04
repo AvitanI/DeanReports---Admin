@@ -9,7 +9,7 @@ namespace DeanReports.ViewModels
     public class SessionViewModel
     {
         public int ID { get; set; }
-        [Required, EmailAddress]
+        //[Required, EmailAddress]
         public string StudentUserName { get; set; }
         [Required]
         public int RefundID { get; set; }
@@ -23,5 +23,7 @@ namespace DeanReports.ViewModels
         public int SumHoursPerSession { get { return DateTime.Parse(EndHour.ToString()).Subtract(DateTime.Parse(StartHour.ToString())).Hours ; } }
         public string Details { get; set; }
         public bool StudentSignature { get; set; }
+        public bool IsGrouped { get; set; }
+        public string[] Students { get; set; }
     }
 }

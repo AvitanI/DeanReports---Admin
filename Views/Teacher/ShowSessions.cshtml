@@ -8,7 +8,7 @@
     @foreach (var r in Model.List)
     {
         <div class="refundTableWrapper">
-            <h3 style="text-align:right;">@r.ID - @r.TeacherUserName - @r.LecturerName- @r.CourseID - @r.Date</h3>
+            <h3 style="text-align:right;">@r.ID - @r.TeacherUserName - @r.LecturerName- @r.CourseID - @r.Date - @r.IsGrouped</h3>
                 <input type="hidden" name="RefundID" value="@r.ID" />
                 <input type="hidden" name="TeacherUserName" value="@r.TeacherUserName" />
                 <table border="1" cellpadding="5" class="sessionTable">

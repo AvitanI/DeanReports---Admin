@@ -989,11 +989,12 @@ namespace DeanReports.Models
                     new SqlParameter("Date", r.Date),
                     new SqlParameter("CourseID", r.CourseID),
                     new SqlParameter("LecturerName", r.LecturerName),
+                    new SqlParameter("IsGrouped", r.IsGrouped),
                     new SqlParameter("ManagerUserName", r.ManagerUserName ?? SqlString.Null),
                     new SqlParameter("BudgetNumber", r.BudgetNumber ?? SqlInt32.Null)
                 };
 
-                decimal x = dbContext.Database.SqlQuery<decimal>("Create_Refund @TeacherUserName, @Date, @CourseID, @LecturerName, @ManagerUserName, @BudgetNumber",
+                decimal x = dbContext.Database.SqlQuery<decimal>("Create_Refund @TeacherUserName, @Date, @CourseID, @LecturerName, @IsGrouped, @ManagerUserName, @BudgetNumber",
                                                                           parameters).First();
                 dbContext.SaveChanges();
                 return (int)x;
@@ -1015,10 +1016,11 @@ namespace DeanReports.Models
                     new SqlParameter("Date", r.Date),
                     new SqlParameter("CourseID", r.CourseID),
                     new SqlParameter("LecturerName", r.LecturerName),
+                    new SqlParameter("IsGrouped", r.IsGrouped),
                     new SqlParameter("ManagerUserName", r.ManagerUserName),
                     new SqlParameter("BudgetNumber", r.BudgetNumber)
                 };
-                dbContext.Database.ExecuteSqlCommand("Update_Refund @ID, @Date, @CourseName, @LecturerName, @ManagerUserName, @BudgetNumber",
+                dbContext.Database.ExecuteSqlCommand("Update_Refund @ID, @Date, @CourseName, @LecturerName, @IsGrouped, @ManagerUserName, @BudgetNumber",
                                                                           parameters);
                 dbContext.SaveChanges();
                 Console.WriteLine("success");

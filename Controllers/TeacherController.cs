@@ -4,6 +4,7 @@ using DeanReports.Models;
 using DeanReports.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -47,6 +48,7 @@ namespace DeanReports.Controllers
             refundModel.Date = DateTime.Now;
             refundModel.CourseID = Convert.ToInt32(refundVM.SelectedCourses);
             refundModel.LecturerName = refundVM.LecturerName;
+            refundModel.IsGrouped = refundVM.IsGrouped;
             int refundID = bl.AddRefund(refundModel);
             return RedirectToAction("CreateNewSession", new { refundID = refundID });
         }
@@ -61,18 +63,21 @@ namespace DeanReports.Controllers
         }
         public ActionResult CreateNewSession(int? refundID)
         {
-            //BussinesLayer bl = new BussinesLayer(new FinalDB());
-            //Refund refund = bl.GetRefundByID(refundID);
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            Refund refund = bl.GetRefundByID((int)refundID);
             //RefundViewModel refundVM = new RefundViewModel()
             //{
-            //    ID = refund.ID,      
+            //    ID = refund.ID,
             //    TeacherUserName = refund.TeacherUserName,
             //    Date = refund.Date,
             //    CourseID = refund.CourseID,
-            //    LecturerName = refund.LecturerName
+            //    LecturerName = refund.LecturerName,
+            //    Type = refund.Type
             //};
             SessionViewModel sessionVM = new SessionViewModel();
             sessionVM.RefundID = (int)refundID;
+            //Debug.WriteLine("IsGrouped: " + refund.IsGrouped);
+            sessionVM.IsGrouped = refund.IsGrouped;
             return View("CreateNewSession", sessionVM);
         }
         [HttpPost]
@@ -81,7 +86,6 @@ namespace DeanReports.Controllers
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             if (ModelState.IsValid)
             {
-                // check hours
                 var hours = sessionVM.SumHoursPerSession;
                 if (hours < 1)
                 {
@@ -90,6 +94,24 @@ namespace DeanReports.Controllers
                 }
 
 
+                var valid = false;
+                // zero - sibgle form, 1-multi
+                Debug.WriteLine("Type: " + Convert.ToInt32(sessionVM.IsGrouped));
+                switch (Convert.ToInt32(sessionVM.IsGrouped))
+                {
+                    case 0:
+                        Debug.WriteLine("is single");
+                        valid = CheckSingleForm(sessionVM);
+                        break;
+                    case 1:
+                        Debug.WriteLine("is multi");
+                        valid = CheckMultiForm(sessionVM);
+                        break;
+                    default:
+                        break;
+                }
+
+                if (!valid) { return RedirectToAction("CreateNewSession", new { RefundID = sessionVM.RefundID }); }
 
                 var session = new Session()
                 {
@@ -135,6 +157,36 @@ namespace DeanReports.Controllers
                 //return "failed";
             }
             //return RedirectToAction("ShowSessions");
+        }
+        private bool CheckSingleForm(SessionViewModel sessionVM)
+        {
+            var result = true;
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+
+            // check student
+            List<Session> sessionModel = bl.GetSessionsByRefundID(sessionVM.RefundID);
+            if (sessionModel.Count() > 0 && 
+                sessionModel[0].StudentUserName != sessionVM.StudentUserName)
+            {
+                this.SetErrorMsg("לא ניתן להכניס סטודנט אחר");
+                result = false;
+            }
+            return result;
+        }
+        private bool CheckMultiForm(SessionViewModel sessionVM)
+        {
+            var result = true;
+
+            bool ans = sessionVM.Students.GroupBy(n => n).Any(c => c.Count() > 1);
+            if (ans)
+            {
+                this.SetErrorMsg("לא ניתן להכניס את אותו הסטודנט");
+                result = false;
+            }
+
+            //
+
+            return result;
         }
         public ActionResult ShowSessions()
         {

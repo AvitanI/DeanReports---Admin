@@ -3,7 +3,7 @@ button{background:none;border:none;padding:0;margin:0;}
 a img{border:0;text-decoration:none;}
 img, embed, object, iframe{max-width:100%;}
 form, p{margin:0;padding:0;}
-input, textarea, select{font-family: Arial;	font-size: 16px;-webkit-appearance:none;-moz-appearance:none;appearance:none;border-radius:0;}
+input, textarea, select{font-family: Arial;	font-size: 16px;border-radius:0;}
 textarea{overflow:auto;resize:none;}
 input[type="button"], input[type="submit"], input[type="image"], input[type="reset"], a, select, button{cursor:pointer;}
 input[type="text"], input[type="password"] {transition: all 0.2s linear; box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);}
@@ -34,14 +34,18 @@ body {
 	margin: 0 0 50px;
 }
 .header {
-	min-height: 50px;
+	height: 49px;
+	position: fixed;
+	right: 0;
+	z-index: 12;
+	top: 0;
 	width: 100%;
 	background: #3c8dbc;
 }
 .logoHref {
 	background: #367fa9;
 	float: right;
-	display: block;
+	/* display: block; */
 	width: 12%;
 	color: #fff;
 	font-size: 26px;
@@ -53,8 +57,8 @@ body {
 }
 .topMenuWrapper {
 	background: #3c8dbc;
-	width: 88%;
-	float: right;
+	/* width: 88%; */
+	/* float: right; */
 }
 .menuBtn {
 	color: #fff;
@@ -70,8 +74,8 @@ body {
 	margin: 0;
 	padding: 0;
 	float: left;
-	width: calc(100% - 49px);
-	width: -webkit-calc(100% - 49px);
+	/* width: calc(100% - 49px); */
+	/* width: -webkit-calc(100% - 49px); */
 }
 .topMenu > li {
 	float: left;
@@ -310,13 +314,19 @@ body {
 .content {
 	/*min-height: 100%;
   	margin-bottom: -50px; */
+	padding: 49px 0 0 0;
 }
 .sideBarWrapper {
 	width: 12%;
 	float: right;
 	background-color: #222d32;
 	min-height: 500px;
-    /*height: 100vh;*/
+	/*height: 100vh;*/
+	position: fixed;
+	top: 49px;
+	right: 0;
+	z-index: 12;
+	bottom: 0;
 }
 .userDetailsWrapper {
 	padding: 10px;
@@ -455,9 +465,10 @@ body {
     margin: 0 0px 0 20px;
 }
 .mainContent {
-	width: 88%;
+	 width: 88%; 
 	float: right;
-    padding: 10px;
+	padding: 10px;
+	margin: 0px 228px 0 0;
 }
 .footer {
 	background: #fff;
@@ -830,5 +841,5 @@ body {
 }
 @media screen and (max-width:1300px) {
     .sideBarWrapper, .logoHref{ width:15%; }
-    .mainContent, .topMenuWrapper{ width:85%; }
+    .mainContent, .topMenuWrapper{/* width: 100%; */padding-right: 15%;}
 }

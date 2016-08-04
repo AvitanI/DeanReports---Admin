@@ -39,7 +39,14 @@
                         <div class="clear"></div>
                     </div>
                     <div class="inputWrapper">
-                        <select name="StudentUserName" class="membersMessages"></select>
+                        @if (Model.IsGrouped)
+                        {
+                            <select name="Students" class="membersMessages" multiple="multiple"></select>
+                        }
+                        else
+                        {
+                            <select name="StudentUserName" class="membersMessages"></select>
+                        }
                         <i class="fa fa-user inputsIcons" aria-hidden="true"></i>
                         <div class="clear"></div>
                     </div>

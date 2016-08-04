@@ -20,6 +20,7 @@ namespace DeanReports.Models
         public int CourseID { get; set; }
         [Required, StringLength(50)]
         public string LecturerName { get; set; }
+        public bool IsGrouped { get; set; }
 
         // internal use
 
