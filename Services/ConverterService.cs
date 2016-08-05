@@ -121,5 +121,19 @@ namespace DeanReports.Services
             }
             return viewModel;
         }
+        public static Session ToSessionModel(SessionViewModel viewModel)
+        {
+            return new Session()
+            {
+                StudentUserName = viewModel.StudentUserName,
+                RefundID = viewModel.RefundID,
+                TeacherUserName = viewModel.TeacherUserName,
+                Date = viewModel.Date,
+                StartHour = viewModel.StartHour,
+                EndHour = viewModel.EndHour,
+                Details = viewModel.Details,
+                StudentSignature = viewModel.StudentSignature
+            };
+        }
     }
 }

@@ -116,8 +116,8 @@ $(document).ready(function () {
     var href = "a[href = \'" + path + "\']";
     $(href).parent().addClass('active');
 });
-$.datetimepicker.setLocale('he');
-$('#startHour') && $('#endHour') && jQuery('#startHour, #endHour').datetimepicker({
+//$.datetimepicker.setLocale('he');
+$('#startHour').length && $('#endHour').length && jQuery('#startHour, #endHour').datetimepicker({
     datepicker: false,
     format:'H:i',
     allowTimes: ['07:00', '08:00', '09:00', '10:00', '11:00',
@@ -243,7 +243,7 @@ $('textarea#ckAdmin').length && $('textarea#ckAdmin').ckeditor({
     width: "100%"
 });
 
-$(".membersMessages").select2({
+$(".membersMessages").length && $(".membersMessages").select2({
     ajax: {
         url: "/Member/GetMemberDetails",
         dataType: 'json',
@@ -323,7 +323,7 @@ $('.addSession').click(function () {
     });
 });
 
-$('.caruselList').carouFredSel({
+$('.caruselList').length && $('.caruselList').carouFredSel({
     //direction: "up",
     auto: false,
     responsive: true,

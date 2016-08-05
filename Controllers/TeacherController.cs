@@ -65,128 +65,137 @@ namespace DeanReports.Controllers
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             Refund refund = bl.GetRefundByID((int)refundID);
-            //RefundViewModel refundVM = new RefundViewModel()
-            //{
-            //    ID = refund.ID,
-            //    TeacherUserName = refund.TeacherUserName,
-            //    Date = refund.Date,
-            //    CourseID = refund.CourseID,
-            //    LecturerName = refund.LecturerName,
-            //    Type = refund.Type
-            //};
             SessionViewModel sessionVM = new SessionViewModel();
             sessionVM.RefundID = (int)refundID;
-            //Debug.WriteLine("IsGrouped: " + refund.IsGrouped);
             sessionVM.IsGrouped = refund.IsGrouped;
             return View("CreateNewSession", sessionVM);
         }
         [HttpPost]
         public ActionResult CreateNewSession(SessionViewModel sessionVM)
         {
-            BussinesLayer bl = new BussinesLayer(new FinalDB());
             if (ModelState.IsValid)
             {
+                // create session model
+                sessionVM.TeacherUserName = Session["Username"] as string;
+                Session sessionModel = Services.ConverterService.ToSessionModel(sessionVM);
+
+                // hours must be at least 1
                 var hours = sessionVM.SumHoursPerSession;
                 if (hours < 1)
                 {
-                    this.SetErrorMsg("מס השעות חייב להיות לפחות 1");
+                    this.SetErrorMsg("מס שעות תקין בפגישה הוא לפחות 1");
                     return RedirectToAction("CreateNewSession", new { RefundID = sessionVM.RefundID });
                 }
 
-
+                // check session by refund type
+                // type can be: 0 - single form, 1 - group form
                 var valid = false;
-                // zero - sibgle form, 1-multi
-                Debug.WriteLine("Type: " + Convert.ToInt32(sessionVM.IsGrouped));
                 switch (Convert.ToInt32(sessionVM.IsGrouped))
                 {
                     case 0:
                         Debug.WriteLine("is single");
-                        valid = CheckSingleForm(sessionVM);
+                        valid = CheckSingleForm(sessionModel);
                         break;
                     case 1:
                         Debug.WriteLine("is multi");
-                        valid = CheckMultiForm(sessionVM);
+                        valid = CheckGroupForm(sessionModel, sessionVM.Students);
                         break;
                     default:
                         break;
                 }
-
+                // in case single or group form is not valid
                 if (!valid) { return RedirectToAction("CreateNewSession", new { RefundID = sessionVM.RefundID }); }
 
-                var session = new Session()
+                // check if teacher dont have already session in this date
+                BussinesLayer bl = new BussinesLayer(new FinalDB());
+                List<Session> duplicates = bl.GetDuplicateSessions(sessionModel);
+                if (duplicates.Count() > 0)
                 {
-                    TeacherUserName = Session["Username"] as string,
-                    Date = sessionVM.Date,
-                    StartHour = sessionVM.StartHour,
-                    EndHour = sessionVM.EndHour
-                };
-                var x = bl.GetDuplicateSessions(session).Count();
-                var str = "";
-                foreach (var item in bl.GetDuplicateSessions(session))
-                {
-                    str += item.ID + " || ";
-                }
-                if (x > 0)
-                {
-                    this.SetErrorMsg("פגישה קיימת " + str);
+                    this.SetErrorMsg(this.GetDuplicateMsg(duplicates));
                     return RedirectToAction("CreateNewSession", new { RefundID = sessionVM.RefundID });
                 }
 
-                // check for duplicates
-
-                Session sessionModel = new Session()
+                // add session to db
+                if (sessionVM.IsGrouped)
                 {
-                    StudentUserName = sessionVM.StudentUserName,
-                    RefundID = sessionVM.RefundID,
-                    TeacherUserName = Session["Username"] as string,
-                    Date = DateTime.Now,
-                    StartHour = sessionVM.StartHour,
-                    EndHour = sessionVM.EndHour,
-                    SumHoursPerSession = sessionVM.SumHoursPerSession,
-                    Details = sessionVM.Details,
-                    StudentSignature = false
-                };
-                bl.AddSession(sessionModel);
-                //return "success";
+                    foreach (var item in sessionVM.Students)
+                    {
+                        sessionModel.StudentUserName = item;
+                        bl.AddSession(sessionModel);
+                    }
+                }
+                else
+                {
+                    bl.AddSession(sessionModel);
+                }
                 return RedirectToAction("ShowSessions");
             }
             else
             {
                 this.SetErrorMsg("שדות לא תקינים");
-                return RedirectToAction("CreateNewSession", new { RefundID = sessionVM.RefundID});
-                //return "failed";
+                return RedirectToAction("CreateNewSession", new { RefundID = sessionVM.RefundID });
             }
-            //return RedirectToAction("ShowSessions");
         }
-        private bool CheckSingleForm(SessionViewModel sessionVM)
+        private bool CheckSingleForm(Session session)
         {
-            var result = true;
             BussinesLayer bl = new BussinesLayer(new FinalDB());
 
-            // check student
-            List<Session> sessionModel = bl.GetSessionsByRefundID(sessionVM.RefundID);
-            if (sessionModel.Count() > 0 && 
-                sessionModel[0].StudentUserName != sessionVM.StudentUserName)
+            // must be same student user in single form
+            List<Session> sessionModel = bl.GetSessionsByRefundID(session.RefundID);
+            if (sessionModel.Count() > 0 &&
+                sessionModel[0].StudentUserName != session.StudentUserName)
             {
-                this.SetErrorMsg("לא ניתן להכניס סטודנט אחר");
-                result = false;
+                this.SetErrorMsg("טופס יחיד חייב להכיל אך ורק פגישות לאותו הסטודנט");
+                return false;
             }
-            return result;
-        }
-        private bool CheckMultiForm(SessionViewModel sessionVM)
-        {
-            var result = true;
 
-            bool ans = sessionVM.Students.GroupBy(n => n).Any(c => c.Count() > 1);
+            // check that this student dont have already session in this date
+            List<Session> duplicates = bl.GetDuplicateSessionsByStudentUsername(session);
+            if (duplicates.Count() > 0)
+            {
+                this.SetErrorMsg(this.GetDuplicateMsg(duplicates));
+                return false;
+            }
+            return true;
+        }
+        private bool CheckGroupForm(Session session, string[] students)
+        {
+            // must be different students in group form
+            bool ans = students.GroupBy(n => n).Any(c => c.Count() > 1);
             if (ans)
             {
                 this.SetErrorMsg("לא ניתן להכניס את אותו הסטודנט");
-                result = false;
+                return false;
             }
 
-            //
-
-            return result;
+            // check for duplicats sessions by student
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            int counter = 0;
+            string msg = "";
+            for (int i = 0; i < students.Length; i++)
+            {
+                session.StudentUserName = students[i];
+                List<Session> duplicates = bl.GetDuplicateSessionsByStudentUsername(session);
+                if (duplicates.Count() > 0)
+                {
+                    msg += this.GetDuplicateMsg(duplicates);
+                    counter++;
+                }
+            }
+            if (counter > 0) { this.SetErrorMsg(msg); return false; }
+            return true;
+        }
+        private string GetDuplicateMsg(List<Session> duplicates)
+        {
+            string dupStr = "נמצאה כפילות בפגישות: </br>";
+            foreach (var item in duplicates)
+            {
+                dupStr += "מס טופס: " + item.RefundID +
+                        " מס בקשה: " + item.ID +
+                        " שם חונך: " + item.TeacherUserName +
+                        " שם סטודנט: " + item.StudentUserName;
+            }
+            return dupStr;
         }
         public ActionResult ShowSessions()
         {

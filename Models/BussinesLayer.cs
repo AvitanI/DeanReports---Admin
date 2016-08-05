@@ -1243,7 +1243,27 @@ namespace DeanReports.Models
                 return new List<Session>();
             }
         }
-
+        public List<Session> GetDuplicateSessionsByStudentUsername(Session s)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("StudentUserName", s.StudentUserName),
+                    new SqlParameter("Date", s.Date),
+                    new SqlParameter("StartHour", s.StartHour),
+                    new SqlParameter("EndHour", s.EndHour)
+                };
+                List<Session> sessions = dbContext.Database.SqlQuery<Session>("GetDuplicateSessionsByStudentUsername @StudentUserName, @Date, @StartHour, @EndHour", parameters).ToList();
+                return sessions;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetDuplicateSessionsByStudentUsername function: " + e);
+                return new List<Session>();
+            }
+        }
+        
         // charge section
         public Charge IsChargeExist(int chargeID)
         {

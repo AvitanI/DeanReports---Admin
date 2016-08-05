@@ -12,6 +12,7 @@
             </div>
             <form action="/Teacher/CreateNewSession" method="post" class="formWrapper">
                 <input type="hidden" name="RefundID" value="@Model.RefundID" />
+                <input type="hidden" name="IsGrouped" value="@Convert.ToString(Model.IsGrouped)" />
                 <div class="sessionWrapper">
                     <div class="inputWrapper">
                         <input id="birth" type="text" name="Date" placeholder="תאריך" class="loginInputs" value="" />

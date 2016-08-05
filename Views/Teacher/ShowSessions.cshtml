@@ -11,33 +11,33 @@
             <h3 style="text-align:right;">@r.ID - @r.TeacherUserName - @r.LecturerName- @r.CourseID - @r.Date - @r.IsGrouped</h3>
                 <input type="hidden" name="RefundID" value="@r.ID" />
                 <input type="hidden" name="TeacherUserName" value="@r.TeacherUserName" />
-                <table border="1" cellpadding="5" class="sessionTable">
-                    <tr>
-                        <th>קוד בקשה</th>
-                        <th>שם סטודנט</th>
-                        <th>תאריך</th>
-                        <th>שעת התחלה</th>
-                        <th>שעת סיום</th>
-                        <th>סה"כ שעות</th>
-                        <th>הערות</th>
-                        <th>מאושר</th>
-                        <th>מחיקה</th>
-                    </tr>
-                    @foreach (var sesssion in r.RefundSessions)
-                    {
-                        <tr>
-                            <td>@sesssion.ID</td>
-                            <td>@sesssion.StudentUserName</td>
-                            <td>@sesssion.Date</td>
-                            <td>@sesssion.StartHour</td>
-                            <td>@sesssion.EndHour</td>
-                            <td>@sesssion.SumHoursPerSession</td>
-                            <td>@sesssion.Details</td>
-                            <td>@sesssion.StudentSignature</td>
-                            <td><a href="/Teacher/DeleteSession?sessionID=@sesssion.ID"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
-                        </tr>
-                    }
-                </table>
+            <div class="table">
+                <div class="tr">
+                    <div class="td">קוד בקשה</div>
+                    <div class="td">שם סטודנט</div>
+                    <div class="td">תאריך</div>
+                    <div class="td">שעת התחלה</div>
+                    <div class="td">שעת סיום</div>
+                    <div class="td">סה"כ שעות</div>
+                    <div class="td">הערות</div>
+                    <div class="td">מאושר</div>
+                    <div class="td">מחיקה</div>
+                </div>
+                @foreach (var sesssion in r.RefundSessions)
+                {
+                    <div class="tr">
+                        <div class="td">@sesssion.ID</div>
+                        <div class="td">@sesssion.StudentUserName</div>
+                        <div class="td">@sesssion.Date</div>
+                        <div class="td">@sesssion.StartHour</div>
+                        <div class="td">@sesssion.EndHour</div>
+                        <div class="td">@sesssion.SumHoursPerSession</div>
+                        <div class="td">@sesssion.Details</div>
+                        <div class="td">@sesssion.StudentSignature</div>
+                        <div class="td"><a href="/Teacher/DeleteSession?sessionID=@sesssion.ID"><i class="fa fa-trash" aria-hidden="true"></i></a></div>
+                    </div>
+                }
+             </div>
             <br><br>
             <a href="/Teacher/CreateNewSession?refundID=@r.ID" style="float: right;">הוסף פגישה לטופס הנוכחי</a>            
         </div>

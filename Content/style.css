@@ -839,6 +839,25 @@ body {
     width: 900px;
     margin: auto;
 }
+.refundTableWrapper {
+    width: 100%;
+    display: table;
+    font-family: CooperHewittMedium, Tahoma, Geneva, sans-serif;
+    padding: 0 0 50px 0;
+    position: relative;
+}
+.tableWrap {
+	display: table;
+    width: auto;
+    background-color: #fff;
+    /* border: 1px solid #666666; */
+    border-spacing: 25px;
+    /* border-radius: 10px; */
+}
+tableWrap .tr {
+    display: table-row;
+}
+
 @media screen and (max-width:1300px) {
     .sideBarWrapper, .logoHref{ width:15%; }
     .mainContent, .topMenuWrapper{/* width: 100%; */padding-right: 15%;}
