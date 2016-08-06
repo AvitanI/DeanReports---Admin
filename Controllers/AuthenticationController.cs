@@ -65,6 +65,7 @@ namespace DeanReports.Controllers
             Session["Username"] = u.UserName;
             Session["Type"] = Services.Utilities.GetUserTypeName(u.Type);
             Session["Role"] = u.Type;
+            Session["IsAdmin"] = (u.Type == Types.Admin) ? true : false;
             Session["LastLoginDate"] = u.LastLogin.ToString("dd/MM/yy");
             Session["LastLoginHour"] = u.LastLogin.ToString("HH:mm");
             Session["UserImg"] = u.UserImg;
@@ -157,7 +158,7 @@ namespace DeanReports.Controllers
                         Year = Services.Utilities.AcademicYears[registerViewModel.SelectedYear],
                         FirstName = registerViewModel.FirstName,
                         LastName = registerViewModel.LastName,
-                        Birth = DateTime.ParseExact(registerViewModel.Birth, "dd/MM/yyyy", null),
+                        Birth = DateTime.ParseExact(registerViewModel.Birth, "dd/MM/yy", null),
                         Phone = registerViewModel.Phone
                     };
                     bl.AddMember(member);
@@ -175,7 +176,7 @@ namespace DeanReports.Controllers
                 };
                 TempData["FancyBox"] = fb;
                 registerViewModel.AcademicYears = Services.Utilities.AcademicYears;
-                return View("Register", registerViewModel);
+                return RedirectToAction("Register");
             }
         }
         [Authorize]

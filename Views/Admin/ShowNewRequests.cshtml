@@ -7,7 +7,7 @@
 @section mainContent {
     @foreach (var r in Model.List)
     {
-        <div class="blockWrapper" style="width:55%;">
+        <div class="blockWrapper">
             <div class="block borderTopBlue">
                 <div class="blockTitle">
                     פרטי בקשה
@@ -19,56 +19,78 @@
                         <li><a href="/Admin/ConfirmRequest?requestID=@r.ID">אשר בקשה</a></li>
                     </ul>
                 </div>
-                <div class="requestDetails">
-                    <label for="">מס' בקשה:</label>
-                    <span>@r.ID</span>
-                    <div class="clear"></div>
-                    <label for="">שם סטודנט:</label>
-                    <span class="requestUsername">@r.StudentUserName</span>
-                    <div class="userDetailsWindow">
-                        <span class="firstName"></span>
-                        <br>
-                        <span class="lastName"></span>
+                <div class="blockContent">
+                    <div class="requestDetails">
+                        <div class="refDetailsItem">
+                            <div>מס' בקשה:</div>
+                            <div>@r.ID</div>
+                        </div>
+                        <div class="refDetailsItem">
+                            <div>שם סטודנט:</div>
+                            <div class="requestUsername">@r.StudentUserName</div>
+                        </div>
+                        <div class="userDetailsWindow">
+                            <span class="firstName"></span>
+                            <br>
+                            <span class="lastName"></span>
+                        </div>
+                        <div class="refDetailsItem">
+                            <div>סוג:</div>
+                            <div>@r.Type</div>
+                        </div>
+                        <div class="refDetailsItem">
+                            <div>סיבה:</div>
+                            <div>@r.Cause</div>
+                        </div>
+                        <div class="tableWrap engtable reqTable">
+                            <div class="tableHeaderWrap">
+                                <div class="tr">
+                                    <div class="td">קוד קורס</div>
+                                    <div class="td">שם מרצה</div>
+                                </div>
+                            </div>
+                            <div class="tableItemWrap">
+                                @foreach (var cr in r.CourseRequests)
+                                {
+                                    <div class="tr">
+                                        <div class="td">@cr.CourseID</div>
+                                        <div class="td">@cr.LecturerName</div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
                     </div>
-                    <div class="clear"></div>
-                    <label for="">סוג:</label>
-                    <span>@r.Type</span>
-                    <div class="clear"></div>
-                    <label for="">סיבה:</label>
-                    <span>@r.Cause</span>
+                    <form action="/Admin/UpdateRequest" method="post" class="requestInternal">
+                        <input type="hidden" name="ID" value="@r.ID" />
+                        <div class="inputWrapper">
+                            <input type="text" name="ApprovalHours" value="" placeholder="שעות מאושר" class="loginInputs" />
+                            <i class="fa fa-hourglass-half inputsIcons" aria-hidden="true"></i>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="inputWrapper">
+                            <input type="text" name="TeacherUserName" value="" placeholder="פרטי חונך" class="loginInputs" />
+                            <i class="fa fa-user inputsIcons" aria-hidden="true"></i>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="inputWrapper">
+                            <input type="text" name="BudgetNumber" value="" placeholder="מס תקציב" class="loginInputs" />
+                            <i class="fa fa-wpforms inputsIcons" aria-hidden="true"></i>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="inputWrapper">
+                            <textarea name="Notes" rows="4" cols="20" placeholder="הערות" class="loginInputs"></textarea>
+                            <i class="fa fa-sticky-note-o inputsIcons" aria-hidden="true"></i>
+                            <div class="clear"></div>
+                        </div>
+                        <label for="requestSignature" id="requestSignaturelbl">
+                            מאשר בקשה זו
+                            <input id="requestSignature" type="checkbox" name="ManagerSignature" value="true" checked />
+                        </label>
+                        <input type="submit" name="submit" value="עדכן" class="updateSubmit" onclick="setCheckBoxVal();" />
+                    </form>
                     <div class="clear"></div>
                 </div>
-                <form action="/Admin/UpdateRequest" method="post" class="requestInternal">
-                    <input type="hidden" name="ID" value="@r.ID" />
-                    <label for="">שעות מאושר:</label>
-                    <input type="text" name="ApprovalHours" value="" />
-                    <div class="clear"></div>
-                    <label for="">פרטי חונך:</label>
-                    <input type="text" name="TeacherName" value="" />
-                    <div class="clear"></div>
-                    <label for="">מס. תקציב:</label>
-                    <input type="text" name="BudgetNumber" value=" " />
-                    <div class="clear"></div>
-                    <label for="">הערות:</label>
-                    <textarea name="Notes" rows="4" cols="20"></textarea>
-                    <div class="clear"></div>
-                    <input type="submit" name="submit" value="שלח" />
-                </form>
-                <table border="1" cellpadding="5">
-                    <tr>
-                        <th>קוד קורס</th>
-                        <th>שם מרצה</th>
-                    </tr>
-                    @foreach (var cr in r.CourseRequests)
-                    {
-                        <tr>
-                            <td>@cr.CourseID</td>
-                            <td>@cr.LecturerName</td>
-                        </tr>
-                    }
-                </table>
             </div>
         </div>
-        
     }
 }

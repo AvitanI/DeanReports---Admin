@@ -65,35 +65,59 @@ namespace DeanReports.Controllers
             bl.EditRequest(request);
             return RedirectToAction("ShowNewRequests"); 
         }
+        [HttpPost]
         public ActionResult UpdateRequest(RequestViewModel requestViewModel)
         {
-            BussinesLayer bl = new BussinesLayer(new FinalDB());
-            Request request = bl.GetRequestByID(requestViewModel.ID);
-            request.ApprovalHours = requestViewModel.ApprovalHours;
-            request.BudgetNumber = requestViewModel.BudgetNumber;
-            request.Notes = requestViewModel.Notes;
-            request.ManagerUserName = Session["Username"] as string;
-            request.SignatureDate = DateTime.Now;
-            request.ManagerSignature = true;
-            bl.EditRequest(request);
-            var memberController = DependencyResolver.Current.GetService<MemberController>();
-            memberController.SendMessage(new Messages() 
+            if (ModelState.IsValid)
             {
-                From = Session["Username"] as string,
-                ToUser = request.StudentUserName,
-                Type = MessageType.Request,
-                Subject = "request",
-                Content = "test",
-                Date = DateTime.Now,
-                IsSeen = false
-            });
-            return RedirectToAction("ShowNewRequests");
+                // get existing request
+                BussinesLayer bl = new BussinesLayer(new FinalDB());
+                Request request = bl.GetRequestByID(requestViewModel.ID);
+                request.ApprovalHours = requestViewModel.ApprovalHours;
+                request.BudgetNumber = requestViewModel.BudgetNumber;
+                request.Notes = requestViewModel.Notes;
+                request.ManagerUserName = Session["Username"] as string;
+                request.TeacherUserName = requestViewModel.TeacherUserName;
+                request.SignatureDate = DateTime.Now;
+                request.ManagerSignature = requestViewModel.ManagerSignature;
+                // update request
+                bl.EditRequest(request);
+                // send message to student
+                var memberController = DependencyResolver.Current.GetService<MemberController>();
+                var sigTxt = (requestViewModel.ManagerSignature == true) ? "מאושרת" : "לא מאושרת";
+                memberController.SendMessage(new Messages()
+                {
+                    From = Session["Username"] as string,
+                    ToUser = request.StudentUserName,
+                    Type = MessageType.Request,
+                    Subject = "request",
+                    Content = "סטטוס בקשה: " + sigTxt + " " + requestViewModel.Notes,
+                    Date = DateTime.Now,
+                    IsSeen = false
+                });
+                return RedirectToAction("ShowNewRequests");
+            }
+            else
+            {
+                this.SetErrorMsg("שדות לא תקינים");
+                return RedirectToAction("ShowNewRequests");
+            }
         }
         
         [Route("Admin/SomeName")]
         public string test(int x)
         {
             return x + "";
+        }
+        [NonAction]
+        public void SetErrorMsg(string msg)
+        {
+            FancyBox fb = new FancyBox()
+            {
+                Valid = false,
+                Message = msg
+            };
+            TempData["FancyBox"] = fb;
         }
     }
 }

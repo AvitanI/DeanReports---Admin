@@ -27,6 +27,7 @@ namespace DeanReports.Models
 
         [ForeignKey("Manager")]
         public string ManagerUserName { get; set; }
+        public string TeacherUserName { get; set; }
         [Range(0, 100)]
         public int? ApprovalHours { get; set; }
         public int? BudgetNumber { get; set; }

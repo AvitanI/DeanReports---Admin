@@ -5,42 +5,87 @@
 }
 
 @section mainContent {
+    @{string[] borderColor = { "borderTopBlue", "borderTopRed", "borderTopGreen", "borderTopYellow" }; int index = -1;}
     @foreach (var r in Model.List)
     {
-        <div class="refundTableWrapper">
-            <h3 style="text-align:right;">@r.ID - @r.TeacherUserName - @r.LecturerName- @r.CourseID - @r.Date - @r.IsGrouped</h3>
-                <input type="hidden" name="RefundID" value="@r.ID" />
-                <input type="hidden" name="TeacherUserName" value="@r.TeacherUserName" />
-            <div class="table">
-                <div class="tr">
-                    <div class="td">קוד בקשה</div>
-                    <div class="td">שם סטודנט</div>
-                    <div class="td">תאריך</div>
-                    <div class="td">שעת התחלה</div>
-                    <div class="td">שעת סיום</div>
-                    <div class="td">סה"כ שעות</div>
-                    <div class="td">הערות</div>
-                    <div class="td">מאושר</div>
-                    <div class="td">מחיקה</div>
+        if (index == 3) { index = -1; }
+        index++;
+        <div class="blockWrapper" style="width:100%;">
+            <div class="block @borderColor[index]">
+                <div class="blockTitle">
+                    פרטי טופס חונכות
                 </div>
-                @foreach (var sesssion in r.RefundSessions)
-                {
-                    <div class="tr">
-                        <div class="td">@sesssion.ID</div>
-                        <div class="td">@sesssion.StudentUserName</div>
-                        <div class="td">@sesssion.Date</div>
-                        <div class="td">@sesssion.StartHour</div>
-                        <div class="td">@sesssion.EndHour</div>
-                        <div class="td">@sesssion.SumHoursPerSession</div>
-                        <div class="td">@sesssion.Details</div>
-                        <div class="td">@sesssion.StudentSignature</div>
-                        <div class="td"><a href="/Teacher/DeleteSession?sessionID=@sesssion.ID"><i class="fa fa-trash" aria-hidden="true"></i></a></div>
+                <div class="blockContent">
+                    <div class="refundTableWrapper">
+                        <div class="refundDetails">
+                            <div class="refDetailsItem">
+                                <div>קוד טופס:</div>
+                                <div>@r.ID</div>
+                            </div>
+                            <div class="refDetailsItem">
+                                <div>שם חונך:</div>
+                                <div>@r.TeacherUserName</div>
+                            </div>
+                            <div class="refDetailsItem">
+                                <div>שם מרצה:</div>
+                                <div>@r.LecturerName</div>
+                            </div>
+                            <div class="refDetailsItem">
+                                <div>קוד קורס:</div>
+                                <div>@r.CourseID</div>
+                            </div>
+                            <div class="refDetailsItem">
+                                <div>תאריך יצירה:</div>
+                                <div>@r.Date.ToString("dd/MM/yy HH:mm")</div>
+                            </div>
+                            <div class="refDetailsItem">
+                                <div>סוג טופס:</div>
+                                <div>@if(r.IsGrouped){<span>קבוצתי</span>}else{<span>יחיד</span>}</div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="tableWrap engtable">
+                            <div class="tableHeaderWrap">
+                                <div class="tr">
+                                    <div class="td">קוד בקשה</div>
+                                    <div class="td">שם סטודנט</div>
+                                    <div class="td">תאריך</div>
+                                    <div class="td">שעת התחלה</div>
+                                    <div class="td">שעת סיום</div>
+                                    <div class="td">סה"כ שעות</div>
+                                    <div class="td">הערות</div>
+                                    <div class="td">אישור סטודנט</div>
+                                    <div class="td">מחיקה</div>
+                                </div>
+                            </div>
+                            <div class="tableItemWrap">
+                                @foreach (var sesssion in r.RefundSessions)
+                                {
+
+                                    <div class="tr">
+                                        <div class="td">@sesssion.ID</div>
+                                        <div class="td">@sesssion.StudentUserName</div>
+                                        <div class="td">@sesssion.Date.ToString("dd/MM/yy")</div>
+                                        <div class="td">@sesssion.StartHour.ToString(@"hh\:mm")</div>
+                                        <div class="td">@sesssion.EndHour.ToString(@"hh\:mm")</div>
+                                        <div class="td">@sesssion.SumHoursPerSession</div>
+                                        <div class="td">@sesssion.Details</div>
+                                        <div class="td">@if (sesssion.StudentSignature) {<span>כן</span> } else { <span>לא</span>}</div>
+                                        <div class="td">
+                                            <a href="/Teacher/DeleteSession?sessionID=@sesssion.ID" class="deleteSession" tool-tip="true" tool-tip-text="מחיקת פגישה נוכחית">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <a href="/Teacher/CreateNewSession?refundID=@r.ID" class="addSession">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>
                     </div>
-                }
-             </div>
-            <br><br>
-            <a href="/Teacher/CreateNewSession?refundID=@r.ID" style="float: right;">הוסף פגישה לטופס הנוכחי</a>            
+                </div>
+            </div>
         </div>
-        <br><br>
     }
 }

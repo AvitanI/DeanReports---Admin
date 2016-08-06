@@ -316,6 +316,7 @@ $('.addSession').click(function () {
                     '17:00', '18:00', '19:00', '20:00', '21:00']
     });
     $('.birth').length && jQuery('.birth').datetimepicker({
+        scrollMonth: false,
         timepicker: false,
         yearStart: 1950,
         yearEnd: 2020,
@@ -383,6 +384,27 @@ $("#startHour, #endHour").change(function () {
     }
 });
 
+function setCheckBoxVal() {
+    var isChecked = $('#requestSignature:checkbox:checked').length;
+    if (isChecked > 0) {
+        $('#requestSignature').val("true");
+    }
+    else {
+        $('#requestSignature').val("false");
+    }
+    return true;
+}
+
+$("[tool-tip='true']")
+  .mouseenter(function () {
+      var element = $(this);
+      var elementText = element.attr("tool-tip-text");
+      console.log(elementText);
+  })
+  .mouseleave(function () {
+      console.log("leave");
+  });
+
 function getTableRows(table) {
     var x = table + ">tbody>tr";
     var myRows = [];
@@ -398,3 +420,5 @@ function getTableRows(table) {
     myObj.myrows = myRows;
     return myObj;
 }
+
+

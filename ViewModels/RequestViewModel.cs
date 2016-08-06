@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -15,10 +16,16 @@ namespace DeanReports.ViewModels
         public string FormType { get; set; }
         // internal use
         public string ManagerUserName { get; set; }
+        [Required]
+        public string TeacherUserName { get; set; }
+        [Required]
         public int? ApprovalHours { get; set; }
+        [Required, RegularExpression(@"^\d+$")]
         public int? BudgetNumber { get; set; }
+        [Required, RegularExpression(@"^[א-ת\s]+$")]
         public string Notes { get; set; }
         public bool? ManagerSignature { get; set; }
+        [Required]
         public DateTime? SignatureDate { get; set; }
         // each request has list of courses and progrmas
         public List<CourseRequestViewModel> CourseRequests { get; set; }

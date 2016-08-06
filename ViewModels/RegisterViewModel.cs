@@ -22,7 +22,7 @@ namespace DeanReports.ViewModels
         [Required, Range(0, 4)]
         public int SelectedYear { get; set; }
         public string Year { get; set; }
-        [Required, RegularExpression(@"^\d{2}\/\d{2}\/\d{4}$")]
+        [Required, RegularExpression(@"^\d{2}\/\d{2}\/\d{2}$")]
         public string Birth { get; set; }
         // only 048110550 or 0525642144
         [Required, MaxLength(10), RegularExpression(@"^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$")]

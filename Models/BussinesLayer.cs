@@ -751,6 +751,7 @@ namespace DeanReports.Models
                     new SqlParameter("FormType", r.FormType),
                     new SqlParameter("Date", r.Date),
                     new SqlParameter("ManagerUserName", r.ManagerUserName ?? SqlString.Null),
+                    new SqlParameter("TeacherUserName", r.TeacherUserName ?? SqlString.Null),
                     new SqlParameter("ApprovalHours", r.ApprovalHours ?? SqlInt32.Null),
                     new SqlParameter("BudgetNumber", r.BudgetNumber ?? SqlInt32.Null),
                     new SqlParameter("Notes", r.Notes ?? SqlString.Null),
@@ -758,7 +759,7 @@ namespace DeanReports.Models
                     new SqlParameter("SignatureDate", r.SignatureDate ?? SqlDateTime.Null),
                 };
 
-                decimal x = dbContext.Database.SqlQuery<decimal>(@"Create_Request @StudentUserName, @Type, @Cause, @FormType, @Date, @ManagerUserName, 
+                decimal x = dbContext.Database.SqlQuery<decimal>(@"Create_Request @StudentUserName, @Type, @Cause, @FormType, @Date, @ManagerUserName, @TeacherUserName,
                                                                        @ApprovalHours, @BudgetNumber, @Notes, @ManagerSignature, @SignatureDate",
                                                                         parameters).First();
                 dbContext.SaveChanges();
@@ -782,6 +783,7 @@ namespace DeanReports.Models
                     new SqlParameter("Cause", r.Cause),
                     new SqlParameter("Date", r.Date),
                     new SqlParameter("ManagerUserName", r.ManagerUserName ?? SqlString.Null),
+                    new SqlParameter("TeacherUserName", r.TeacherUserName ?? SqlString.Null),
                     new SqlParameter("ApprovalHours", r.ApprovalHours ?? SqlInt32.Null),
                     new SqlParameter("BudgetNumber", r.BudgetNumber ?? SqlInt32.Null),
                     new SqlParameter("Notes", r.Notes ?? SqlString.Null),
@@ -789,7 +791,7 @@ namespace DeanReports.Models
                     new SqlParameter("SignatureDate", r.SignatureDate ?? SqlDateTime.Null)
                 };
 
-                dbContext.Database.ExecuteSqlCommand(@"Update_Request @ID, @StudentUserName, @Type, @Cause, @Date, @ManagerUserName, 
+                dbContext.Database.ExecuteSqlCommand(@"Update_Request @ID, @StudentUserName, @Type, @Cause, @Date, @ManagerUserName, @TeacherUserName,
                                                                        @ApprovalHours, @BudgetNumber, @Notes, @ManagerSignature, @SignatureDate",
                                                                         parameters);
                 dbContext.SaveChanges();
