@@ -68,7 +68,8 @@ namespace DeanReports.Services
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 Birth = model.Birth,
-                Phone = model.Phone
+                Phone = model.Phone,
+                Gender = model.Gender
             };
         }
         public static List<SessionViewModel> ToSessionViewModel(List<Session> model)

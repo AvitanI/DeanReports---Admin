@@ -5,40 +5,54 @@
 }
 
 @section  mainContent{
-    <table border="1" cellpadding="5">
-        <tr>
-            <th>קוד בקשה</th>
-            <th>שם סטודנט</th>
-            <th>קוד טופס</th>
-            <th>שם חונך</th>
-            <th>תאריך</th>
-            <th>שעת התחלה</th>
-            <th>שעת סיום</th>
-            <th>סה"כ שעות</th>
-            <th>סטטוס</th>
-        </tr>
-        @foreach (var sesssion in Model.List)
-        {
-            <tr>
-                <td>@sesssion.ID</td>
-                <td>@sesssion.StudentUserName</td>
-                <td>@sesssion.RefundID</td>
-                <td>@sesssion.TeacherUserName</td>
-                <td>@sesssion.Date</td>
-                <td>@sesssion.StartHour</td>
-                <td>@sesssion.EndHour</td>
-                <td>@sesssion.SumHoursPerSession</td>
-                <td>
-                    @if (sesssion.StudentSignature)
-                    {
-                        <span><b>אושר</b></span>
-                    }
-                    else
-                    {
-                        <a href="/Student/ConfirmSession?sessionID=@sesssion.ID">אשר פגישה</a>
-                    }
-                </td>
-            </tr>
-        }
-    </table>
+    <div class="blockWrapper" style="width:100%;">
+        <div class="block borderTopBlue">
+            <div class="blockTitle">
+                פרטי פגישות
+            </div>
+            <div class="blockContent">
+                <div class="tableWrap engtable">
+                    <div class="tableHeaderWrap">
+                        <div class="tr">
+                            <div class="td">קוד בקשה</div>
+                            <div class="td">קוד טופס</div>
+                            <div class="td">שם קורס</div>
+                            <div class="td">שם חונך</div>
+                            <div class="td">תאריך</div>
+                            <div class="td">שעת התחלה</div>
+                            <div class="td">שעת סיום</div>
+                            <div class="td">סה"כ שעות</div>
+                            <div class="td">סטטוס</div>
+                        </div>
+                    </div>
+                    <div class="tableItemWrap">
+                        @foreach (var sesssion in Model.List)
+                        {
+
+                            <div class="tr">
+                                <div class="td">@sesssion.ID</div>
+                                <div class="td">@sesssion.RefundID</div>
+                                <div class="td">@sesssion.CourseName</div>
+                                <div class="td">@sesssion.TeacherUserName</div>
+                                <div class="td">@sesssion.Date.ToString("dd/MM/yy")</div>
+                                <div class="td">@sesssion.StartHour.ToString(@"hh\:mm")</div>
+                                <div class="td">@sesssion.EndHour.ToString(@"hh\:mm")</div>
+                                <div class="td">@sesssion.SumHoursPerSession</div>
+                                <div class="td">
+                                    @if (sesssion.StudentSignature)
+                                    {
+                                        <span><b>אושר</b></span>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Student/ConfirmSession?sessionID=@sesssion.ID">אשר פגישה</a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }

@@ -84,7 +84,7 @@
                                         foreach (DeanReports.ViewModels.MessagesViewModel item in messages)
                                         {
                                             <li>
-                                                <a href="#">
+                                                <a href="/Member/ReadMessageByID?id=@item.ID" message-id="@item.ID" class="userMessages">
                                                     <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
                                                     <h4 class="messageHeader">@item.Subject</h4>
                                                     <span class="messageShortContent">@item.PureContent</span>
@@ -138,9 +138,16 @@
             </div>
             <ul class="sideBar">
                 <li>
+                    <a href="/Member/ShowStatistics">
+                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        <span class="sideBarTitles">איזור אישי</span>
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
                     <a href="/Authentication/UserProfile">
                         <i class="fa fa-tachometer" aria-hidden="true"></i>
-                        <span class="sideBarTitles">איזור אישי</span>
+                        <span class="sideBarTitles">פרופיל</span>
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                     </a>
                 </li>
@@ -208,6 +215,8 @@
     <script src="~/Scripts/jquery.datetimepicker.full.min.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.carouFredSel.packed.js"></script>
+    <script src="~/Scripts/circles.min.js"></script>
     <script src="~/Scripts/functions.js"></script>
+    @RenderSection("statJS", required: false)
 </body>
 </html>

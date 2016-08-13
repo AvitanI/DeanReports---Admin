@@ -95,6 +95,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\circles.min.js" />
     <Content Include="Content\fancybox_overlay.png" />
     <Content Include="Content\fancybox_sprite%402x.png" />
     <Content Include="Content\fancybox_sprite.png" />
@@ -146,6 +147,7 @@
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="Models\UserSessions.cs" />
     <Compile Include="Services\Utilities.cs" />
     <Compile Include="DataAccessLayer\FinalDB.cs" />
     <Compile Include="Filters\AdminFilter.cs" />
@@ -174,6 +176,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ConverterService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CircleDataViewModel.cs" />
     <Compile Include="ViewModels\CourseRequestViewModel.cs" />
     <Compile Include="ViewModels\CourseViewModel.cs" />
     <Compile Include="ViewModels\DepartmentViewModel.cs" />
@@ -227,6 +230,8 @@
     <Content Include="Views\Student\ShowSessions.cshtml" />
     <Content Include="Views\Member\SendMessages.cshtml" />
     <Content Include="Views\Member\ShowAllMessages.cshtml" />
+    <Content Include="Views\Member\ShowMessage.cshtml" />
+    <Content Include="Views\Member\ShowStatistics.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

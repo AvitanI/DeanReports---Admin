@@ -35,5 +35,6 @@ namespace DeanReports.ViewModels
         [Required]
         public string UserImg { get; set; }
         public List<DepartmentViewModel> Departments { get; set; }
+        public string[] UserProfileImages { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using DeanReports.Services;
+using System.Data.SqlClient;
 
 namespace DeanReports.Controllers
 {
@@ -116,13 +117,35 @@ namespace DeanReports.Controllers
             messagesListViewModel.List = Services.ConverterService.ToMessagesViewModel(messagesModel);
             return View("ShowAllMessages", messagesListViewModel);
         }
-        public string test()
+        public ActionResult ReadMessageByID(int? id)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
-            //string htmlContents = 
-            return bl.GetMessagesByUser("admin@gmail.com")[0].Content;
-
+            Messages messageModel = bl.GetMessageByID((int)id);
+            MessagesViewModel messagViewModel = new MessagesViewModel()
+            {
+                ID = messageModel.ID,
+                From = messageModel.From,
+                ToUser = messageModel.ToUser,
+                Subject = messageModel.Subject,
+                Content = messageModel.Content,
+                Date = messageModel.Date,
+                IsSeen = messageModel.IsSeen,
+                SeenDate = messageModel.SeenDate,
+            };
+            return View("ShowMessage", messagViewModel);
+        }
+        public JsonResult UpdateMessages(string ids) 
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            string username = Session["Username"] as string;
+            bl.UpdateMessagesToSeen(username, ids, DateTime.Now);
+            return Json(new { success = ids }, JsonRequestBehavior.DenyGet);
+        }
+        public ActionResult ShowStatistics() 
+        {
+            StatisticsViewModel statViewModel = new StatisticsViewModel();
             
+            return View("ShowStatistics", statViewModel);
         }
     }
 }

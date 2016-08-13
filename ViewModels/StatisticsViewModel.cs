@@ -7,6 +7,6 @@ namespace DeanReports.ViewModels
 {
     public class StatisticsViewModel
     {
-
+        public List<CircleDataViewModel> Data { get; set; }
     }
 }

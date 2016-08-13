@@ -111,6 +111,7 @@ namespace DeanReports.Controllers
             registerViewModel.DepartmentList = departmentViewModelList;
             registerViewModel.Programs = programsVM;
             registerViewModel.AcademicYears = Services.Utilities.AcademicYears;
+            registerViewModel.GenderArr = Services.Utilities.Genders;
             return View("Register", registerViewModel);
         }
         [HttpPost]
@@ -140,13 +141,15 @@ namespace DeanReports.Controllers
                 }
                 else
                 {
+                    string imgPath = (registerViewModel.GetGender == "זכר") ? Services.Utilities.IMG_MALE_DEFAULT : Services.Utilities.IMG_MALE_DEFAULT;
                     // add new user
                     User u = new User()
                     {
                         UserName = registerViewModel.UserName,
                         Password = registerViewModel.Password,
                         LastLogin = System.DateTime.Now,
-                        Type = Types.Admin
+                        Type = Types.Admin,
+                        UserImg = imgPath
                     };
                     bl.AddUser(u);
                     // add new member to user
@@ -159,7 +162,8 @@ namespace DeanReports.Controllers
                         FirstName = registerViewModel.FirstName,
                         LastName = registerViewModel.LastName,
                         Birth = DateTime.ParseExact(registerViewModel.Birth, "dd/MM/yy", null),
-                        Phone = registerViewModel.Phone
+                        Phone = registerViewModel.Phone,
+                        Gender = registerViewModel.GetGender
                     };
                     bl.AddMember(member);
                     // send confirm mail to user
@@ -185,6 +189,7 @@ namespace DeanReports.Controllers
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             string userame = Session["Username"] as string;
             UserProfile userProfileModel = bl.GetUserProfileByUsername(userame);
+            Debug.WriteLine("img: " + userProfileModel.UserImg);
             UserProfileViewModel userProfileVM = new UserProfileViewModel()
             {
                 Identity = userProfileModel.Identity,
@@ -199,7 +204,8 @@ namespace DeanReports.Controllers
                 Password = userProfileModel.Password,
                 Type = userProfileModel.Type,
                 LastLogin = userProfileModel.LastLogin,
-                UserImg = userProfileModel.UserImg
+                UserImg = userProfileModel.UserImg,
+                UserProfileImages = (userProfileModel.Gender == "זכר") ? Services.Utilities.maleImgs : Services.Utilities.femaleImgs
             };
             List<Department> departments = bl.GetAllDepartments();
             List<DepartmentViewModel> departmentViewModelList = new List<DepartmentViewModel>();

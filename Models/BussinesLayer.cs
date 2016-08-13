@@ -116,19 +116,19 @@ namespace DeanReports.Models
                 members.Add(new Member()
                 {
                     MemberUserName = users.ElementAt(i).UserName,
-
+                    Identity = "200770659",
                     DepartmentID = dept,
                     FirstName = "fname" + i,
                     LastName = "lname" + i,
                     Birth = new DateTime(year, month, day),
                     Phone = "000-000-0000",
-                    Gender = "Male"
+                    Gender = "זכר"
                 });
             }
 
-            members.Add(new Member(){ MemberUserName = "student@gmail.com", DepartmentID = 1, FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender="Male"});
-            members.Add(new Member() { MemberUserName = "teacher@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "Male" });
-            members.Add(new Member() { MemberUserName = "admin@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "Male" });
+            members.Add(new Member(){ MemberUserName = "student@gmail.com", DepartmentID = 1, FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender="זכר"});
+            members.Add(new Member() { MemberUserName = "teacher@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "נקבה" });
+            members.Add(new Member() { MemberUserName = "admin@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "זכר" });
 
             users.Add(new User() { UserName = "admin1", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
             users.Add(new User() { UserName = "admin2", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
@@ -1193,7 +1193,7 @@ namespace DeanReports.Models
                 return new List<Session>();
             }
         }
-        public List<Session> GetSessionsByMemberID(string studentUsername)
+        public List<UserSessions> GetSessionsByMemberID(string studentUsername)
         {
             try
             {
@@ -1201,13 +1201,13 @@ namespace DeanReports.Models
                 {
                     new SqlParameter("StudentUserName", studentUsername)
                 };
-                List<Session> sessions = dbContext.Database.SqlQuery<Session>("GetSessionsByMemberID @StudentUserName", parameters).ToList();
+                List<UserSessions> sessions = dbContext.Database.SqlQuery<UserSessions>("GetSessionsByMemberID @StudentUserName", parameters).ToList();
                 return sessions;
             }
             catch (SqlException e)
             {
                 Debug.WriteLine("Problem with GetSessionsByMemberID function: " + e);
-                return new List<Session>();
+                return new List<UserSessions>();
             }
         }
         public bool ConfirmSessionByID(int sessionID)
@@ -1447,6 +1447,20 @@ namespace DeanReports.Models
                 return new List<Messages>();
             }
         }
+        public Messages GetMessageByID(int messageID)
+        {
+            try
+            {
+                var ID = new SqlParameter("ID", messageID);
+                Messages message = dbContext.Database.SqlQuery<Messages>(@"GetMessageByID @ID", ID).SingleOrDefault();
+                return message;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with ReadMessageByID function: " + e);
+                return new Messages();
+            }
+        }
         public List<Member> GetMemberByAjax(string query)
         {
             try
@@ -1462,6 +1476,27 @@ namespace DeanReports.Models
             {
                 Debug.WriteLine("Problem with GetMemberByAjax function: " + e);
                 return new List<Member>();
+            }
+        }
+        public bool UpdateMessagesToSeen(string username, string ids, DateTime date)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("List", ids),
+                    new SqlParameter("Date", date),
+                    new SqlParameter("Username", username)
+                };
+                dbContext.Database.ExecuteSqlCommand(@"UpdateMessagesToSeen @List, @Date, @Username", parameters);
+                dbContext.SaveChanges();
+                //Console.WriteLine("success");
+                return true;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with UpdateMessagesToSeen function: " + e);
+                return false;
             }
         }
     

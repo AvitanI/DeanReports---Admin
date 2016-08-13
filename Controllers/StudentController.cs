@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using DeanReports.Filters;
 using DeanReports.Services;
+using System.Data.SqlClient;
 
 namespace DeanReports.Controllers
 {
@@ -101,8 +102,25 @@ namespace DeanReports.Controllers
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             SessionListViewModel sessionListVM = new SessionListViewModel();
             string username = Session["Username"] as string;
-            List<Session> sessionModelList = bl.GetSessionsByMemberID(username);
-            List<SessionViewModel> sessionVM = Services.ConverterService.ToSessionViewModel(sessionModelList);
+            List<UserSessions> sessionModelList = bl.GetSessionsByMemberID(username);
+            List<SessionViewModel> sessionVM = new List<SessionViewModel>();
+            foreach (var s in sessionModelList)
+            {
+                sessionVM.Add(new SessionViewModel(){
+                    ID = s.ID,
+                    StudentUserName = s.StudentUserName,
+                    RefundID = s.RefundID,
+                    TeacherUserName = s.TeacherUserName,
+                    Date = s.Date,
+                    StartHour = s.StartHour,
+                    EndHour = s.EndHour,
+                    Details = s.Details,
+                    StudentSignature = s.StudentSignature,
+                    CourseName = s.CourseName
+                });
+                
+            }
+            //List<SessionViewModel> sessionVM = Services.ConverterService.ToSessionViewModel(sessionModelList);
             sessionListVM.List = sessionVM;
             return View("ShowSessions", sessionListVM);
         }

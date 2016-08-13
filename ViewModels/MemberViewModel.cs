@@ -15,5 +15,6 @@ namespace DeanReports.ViewModels
         public string LastName { get; set; }
         public DateTime Birth { get; set; }
         public string Phone { get; set; }
+        public string Gender { get; set; }
     }
 }

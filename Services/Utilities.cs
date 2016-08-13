@@ -23,9 +23,21 @@ namespace DeanReports.Services
             new SideBarMenuViewModel(){Type=Types.Student, ID=6, ParentID=-1, MenuItemName="הגשת בקשות", MenuItemHref="#", Icon="fa-files-o"},
             new SideBarMenuViewModel(){Type=Types.Student, ID=7, ParentID=6, MenuItemName="כללי", MenuItemHref="/Student/CreateNewRequest?FormType=General", Icon="fa-circle-o"},
             new SideBarMenuViewModel(){Type=Types.Student, ID=8, ParentID=6, MenuItemName="אנגלית", MenuItemHref="/Student/CreateNewRequest?FormType=English", Icon="fa-circle-o"},
+            new SideBarMenuViewModel(){Type=Types.Student, ID=9, ParentID=-1, MenuItemName="צפייה בפגישות", MenuItemHref="/Student/ShowSessions", Icon="fa-th"}
         };
 
+        public static string[] maleImgs = { "/Content/images/avatars/boy1.png", 
+                                    "/Content/images/avatars/boy2.png", 
+                                    "/Content/images/avatars/boy3.png" };
+
+        public static string[] femaleImgs = { "/Content/images/avatars/girl1.png", 
+                                    "/Content/images/avatars/girl2.png", 
+                                    "/Content/images/avatars/girl3.png" };
+
         public static string[] AcademicYears = {"מכינה", "א", "ב", "ג", "ד"};
+        public static string[] Genders = { "זכר", "נקבה", "אחר" };
+        public static string IMG_MALE_DEFAULT = "/Content/images/avatars/boy1.png";
+        public static string IMG_FEMALE_DEFAULT = "/Content/images/avatars/girl1.png";
 
         //public string[]  
 

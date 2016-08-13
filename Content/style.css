@@ -535,6 +535,13 @@ body {
 .removeIcon {
     padding: 0 10px 0 0;
 }
+.row {
+    
+}
+.rowItem {
+    float: right !important;
+    width: 50% !important;
+}
 /*user profile*/
 .rowGrid {
     margin: 0 0 50px 0;

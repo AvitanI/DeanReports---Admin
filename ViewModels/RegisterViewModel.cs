@@ -19,6 +19,8 @@ namespace DeanReports.ViewModels
         public string LastName { get; set; }
         [Required, RegularExpression(@"^\d+$")]
         public int? DepartmentID { get; set; }
+        [Required]
+        public string Gender { get; set; }
         [Required, Range(0, 4)]
         public int SelectedYear { get; set; }
         public string Year { get; set; }
@@ -35,5 +37,12 @@ namespace DeanReports.ViewModels
         public List<ProgramsViewModel> Programs { get; set; }
         public int[] SelectedPrograms { get; set; }
         public string[] AcademicYears { get; set; }
+        public string[] GenderArr { get; set; }
+        public string GetGender { get 
+        {
+            int index = 0;
+            Int32.TryParse(this.Gender, out index);
+            return Services.Utilities.Genders[index];
+        } }
     }
 }

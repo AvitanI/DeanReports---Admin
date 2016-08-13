@@ -1,0 +1,24 @@
+﻿@model DeanReports.ViewModels.MessagesViewModel
+@{
+    ViewBag.Title = "ShowMessage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent {
+    <div class="blockWrapper" style="width:55%;">
+        <div class="block borderTopBlue">
+            <div class="blockTitle">
+                @Model.From - @Model.Date - @Model.Subject
+                <span class="remove">
+                    <i class="fa fa-times spin"></i>
+                </span>
+                <span class="plusMinus">
+                    <i class="fa fa-minus sizeIcon"></i>
+                </span>
+            </div>
+            <div class="messageContent" style="display: block";>
+                @MvcHtmlString.Create(Model.Content)
+            </div>
+        </div>
+    </div>
+}

@@ -58,8 +58,19 @@
                     <div class="clear"></div>
                 </div>
                 <div class="inputWrapper">
+                    <select name="Gender" class="genderCombo">
+                        <option value=""></option>
+                        @for (int i = 0; i < Model.GenderArr.Length; i++)
+                        {
+                            <option value="@i">@Model.GenderArr[i]</option>
+                        }
+                    </select>
+                    <i class="fa fa-venus-mars inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
                     <select name="DepartmentID" class="departmentCombo">
-                        <option value="0">בחר חוג</option>
+                        <option value=""></option>
                         @foreach (var item in Model.DepartmentList)
                         {
                             <option value="@item.ID">@item.Name</option>
@@ -98,7 +109,7 @@
                 </div>
                 <div class="inputWrapper">
                     <input id="confirmPassword" type="text" placeholder="אימות סיסמה" class="loginInputs" />
-                    <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
+                    <i class="fa fa-shield inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
                 <div class="clear"></div>

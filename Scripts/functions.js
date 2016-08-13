@@ -5,6 +5,19 @@
 
 $('#messagesParent').click(function (event) {
     event.stopPropagation();
+    var ids = "";
+    var length = $('.userMessages').length;
+    //console.log("list length: " + $('.userMessages').length);
+    $('.userMessages').each(function(index){
+        ids += $(this).attr('message-id'); // message id
+        if(index < length-1){
+            ids += ',';
+        }
+    });
+    //$('.label-success').remove();
+    $.post("/member/updatemessages", {ids:ids}).done(function (data) {
+        console.log(data);
+    });
     $('.messagesDropDown').toggleClass('active');
 });
 
@@ -18,7 +31,8 @@ $(".fancyTrigger").trigger('click');
 // combobox for departments
 $(".departmentCombo").length && (function () {
     $(".departmentCombo").select2({
-        dir: "rtl"
+        dir: "rtl",
+        placeholder: "בחר חוג"
     });
 }());
 
@@ -32,6 +46,13 @@ $(".yearsCombo").length && (function () {
     $(".yearsCombo").select2({
         dir: "rtl",
         placeholder: "שנה אקדמית"
+    });
+}()); 
+
+$(".genderCombo").length && (function () {
+    $(".genderCombo").select2({
+        dir: "rtl",
+        placeholder: "בחר מגדר"
     });
 }());
 
@@ -404,21 +425,3 @@ $("[tool-tip='true']")
   .mouseleave(function () {
       console.log("leave");
   });
-
-function getTableRows(table) {
-    var x = table + ">tbody>tr";
-    var myRows = [];
-    var $headers = $("th");
-    var $rows = $(x).each(function (index) {
-        $cells = $(this).find("td");
-        myRows[index] = {};
-        $cells.each(function (cellIndex) {
-            myRows[index][$($headers[cellIndex]).html()] = $(this).html();
-        });
-    });
-    var myObj = {};
-    myObj.myrows = myRows;
-    return myObj;
-}
-
-
