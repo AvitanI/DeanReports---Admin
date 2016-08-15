@@ -229,7 +229,8 @@ namespace DeanReports.Controllers
                     Date = refund.Date,
                     CourseID = refund.CourseID,
                     LecturerName = refund.LecturerName,
-                    RefundSessions = sessionVM
+                    RefundSessions = sessionVM,
+                    IsGrouped = refund.IsGrouped
                 });
             }
             refundListVM.List = refundVM;

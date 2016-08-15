@@ -103,7 +103,11 @@ namespace DeanReports.Controllers
                 return RedirectToAction("ShowNewRequests");
             }
         }
-        
+        public ActionResult ShowReports()
+        {
+            return View("ShowReports");
+        }
+
         [Route("Admin/SomeName")]
         public string test(int x)
         {

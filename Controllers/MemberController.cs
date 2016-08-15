@@ -10,6 +10,9 @@ using System.Web;
 using System.Web.Mvc;
 using DeanReports.Services;
 using System.Data.SqlClient;
+using System.ComponentModel;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace DeanReports.Controllers
 {
@@ -143,9 +146,65 @@ namespace DeanReports.Controllers
         }
         public ActionResult ShowStatistics() 
         {
+            string username = Session["Username"] as string;
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
             StatisticsViewModel statViewModel = new StatisticsViewModel();
-            
+            List<CircleDataViewModel> circleList = new List<CircleDataViewModel>();
+            StudentStatistics statistics = bl.GetStudentStatistics(username);
+
+            circleList.Add(new CircleDataViewModel() 
+            {
+                ID = "quadrant1",
+                Title = "בקשות שאושרו מתוך סך הבקשות",
+                Value = this.GetPercent(statistics.Requests),
+                MaxValue = 100
+            });
+
+            circleList.Add(new CircleDataViewModel()
+            {
+                ID = "quadrant2",
+                Title = "פגישות שאישרתי מתוך סך הפגישות",
+                Value = this.GetPercent(statistics.Sessions),
+                MaxValue = 100
+            });
+
+            circleList.Add(new CircleDataViewModel()
+            {
+                ID = "quadrant3",
+                Title = "בקשות שהוגשו מאותו הקורס",
+                Value = this.GetPercent(statistics.CourseRequets),
+                MaxValue = 100
+            });
+
+            circleList.Add(new CircleDataViewModel()
+            {
+                ID = "quadrant4",
+                Title = "ניצול השעות מתוך השעות המאושרות",
+                Value = this.GetPercent(statistics.ApprovalHours),
+                MaxValue = 100
+            });
+            statViewModel.Data = circleList;
             return View("ShowStatistics", statViewModel);
         }
+        private int GetPercent(string input)
+        {
+            string[] values = input.Split('/');
+            if(input == null || values.Length < 2) return 0;
+            int numerator = Int32.Parse(values[0].Trim());
+            int denominator = Int32.Parse(values[1].Trim());
+            return (int)Math.Floor((double)numerator / denominator * 100);
+        }
+        public JsonResult SerachMessages(string query)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            string usernmae = Session["Username"] as string;
+            List<Messages> messages = bl.GetMessagesByAjax(usernmae, query);
+            if (messages.Count() > 0)
+            {
+                return Json(messages, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

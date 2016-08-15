@@ -36,6 +36,49 @@ $(".departmentCombo").length && (function () {
     });
 }());
 
+$(".serachReports").length && (function () {
+    $(".serachReports").select2({
+        dir: "rtl"
+    });
+}());
+
+$(".period").length && (function () {
+    $(".period").select2({
+        dir: "rtl"
+    });
+}());
+
+$(".searchMessages").length && $(".searchMessages").select2({
+    placeholder: "חיפוש",
+    ajax: {
+        url: "/Member/SerachMessages",
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+            console.log(params);
+            return {
+                query: params.term // search term
+            };
+        },
+        processResults: function (data, params) {
+            return {
+                results: $.map(data, function (item) {
+                    console.log(item);
+                    if (item) {
+                        return {
+                            text: item.Subject + " || " + item.From,
+                            id: item.ID
+                        }
+                    }
+                })
+            };
+        },
+        cache: true
+    },
+    escapeMarkup: function (markup) { return markup; },
+    minimumInputLength: 1
+});
+
 $(".programsCombo").length && (function () {
     $(".programsCombo").select2({
         dir: "rtl"

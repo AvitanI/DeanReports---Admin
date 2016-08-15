@@ -1499,6 +1499,44 @@ namespace DeanReports.Models
                 return false;
             }
         }
+        public List<Messages> GetMessagesByAjax(string username, string query)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("Username", username),
+                    new SqlParameter("word", query)
+                };
+                List<Messages> messages = dbContext.Database.SqlQuery<Messages>("GetMessagesByAjax @Username, @word", parameters).ToList();
+                return messages;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetMessagesByAjax function: " + e);
+                return new List<Messages>();
+            }
+        }
+
+        // statistics
+
+        public StudentStatistics GetStudentStatistics(string username)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("Username", username)
+                };
+                StudentStatistics statistics = dbContext.Database.SqlQuery<StudentStatistics>("GetStudentStatistics @Username", parameters).Single();
+                return statistics;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetStudentStatistics function: " + e);
+                return new StudentStatistics();
+            }
+        }
     
     }
 }

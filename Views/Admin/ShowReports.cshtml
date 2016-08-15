@@ -1,0 +1,86 @@
+﻿@model DeanReports.ViewModels.SessionListViewModel
+@{
+    ViewBag.Title = "דוחות";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section  mainContent{
+    <div class="blockWrapper" style="width:100%;">
+        <div class="block borderTopBlue">
+            <div class="blockTitle">
+                הנפקת דוחות
+                <span class="print">
+                    <i class="fa fa-print" aria-hidden="true"></i>
+                </span>
+                <span class="pdf">
+                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                </span>
+            </div>
+            <div class="blockContent">
+                <form action="/" method="post" class="serachReportsForm">
+                    <div style="float: right; padding: 0 0 0 35px;">
+                        <div class="serachReports">
+                            <select class="reportType">
+                                <option value="value">בחר דוח</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="float: right; padding: 0 0 0 35px;">
+                        <div class="serachReports">
+                            <select class="period">
+                                <option value="value">בחר תקופה</option>
+                            </select>
+                        </div>
+                    </div>
+                    <input type="submit" name="submit" value="חיפוש" class="updateSubmit">
+                </form>
+                <h2 class="tableTitle">טופס חיוב חניך עבור קבלת סיוע לימודי</h2>
+                <div class="tableWrap engtable">
+                    <div class="tableHeaderWrap">
+                        <div class="tr">
+                            <div class="td">שם חניך</div>
+                            <div class="td">ת"ז חניך</div>
+                            <div class="td">שם חונך</div>
+                            <div class="td">ת"ז חונך</div>
+                            <div class="td">תאריך</div>
+                            <div class="td">עלות לשעה</div>
+                            <div class="td">סה"כ שעות סיוע</div>
+                            <div class="td">סה"כ חיוב לתשלום</div>
+                            <div class="td">הערות</div>
+                            <div class="td">מס תקציב</div>
+                            <div class="td">שם גורם מאשר</div>
+                            <div class="td">סטטוס</div>
+                        </div>
+                    </div>
+                    <div class="tableItemWrap">
+                    @for (int i = 0; i < 50; i++)
+                    {
+                        <div class="tr">
+                            <div class="td">ניסוי</div>
+                            <div class="td">200770659</div>
+                            <div class="td">ניסוי</div>
+                            <div class="td">200770659</div>
+                            <div class="td">1/1/2016</div>
+                            <div class="td">20</div>
+                            <div class="td">20</div>
+                            <div class="td">400 &#x20AA;</div>
+                            <div class="td">אין</div>
+                            <div class="td">1</div>
+                            <div class="td">מיכל פישר</div>
+                            <div class="td">@if(i%2==0)
+                                            {
+                                                <span class="label label-success">מאושר</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="label label-danger"> נדחה</span>
+                                            }
+                            </div>
+                        </div>
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

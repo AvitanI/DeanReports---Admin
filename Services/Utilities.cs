@@ -16,14 +16,17 @@ namespace DeanReports.Services
         public static List<SideBarMenuViewModel> Menus = new List<SideBarMenuViewModel>()
         {
             new SideBarMenuViewModel(){Type=Types.Admin, ID=1, ParentID=-1, MenuItemName="בקשות חדשות", MenuItemHref="/Admin/ShowNewRequests", Icon="fa-files-o"},
+            new SideBarMenuViewModel(){Type=Types.Admin, ID=10, ParentID=-1, MenuItemName="צפיה בדוחות", MenuItemHref="/Admin/ShowReports", Icon="fa-table"},
+            new SideBarMenuViewModel(){Type=Types.Admin, ID=11, ParentID=-1, MenuItemName="טפסי חיוב", MenuItemHref="#", Icon="fa-credit-card"},
+            new SideBarMenuViewModel(){Type=Types.Admin, ID=12, ParentID=-1, MenuItemName="טפסי זיכוי", MenuItemHref="#", Icon="fa-tasks"},
+            new SideBarMenuViewModel(){Type=Types.Admin, ID=13, ParentID=-1, MenuItemName="עריכת משתמשים", MenuItemHref="#", Icon="fa-user"},
             new SideBarMenuViewModel(){Type=Types.Teacher, ID=2, ParentID=-1, MenuItemName="יצירת טופס חונכות", MenuItemHref="/Teacher/CreateNewRefund", Icon="fa-edit"},
-            new SideBarMenuViewModel(){Type=Types.Teacher, ID=3, ParentID=-1, MenuItemName="יצירת פגישה", MenuItemHref="/Teacher/CreateNewSession", Icon="fa-edit"},
-            new SideBarMenuViewModel(){Type=Types.Teacher, ID=4, ParentID=-1, MenuItemName="צפייה בפגישות", MenuItemHref="/Teacher/ShowSessions", Icon="fa-th"},
-            new SideBarMenuViewModel(){Type=Types.Student, ID=5, ParentID=-1, MenuItemName="צפייה בבקשות", MenuItemHref="/Student/ShowRequests", Icon="fa-th"},
+            new SideBarMenuViewModel(){Type=Types.Teacher, ID=4, ParentID=-1, MenuItemName="צפיה בפגישות", MenuItemHref="/Teacher/ShowSessions", Icon="fa-th"},
+            new SideBarMenuViewModel(){Type=Types.Student, ID=5, ParentID=-1, MenuItemName="צפיה בבקשות", MenuItemHref="/Student/ShowRequests", Icon="fa-th"},
             new SideBarMenuViewModel(){Type=Types.Student, ID=6, ParentID=-1, MenuItemName="הגשת בקשות", MenuItemHref="#", Icon="fa-files-o"},
             new SideBarMenuViewModel(){Type=Types.Student, ID=7, ParentID=6, MenuItemName="כללי", MenuItemHref="/Student/CreateNewRequest?FormType=General", Icon="fa-circle-o"},
             new SideBarMenuViewModel(){Type=Types.Student, ID=8, ParentID=6, MenuItemName="אנגלית", MenuItemHref="/Student/CreateNewRequest?FormType=English", Icon="fa-circle-o"},
-            new SideBarMenuViewModel(){Type=Types.Student, ID=9, ParentID=-1, MenuItemName="צפייה בפגישות", MenuItemHref="/Student/ShowSessions", Icon="fa-th"}
+            new SideBarMenuViewModel(){Type=Types.Student, ID=9, ParentID=-1, MenuItemName="צפיה בפגישות", MenuItemHref="/Student/ShowSessions", Icon="fa-th"}
         };
 
         public static string[] maleImgs = { "/Content/images/avatars/boy1.png", 
@@ -47,7 +50,7 @@ namespace DeanReports.Services
 
             if(type == Types.Admin)
             {
-                t = "אדמין";
+                t = "מנהל";
             }
             else if(type == Types.Teacher)
             {

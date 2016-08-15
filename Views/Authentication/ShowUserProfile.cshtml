@@ -9,6 +9,30 @@
     <input id="userImg" type="hidden" name="UserImg" value="@Model.UserImg" />
     <div class="rowGrid">
         <div class="blockWrapper">
+            <div class="block borderTopYellow">
+                <div class="blockTitle">
+                    עריכת תמונה
+                </div>
+                <div class="swiper-container">
+                    <button id="next" type="button"></button>
+                    <ul class="caruselList">
+                        <li class="carouselParagraph"><img src="@Model.UserImg" class="memberDetailsPic" /></li>
+                        @foreach (var imgPath in Model.UserProfileImages)
+                        {
+                            if (imgPath == Model.UserImg) { continue; }
+                            <li class="carouselParagraph"><img src="@imgPath" class="memberDetailsPic" /></li>
+                        }
+                    </ul>
+                    <button id="prev" type="button"></button>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+<div class="clear"></div>
+    <div class="rowGrid">
+        <div class="prof blockWrapper">
             <div class="block borderTopBlue">
                 <div class="blockTitle">
                     עריכת פרטי משתמש
@@ -71,60 +95,36 @@
                     <input type="submit" name="submit" value="עדכן" class="updateSubmit" />
                 </div>
             </div>
-    </div>
-    <div class="blockWrapper">
-        <div class="block borderTopYellow">
-            <div class="blockTitle">
-                עריכת תמונה  
+        </div>
+        <div class="prof blockWrapper">
+            <div class="block borderTopRed">
+                <div class="blockTitle">
+                    שינוי שם משתמש וסיסמה
+                </div>
+                <div class="formWrapper">
+                    <div class="inputWrapper">
+                        <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs" value="@Model.UserName" />
+                        <i class="fa fa-envelope inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input type="text" name="Password" placeholder="סיסמה" class="loginInputs" value="@Model.Password" />
+                        <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input type="text" name="Password" placeholder="אימות סיסמה" class="loginInputs" />
+                        <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="updateSubmitWraspper">
+                    <input type="submit" name="submit" value="עדכן" class="updateSubmit" />
+                </div>
             </div>
-            <div class="swiper-container">
-                <button id="next" type="button"></button>
-                <ul class="caruselList">
-                    <li class="carouselParagraph"><img src="@Model.UserImg" class="memberDetailsPic" /></li>
-                    @foreach (var imgPath in Model.UserProfileImages)
-                    {
-                        if (imgPath == Model.UserImg) { continue; }
-                        <li class="carouselParagraph"><img src="@imgPath" class="memberDetailsPic" /></li>
-                    }
-                </ul>
-                <button id="prev" type="button"></button>
-            </div>
+            <div class="clear"></div>
         </div>
         <div class="clear"></div>
     </div>
-    <div class="clear"></div>
-</div>
-<div class="clear"></div>
-<div class="rowGrid">
-    <div class="blockWrapper">
-        <div class="block borderTopRed">
-            <div class="blockTitle">
-                שינוי שם משתמש וסיסמה
-            </div>
-            <div class="formWrapper">
-                <div class="inputWrapper">
-                    <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs" value="@Model.UserName" />
-                    <i class="fa fa-envelope inputsIcons" aria-hidden="true"></i>
-                    <div class="clear"></div>
-                </div>
-                <div class="inputWrapper">
-                    <input type="text" name="Password" placeholder="סיסמה" class="loginInputs" value="@Model.Password" />
-                    <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
-                    <div class="clear"></div>
-                </div>
-                <div class="inputWrapper">
-                    <input type="text" name="Password" placeholder="אימות סיסמה" class="loginInputs" />
-                    <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
-                    <div class="clear"></div>
-                </div>
-            </div>
-            <div class="updateSubmitWraspper">
-                <input type="submit" name="submit" value="עדכן" class="updateSubmit" />
-            </div>
-        </div>
-        <div class="clear"></div>
-    </div>
-    <div class="clear"></div>
-</div>
 </form>
 }

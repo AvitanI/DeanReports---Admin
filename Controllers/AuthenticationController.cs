@@ -69,7 +69,7 @@ namespace DeanReports.Controllers
             Session["LastLoginDate"] = u.LastLogin.ToString("dd/MM/yy");
             Session["LastLoginHour"] = u.LastLogin.ToString("HH:mm");
             Session["UserImg"] = u.UserImg;
-            Session["FullName"] = member.FirstName + " " + member.LastName;
+            Session["FullName"] = member.LastName + " " + member.FirstName;
             Session["DepartmentID"] = member.DepartmentID;
             Session["Messages"] = Services.ConverterService.ToMessagesViewModel(bl.GetMessagesByUser(u.UserName));
             Session["Menu"] = Services.Utilities.GetMenuByUserType(u);
