@@ -2,12 +2,17 @@
 using DeanReports.Filters;
 using DeanReports.Models;
 using DeanReports.ViewModels;
+using Rotativa;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace DeanReports.Controllers
 {
@@ -107,11 +112,51 @@ namespace DeanReports.Controllers
         {
             return View("ShowReports");
         }
-
-        [Route("Admin/SomeName")]
-        public string test(int x)
+        public ActionResult SearchReports(SearchReportParamsViewModel searchParams)
         {
-            return x + "";
+            int year = searchParams.Year;
+            int month = searchParams.Month;
+            DateTime? date = Services.Utilities.ValidateDate(year, month);
+
+            if(searchParams.Type == 1) // load charges report
+            {
+                return RedirectToAction("LoadChargesReport", new { reportDate = date });
+            }
+            else if (searchParams.Type == 2) // load refunds report
+            {
+                return RedirectToAction("LoadRefundsReport", new { reportDate = date });
+            }
+            else if (searchParams.Type == 3) // load users report
+            {
+                return RedirectToAction("LoadUsersReport", new { reportDate = date });
+            }
+            else
+            {
+                return PartialView("ReportsError");
+            }
+        }
+        //[Route("Admin/SomeName")]
+        public ActionResult LoadChargesReport(DateTime? reportDate)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            ReportsViewModel reportsViewModel = new ReportsViewModel();
+            List<ChargeReport> charges = bl.GetChargeRports(reportDate);
+            // in case there is no results
+            if (charges.Count() == 0) return PartialView("ReportsError");
+            List<ChargeReportViewModel> chargesVM = Services.ConverterService.ToChargeReportViewModel(charges);
+            reportsViewModel.Charges = chargesVM;
+            return PartialView("LoadChargesReport", reportsViewModel);
+        }
+        public ActionResult LoadRefundsReport(DateTime? reportDate)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            ReportsViewModel reportsViewModel = new ReportsViewModel();
+            List<RefundReport> refunds = bl.GetRefundRports(reportDate);
+            // in case there is no results
+            if (refunds.Count() == 0) return PartialView("ReportsError");
+            List<RefundReportViewModel> refundsVM = Services.ConverterService.ToRefundReportViewModel(refunds);
+            reportsViewModel.Refunds = refundsVM;
+            return PartialView("LoadRefundsReport", reportsViewModel);
         }
         [NonAction]
         public void SetErrorMsg(string msg)
@@ -122,6 +167,69 @@ namespace DeanReports.Controllers
                 Message = msg
             };
             TempData["FancyBox"] = fb;
+        }
+
+        public ActionResult ExportToExcel()
+        {
+            // Step 1 - get the data from database
+            //var data = new List<User>() { 
+            //    new User(){UserName="user1", Password="1234", Type=Types.Admin, LastLogin=DateTime.Now, UserImg="c:/blabla"},
+            //    new User(){UserName="user2", Password="1234", Type=Types.Admin, LastLogin=DateTime.Now, UserImg="c:/blabla"},
+            //    new User(){UserName="user3", Password="1234", Type=Types.Admin, LastLogin=DateTime.Now, UserImg="c:/blabla"},
+            //    new User(){UserName="user4", Password="1234", Type=Types.Admin, LastLogin=DateTime.Now, UserImg="c:/blabla"}
+            //};
+
+            var data = new DataTable("teste");
+            data.Columns.Add("col1", typeof(string));
+            data.Columns.Add("col2", typeof(string));
+
+            data.Rows.Add(1, "product 1");
+            data.Rows.Add(2, "product 2");
+            data.Rows.Add(3, "product 3");
+            data.Rows.Add(4, "product 4");
+            data.Rows.Add(5, "product 5");
+            data.Rows.Add(6, "product 6");
+            data.Rows.Add(7, "product 7");
+
+            // instantiate the GridView control from System.Web.UI.WebControls namespace
+            // set the data source
+            GridView gridview = new GridView();
+            gridview.DataSource = data;
+            gridview.DataBind();
+
+            // Clear all the content from the current response
+            Response.ClearContent();
+            Response.Buffer = true;
+            // set the header
+            Response.AddHeader("content-disposition", "attachment;filename=itfunda.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "UTF-8";
+            // create HtmlTextWriter object with StringWriter
+            using (StringWriter sw = new StringWriter())
+            {
+                using (HtmlTextWriter htw = new HtmlTextWriter(sw))
+                {
+                    // render the GridView to the HtmlTextWriter
+                    gridview.RenderControl(htw);
+                    // Output the GridView content saved into StringWriter
+                    Response.Output.Write(sw.ToString());
+                    Response.Flush();
+                    Response.End();
+                }
+            }
+            return View();
+        }
+
+        public ActionResult Invoice()
+        {
+            // code to retrieve data from a database
+            return View("Invoice");
+        }
+
+        public ActionResult PrintInvoice()
+        {
+            return new ActionAsPdf(
+                           "Invoice") { FileName = "Invoice.pdf" };
         }
     }
 }

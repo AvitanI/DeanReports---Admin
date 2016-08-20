@@ -17,69 +17,42 @@
                 </span>
             </div>
             <div class="blockContent">
-                <form action="/" method="post" class="serachReportsForm">
+                <div class="serachReportsForm">
                     <div style="float: right; padding: 0 0 0 35px;">
-                        <div class="serachReports">
-                            <select class="reportType">
-                                <option value="value">בחר דוח</option>
-                            </select>
-                        </div>
+                        <select class="jungoSelect2" data-type="type">
+                            <option value="value">בחר דוח</option>
+                            <option value="1">טפסי חיוב</option>
+                            <option value="2">טפסי זיכוי</option>
+                            <option value="3">משתמשים</option>
+                        </select>
                     </div>
                     <div style="float: right; padding: 0 0 0 35px;">
-                        <div class="serachReports">
-                            <select class="period">
-                                <option value="value">בחר תקופה</option>
-                            </select>
-                        </div>
+                        <select class="jungoSelect2" data-type="year">
+                            <option value="value">בחר שנה</option>
+                            <option value="2016">2016</option>
+                            <option value="2015">2015</option>
+                            <option value="2014">2014</option>
+                        </select>
                     </div>
-                    <input type="submit" name="submit" value="חיפוש" class="updateSubmit">
-                </form>
-                <h2 class="tableTitle">טופס חיוב חניך עבור קבלת סיוע לימודי</h2>
-                <div class="tableWrap engtable">
-                    <div class="tableHeaderWrap">
-                        <div class="tr">
-                            <div class="td">שם חניך</div>
-                            <div class="td">ת"ז חניך</div>
-                            <div class="td">שם חונך</div>
-                            <div class="td">ת"ז חונך</div>
-                            <div class="td">תאריך</div>
-                            <div class="td">עלות לשעה</div>
-                            <div class="td">סה"כ שעות סיוע</div>
-                            <div class="td">סה"כ חיוב לתשלום</div>
-                            <div class="td">הערות</div>
-                            <div class="td">מס תקציב</div>
-                            <div class="td">שם גורם מאשר</div>
-                            <div class="td">סטטוס</div>
-                        </div>
+                    <div style="float: right; padding: 0 0 0 35px;">
+                        <select class="jungoSelect2" data-type="month">
+                            <option value="1">ינואר</option>
+                            <option value="2">פברואר</option>
+                            <option value="3">מרץ</option>
+                            <option value="4">אפריל</option>
+                            <option value="5">מאי</option>
+                            <option value="6">יוני</option>
+                            <option value="7">יולי</option>
+                            <option value="8">אוגוסט</option>
+                            <option value="9">ספטמבר</option>
+                            <option value="10">אוקטובר</option>
+                            <option value="11">נובמבר</option>
+                            <option value="12">דצמבר</option>
+                        </select>
                     </div>
-                    <div class="tableItemWrap">
-                    @for (int i = 0; i < 50; i++)
-                    {
-                        <div class="tr">
-                            <div class="td">ניסוי</div>
-                            <div class="td">200770659</div>
-                            <div class="td">ניסוי</div>
-                            <div class="td">200770659</div>
-                            <div class="td">1/1/2016</div>
-                            <div class="td">20</div>
-                            <div class="td">20</div>
-                            <div class="td">400 &#x20AA;</div>
-                            <div class="td">אין</div>
-                            <div class="td">1</div>
-                            <div class="td">מיכל פישר</div>
-                            <div class="td">@if(i%2==0)
-                                            {
-                                                <span class="label label-success">מאושר</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="label label-danger"> נדחה</span>
-                                            }
-                            </div>
-                        </div>
-                    }
-                    </div>
+                    <button id="searchReports" type="button" class="updateSubmit">חיפוש</button>
                 </div>
+                <div id="table-container"></div>
             </div>
         </div>
     </div>

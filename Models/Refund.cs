@@ -15,8 +15,11 @@ namespace DeanReports.Models
         [Key, ForeignKey("Member"), Column(Order = 1)]
         public string TeacherUserName { get; set; }
         [Required]
+        [DisplayFormat(DataFormatString = "{dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
-        [ForeignKey("Course"), Column(Order = 4)]
+        [ForeignKey("Department"), Column(Order = 4)]
+        public int DepartmentID { get; set; }
+        [ForeignKey("Course"), Column(Order = 5)]
         public int CourseID { get; set; }
         [Required, StringLength(50)]
         public string LecturerName { get; set; }
@@ -36,6 +39,7 @@ namespace DeanReports.Models
         public virtual Manager Manager { get; set; }
         public virtual Member Member { get; set; }
         public virtual Course Course { get; set; }
+        public virtual Department Department { get; set; }
         public virtual ICollection<Session> Sessions { get; set; }
     }
 }

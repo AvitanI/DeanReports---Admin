@@ -42,8 +42,13 @@ namespace DeanReports.Services
         public static string IMG_MALE_DEFAULT = "/Content/images/avatars/boy1.png";
         public static string IMG_FEMALE_DEFAULT = "/Content/images/avatars/girl1.png";
 
-        //public string[]  
+        //public string[]  jhiophpouihpohpopi
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static string GetUserTypeName(Types type)
         {
             string t = "אינו משתמש";
@@ -120,6 +125,15 @@ namespace DeanReports.Services
                 output += node.InnerText;
             }
             return output;
+        }
+        public static DateTime? ValidateDate(int year, int month)
+        {
+            if((year >= 2014 && year <= DateTime.Now.Year) && 
+                    (month >= 1 && month <= 12))
+            {
+                return new DateTime(year, month, 1); // set day to 1 always
+            }
+            return null;
         }
 
     }

@@ -1,0 +1,57 @@
+﻿@model DeanReports.ViewModels.ReportsViewModel
+
+<h2 class="tableTitle">טופס זיכוי חונך עבור קבלת סיוע לימודי</h2>
+<div class="tableWrap engtable">
+    <div class="tableHeaderWrap">
+        <div class="tr">
+            <div class="td">קוד טופס</div>
+            <div class="td">שם משתמש חונך</div>
+            <div class="td">שם חונך</div>
+            <div class="td">תאריך</div>
+            <div class="td">קוד קורס</div>
+            <div class="td">שם קורס</div>
+            <div class="td">שם חוג</div>
+            <div class="td">שם מרצה</div>
+            <div class="td">קבוצתי</div>
+            <div class="td">סהכ שעות לטופס</div>
+            <div class="td">שם מנהל</div>
+            <div class="td">מס תקציב</div>
+            <div class="td">מקור מימון</div>
+            <div class="td">אישור מנהל</div>
+            <div class="td">תאריך אישור</div>
+        </div>
+    </div>
+    <div class="tableItemWrap">
+        @foreach (var item in Model.Refunds)
+        {
+            <div class="tr">
+                <div class="td">@item.ID</div>
+                <div class="td">@item.TeacherUserName</div>
+                <div class="td">@item.TeacherFullName</div>
+                <div class="td">@item.Date</div>
+                <div class="td">@item.CourseID</div>
+                <div class="td">@item.CourseName</div>
+                <div class="td">@item.DepartmentName</div>
+                <div class="td">@item.LecturerName</div>
+                <div class="td">@item.IsGrouped</div>
+                <div class="td">@item.TotalHours</div>
+                <div class="td">@item.ManagerFullName</div>
+                <div class="td">@item.BudgetNumber</div>
+                <div class="td">@item.SourceFund</div>
+                <div class="td">
+                    @if (item.ManagerSignature)
+                    {
+                        <span class="label label-success">מאושר</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger"> נדחה</span>
+                    }
+                </div>
+                <div class="td">@item.SignatureDate</div>
+            </div>
+        }
+    </div>
+</div>
+
+

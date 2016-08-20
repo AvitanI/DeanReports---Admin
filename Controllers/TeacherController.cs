@@ -22,21 +22,24 @@ namespace DeanReports.Controllers
         public ActionResult CreateNewRefund()
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
-            //int departmentID = (int)Session["DepartmentID"];
-            int departmentID = 1;
             RefundViewModel refundVM = new RefundViewModel();
-            List<Course> courses = bl.GetCoursesByDepartmentID(departmentID);
-            List<CourseViewModel> coursesViewModel = new List<CourseViewModel>();
-            foreach (Course c in courses)
-            {
-                coursesViewModel.Add(new CourseViewModel()
-                {
-                    ID = c.ID,
-                    Name = c.Name
-                });
-            }
-            refundVM.CoursesCombo = coursesViewModel;
+            List<Department> departmentsModel = bl.GetAllDepartments();
+            List<DepartmentViewModel> departmentsVM = Services.ConverterService.ToDepartmentsViewModel(departmentsModel);
+            refundVM.DepartmentsCombo = departmentsVM;
             return View("CreateNewRefund", refundVM);
+        }
+        [HttpGet]
+        public JsonResult GetCoursesByDepartmentID(int? id)
+        {
+            Debug.WriteLine((int)id);
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            List<Course> courses = bl.GetCoursesByDepartmentID((int)id);
+            List<CourseViewModel> coursesViewModel = Services.ConverterService.ToCoursesViewModel(courses);
+            if (coursesViewModel.Count() > 0)
+            {
+                return Json(coursesViewModel, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { success = false }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult CreateNewRefund(RefundViewModel refundVM)
@@ -46,6 +49,7 @@ namespace DeanReports.Controllers
             Refund refundModel = new Refund();
             refundModel.TeacherUserName = username;
             refundModel.Date = DateTime.Now;
+            refundModel.DepartmentID = Convert.ToInt32(refundVM.SelectedDepartment);
             refundModel.CourseID = Convert.ToInt32(refundVM.SelectedCourses);
             refundModel.LecturerName = refundVM.LecturerName;
             refundModel.IsGrouped = refundVM.IsGrouped;
@@ -227,6 +231,7 @@ namespace DeanReports.Controllers
                     ID = refund.ID,
                     TeacherUserName = refund.TeacherUserName,
                     Date = refund.Date,
+                    DepartmentID = refund.DepartmentID,
                     CourseID = refund.CourseID,
                     LecturerName = refund.LecturerName,
                     RefundSessions = sessionVM,

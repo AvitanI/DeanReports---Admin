@@ -12,14 +12,16 @@
         </div>
         <form action="/Teacher/CreateNewRefund" method="post" class="formWrapper">
             <div class="requestedCourses">
-                <div class="courseWrapper">
-                    <label for="" id="" name="" class="requestLbl">שם הקורס</label>
-                    <select id="" name="SelectedCourses" class="courses">
-                        @foreach (var course in Model.CoursesCombo)
+                <div class="refundWrapper">
+                    <label for="" id="" name="" class="requestLbl">שם החוג</label>
+                    <select id="refundDepartment" name="SelectedDepartment" class="jungoSelect2">
+                        @foreach (var department in Model.DepartmentsCombo)
                         {
-                            <option value="@course.ID">@course.Name</option>
+                            <option value="@department.ID">@department.Name</option>
                         }
                     </select>
+                    <label for="" id="" name="" class="requestLbl">שם הקורס</label>
+                    <select id="refundCourses" name="SelectedCourses" class="jungoSelect2"></select>
                     <label for="" id="" name="" class="requestLbl">שם המרצה</label>
                     <input type="text" id="" name="LecturerName" class="requestInputs" />
                     <label>סוג טופס:</label>

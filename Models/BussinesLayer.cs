@@ -54,7 +54,6 @@ namespace DeanReports.Models
 
             users.Add(new User() { UserName = "student@gmail.com", Password = "1234", Type = Types.Student, LastLogin = DateTime.Now, UserImg = "/Content/images/avatars/boy1.png" });
             users.Add(new User() { UserName = "teacher@gmail.com", Password = "1234", Type = Types.Teacher, LastLogin = DateTime.Now, UserImg = "/Content/images/avatars/boy1.png" });
-            users.Add(new User() { UserName = "admin@gmail.com", Password = "1234", Type = Types.Admin, LastLogin = DateTime.Now, UserImg = "/Content/images/avatars/boy1.png" });
 
             // create departments 
 
@@ -126,23 +125,25 @@ namespace DeanReports.Models
                 });
             }
 
-            members.Add(new Member(){ MemberUserName = "student@gmail.com", DepartmentID = 1, FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender="זכר"});
-            members.Add(new Member() { MemberUserName = "teacher@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "נקבה" });
-            members.Add(new Member() { MemberUserName = "admin@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "זכר" });
+            members.Add(new Member() { MemberUserName = "student@gmail.com", Identity = "200770659", DepartmentID = 1, FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "זכר" });
+            members.Add(new Member() { MemberUserName = "teacher@gmail.com", Identity = "200770659", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "נקבה" });
+            //members.Add(new Member() { MemberUserName = "admin@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "זכר" });
 
-            users.Add(new User() { UserName = "admin1", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
-            users.Add(new User() { UserName = "admin2", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
-            users.Add(new User() { UserName = "admin3", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
-            users.Add(new User() { UserName = "admin4", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User() { UserName = "admin@gmail.com", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User() { UserName = "admin1@gmail.com", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User() { UserName = "admin2@gmail.com", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User() { UserName = "admin3@gmail.com", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User() { UserName = "admin4@gmail.com", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
 
             // create managers
 
             List<Manager> managers = new List<Manager>()
             {
-                new Manager(){UserName ="admin1", FirstName="ניזאר", LastName="ביטאר", Birth=DateTime.Now},
-                new Manager(){UserName ="admin2", FirstName="מיכל", LastName="פישר", Birth=DateTime.Now},
-                new Manager(){UserName ="admin3", FirstName="מעיין", LastName="אדלשטיין", Birth=DateTime.Now},
-                new Manager(){UserName ="admin4", FirstName="מורן", LastName="בטרני", Birth=DateTime.Now}
+                new Manager(){UserName ="admin@gmail.com", FirstName="אדמין", LastName="אדמין", Birth=DateTime.Now},
+                new Manager(){UserName ="admin1@gmail.com", FirstName="ניזאר", LastName="ביטאר", Birth=DateTime.Now},
+                new Manager(){UserName ="admin2@gmail.com", FirstName="מיכל", LastName="פישר", Birth=DateTime.Now},
+                new Manager(){UserName ="admin3@gmail.com", FirstName="מעיין", LastName="אדלשטיין", Birth=DateTime.Now},
+                new Manager(){UserName ="admin4@gmail.com", FirstName="מורן", LastName="בטרני", Birth=DateTime.Now}
             };
 
             // create programs
@@ -197,10 +198,12 @@ namespace DeanReports.Models
                 int year = rnd.Next(2013, 2017);
                 int manager = rnd.Next(0, 3);
                 int courseID = rnd.Next(1, 51);
+                int departmentID = rnd.Next(1, 12);
                 refunds.Add(new Refund()
                 {
                     TeacherUserName = teachers.ElementAt(i).UserName,
                     Date = new DateTime(year, month, 1),
+                    DepartmentID = departmentID,
                     CourseID = courseID,
                     LecturerName = "test" + i,
                     ManagerUserName = managers.ElementAt(manager).UserName,
@@ -990,13 +993,14 @@ namespace DeanReports.Models
                     new SqlParameter("TeacherUserName", r.TeacherUserName),
                     new SqlParameter("Date", r.Date),
                     new SqlParameter("CourseID", r.CourseID),
+                    new SqlParameter("DepartmentID", r.DepartmentID),
                     new SqlParameter("LecturerName", r.LecturerName),
                     new SqlParameter("IsGrouped", r.IsGrouped),
                     new SqlParameter("ManagerUserName", r.ManagerUserName ?? SqlString.Null),
                     new SqlParameter("BudgetNumber", r.BudgetNumber ?? SqlInt32.Null)
                 };
 
-                decimal x = dbContext.Database.SqlQuery<decimal>("Create_Refund @TeacherUserName, @Date, @CourseID, @LecturerName, @IsGrouped, @ManagerUserName, @BudgetNumber",
+                decimal x = dbContext.Database.SqlQuery<decimal>("Create_Refund @TeacherUserName, @Date, @CourseID, @DepartmentID, @LecturerName, @IsGrouped, @ManagerUserName, @BudgetNumber",
                                                                           parameters).First();
                 dbContext.SaveChanges();
                 return (int)x;
@@ -1017,12 +1021,13 @@ namespace DeanReports.Models
                     new SqlParameter("TeacherUserName", r.TeacherUserName),
                     new SqlParameter("Date", r.Date),
                     new SqlParameter("CourseID", r.CourseID),
+                    new SqlParameter("DepartmentID", r.DepartmentID),
                     new SqlParameter("LecturerName", r.LecturerName),
                     new SqlParameter("IsGrouped", r.IsGrouped),
                     new SqlParameter("ManagerUserName", r.ManagerUserName),
                     new SqlParameter("BudgetNumber", r.BudgetNumber)
                 };
-                dbContext.Database.ExecuteSqlCommand("Update_Refund @ID, @Date, @CourseName, @LecturerName, @IsGrouped, @ManagerUserName, @BudgetNumber",
+                dbContext.Database.ExecuteSqlCommand("Update_Refund @ID, @Date, @CourseID, @DepartmentID, @LecturerName, @IsGrouped, @ManagerUserName, @BudgetNumber",
                                                                           parameters);
                 dbContext.SaveChanges();
                 Console.WriteLine("success");
@@ -1515,6 +1520,40 @@ namespace DeanReports.Models
             {
                 Debug.WriteLine("Problem with GetMessagesByAjax function: " + e);
                 return new List<Messages>();
+            }
+        }
+        public List<ChargeReport> GetChargeRports(DateTime? period = null)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("Period", period ?? SqlDateTime.Null)
+                };
+                List<ChargeReport> charges = dbContext.Database.SqlQuery<ChargeReport>("GetChargeRports @Period", parameters).ToList();
+                return charges;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetChargeRports function: " + e);
+                return new List<ChargeReport>();
+            }
+        }
+        public List<RefundReport> GetRefundRports(DateTime? period = null)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("Period", period ?? SqlDateTime.Null)
+                };
+                List<RefundReport> refunds = dbContext.Database.SqlQuery<RefundReport>("GetRefundRports @Period", parameters).ToList();
+                return refunds;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetRefundRports function: " + e);
+                return new List<RefundReport>();
             }
         }
 

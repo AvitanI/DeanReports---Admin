@@ -35,6 +35,19 @@ namespace DeanReports.Services
             }
             return viewModel;
         }
+        public static List<DepartmentViewModel> ToDepartmentsViewModel(List<Department> model)
+        {
+            List<DepartmentViewModel> viewModel = new List<DepartmentViewModel>();
+            foreach (Department d in model)
+            {
+                viewModel.Add(new DepartmentViewModel()
+                {
+                    ID = d.ID,
+                    Name = d.Name
+                });
+            }
+            return viewModel;
+        }
         public static List<CourseRequestViewModel> ToCourseRequestViewModel(List<CourseRequest> model)
         {
             List<CourseRequestViewModel> viewModel = new List<CourseRequestViewModel>();
@@ -135,6 +148,60 @@ namespace DeanReports.Services
                 Details = viewModel.Details,
                 StudentSignature = viewModel.StudentSignature
             };
+        }
+        public static List<ChargeReportViewModel> ToChargeReportViewModel(List<ChargeReport> model)
+        {
+            List<ChargeReportViewModel> viewModel = new List<ChargeReportViewModel>();
+            foreach (ChargeReport cr in model)
+            {
+                viewModel.Add(new ChargeReportViewModel()
+                {
+                    ID = cr.ID,
+                    StudentID = cr.StudentID,
+                    StudentFullName = cr.StudentFullName,
+                    TeacherFullName = cr.TeacherFullName,
+                    TeacherID = cr.TeacherID,
+                    Period = cr.Period,
+                    CostPerHour = cr.CostPerHour,
+                    SumOfHours = cr.SumOfHours,
+                    SumOfBill = cr.SumOfBill,
+                    Notes = cr.Notes,
+                    Date = cr.Date,
+                    ManagerUserName = cr.ManagerUserName,
+                    BudgetNumber = cr.BudgetNumber,
+                    FundSource = cr.FundSource,
+                    ManagerSignature = cr.ManagerSignature,
+                    SignatureDate = cr.SignatureDate
+                });
+            }
+            return viewModel;
+        }
+        public static List<RefundReportViewModel> ToRefundReportViewModel(List<RefundReport> model)
+        {
+            List<RefundReportViewModel> viewModel = new List<RefundReportViewModel>();
+            foreach (RefundReport rr in model)
+            {
+                viewModel.Add(new RefundReportViewModel()
+                {
+                    ID = rr.ID,
+                    TeacherUserName = rr.TeacherUserName,
+                    TeacherFullName = rr.TeacherFullName,
+                    Date = rr.Date,
+                    CourseID = rr.CourseID,
+                    CourseName = rr.CourseName,
+                    DepartmentName = rr.DepartmentName,
+                    LecturerName = rr.LecturerName,
+                    IsGrouped = rr.IsGrouped,
+                    TotalHours = rr.TotalHours,
+                    ManagerUserName = rr.ManagerUserName,
+                    ManagerFullName  = rr.ManagerFullName,
+                    BudgetNumber = rr.BudgetNumber,
+                    SourceFund = rr.SourceFund,
+                    ManagerSignature = rr.ManagerSignature,
+                    SignatureDate = rr.SignatureDate
+                });
+            }
+            return viewModel;
         }
     }
 }

@@ -42,9 +42,11 @@ $(".serachReports").length && (function () {
     });
 }());
 
-$(".period").length && (function () {
-    $(".period").select2({
-        dir: "rtl"
+$('.jungoSelect2').length && (function () {
+    $(".jungoSelect2").each(function () {
+        $(this).select2({
+            dir: "rtl"
+        });
     });
 }());
 
@@ -115,17 +117,9 @@ $(".datepicker").length && (function () {
 $(".programs").length && $(".programs").select2({
     dir: "rtl"
 });
-$(".courses").length && $(".courses").select2({
-    dir: "rtl"
-});
 $(".causes").length && $(".causes").select2({
     dir: "rtl"
 });
-// add class to courses select2
-$(".courses").length && (function () {
-    $(".courses").next().addClass("coursesContainer");
-}());
-
 // add dynamic course request
 $(document).ready(function () {
     var max_fields = 10;
@@ -468,3 +462,47 @@ $("[tool-tip='true']")
   .mouseleave(function () {
       console.log("leave");
   });
+
+$('#searchReports').click(function () {
+    var obj = getReportSearchParams();
+    console.log(obj);
+    $.get('/Admin/SearchReports', obj).done(function (data) {
+        console.log(data);
+        $('#table-container').html(data);
+    });
+});
+
+function getReportSearchParams() {
+    var reportObj = {};
+
+    $('.jungoSelect2').each(function () {
+        reportObj[$(this).attr('data-type')] = $(this).val();
+    });
+    return reportObj;
+}
+
+$("#refundCourses").select2({
+    placeholder: 'בחר קורס',
+    ajax: {
+        url: '/Teacher/GetCoursesByDepartmentID',
+        data: function () {
+            //console.log($("#refundDepartment").val());
+            return {
+                id: $("#refundDepartment").val()
+            }
+        },
+        processResults: function (data) {
+            //console.log(data);
+            return {
+                results: $.map(data, function (item) {
+                    if (item) {
+                        return {
+                            text: item.Name,
+                            id: item.ID
+                        }
+                    }
+                })
+            };
+        }
+    }
+});

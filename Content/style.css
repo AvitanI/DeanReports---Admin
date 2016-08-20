@@ -511,9 +511,14 @@ body {
 .requestedCourses {
 
 }
-.courseWrapper {
+.refundWrapper {
     float: right;
     margin: 0 0 20px 0;
+}
+.refundWrapper .select2-container {
+    border: 1px solid #ccc !important;
+    width: 200px !important;
+    margin: 0 0px 0 20px !important;
 }
 .lecturerNameLbl {
 	float: right;
@@ -736,11 +741,6 @@ body {
 }
 .formWrapper {
     padding: 10px 50px;
-}
-.coursesContainer {
-    border: 1px solid #ccc !important;
-    width: 200px !important;
-    margin: 0 0px 0 20px !important;
 }
 .requestLbl {
     float: right;
@@ -1095,7 +1095,7 @@ body {
     padding: 0px 10px 10px 10px;
     display: block;
     min-height: 50px;
-    width: 35%;
+    width: 850px;
     margin: auto;
 }
 .serachReportsForm .select2-container {

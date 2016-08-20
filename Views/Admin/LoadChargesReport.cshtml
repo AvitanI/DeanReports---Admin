@@ -1,0 +1,50 @@
+﻿@model DeanReports.ViewModels.ReportsViewModel
+
+<h2 class="tableTitle">טופס חיוב חניך עבור קבלת סיוע לימודי</h2>
+<div class="tableWrap engtable">
+    <div class="tableHeaderWrap">
+        <div class="tr">
+            <div class="td">שם חניך</div>
+            <div class="td">ת"ז חניך</div>
+            <div class="td">שם חונך</div>
+            <div class="td">ת"ז חונך</div>
+            <div class="td">תאריך</div>
+            <div class="td">עלות לשעה</div>
+            <div class="td">סה"כ שעות סיוע</div>
+            <div class="td">סה"כ חיוב לתשלום</div>
+            <div class="td">הערות</div>
+            <div class="td">מס תקציב</div>
+            <div class="td">שם גורם מאשר</div>
+            <div class="td">סטטוס</div>
+        </div>
+    </div>
+    <div class="tableItemWrap">
+        @foreach (var item in Model.Charges)
+        {
+            <div class="tr">
+                <div class="td">@item.StudentFullName</div>
+                <div class="td">@item.StudentID</div>
+                <div class="td">@item.TeacherFullName</div>
+                <div class="td">@item.TeacherID</div>
+                <div class="td">@item.Date</div>
+                <div class="td">@item.CostPerHour</div>
+                <div class="td">@item.SumOfHours</div>
+                <div class="td">@item.SumOfBill &#x20AA;</div>
+                <div class="td">@item.Notes</div>
+                <div class="td">@item.BudgetNumber</div>
+                <div class="td">@item.ManagerUserName</div>
+                <div class="td">
+                    @if (item.ManagerSignature)
+                    {
+                        <span class="label label-success">מאושר</span>
+                    }
+                    else
+                    {
+                        <span class="label label-danger"> נדחה</span>
+                    }
+            </div>
+        </div>
+        }
+    </div>
+</div>
+
