@@ -203,5 +203,34 @@ namespace DeanReports.Services
             }
             return viewModel;
         }
+        public static List<UsersReportViewModel> ToUsersReportViewModel(List<UserReport> model)
+        {
+            List<UsersReportViewModel> viewModel = new List<UsersReportViewModel>();
+            foreach (UserReport ur in model)
+            {
+                viewModel.Add(new UsersReportViewModel()
+                {
+                    UserName = ur.UserName,
+                    Password = ur.Password,
+                    Type = ur.Type,
+                    LastLogin = ur.LastLogin,
+                    UserImg = ur.UserImg,
+                    CreatedDate = ur.CreatedDate,
+                    IsActive = ur.IsActive,
+                    MemberUserName = ur.MemberUserName,
+                    Identity = ur.Identity,
+                    DepartmentID = ur.DepartmentID,
+                    Year = ur.Year,
+                    FirstName = ur.FirstName,
+                    LastName = ur.LastName,
+                    Birth = ur.Birth,
+                    Phone = ur.Phone,
+                    Gender = ur.Gender,
+                    MemberFullName = ur.MemberFullName,
+                    DepartmentName = ur.DepartmentName
+                });
+            }
+            return viewModel;
+        }
     }
 }

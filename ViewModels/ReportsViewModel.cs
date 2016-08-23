@@ -9,5 +9,6 @@ namespace DeanReports.ViewModels
     {
         public List<ChargeReportViewModel> Charges { get; set; }
         public List<RefundReportViewModel> Refunds { get; set; }
+        public List<UsersReportViewModel> Users { get; set; }
     }
 }

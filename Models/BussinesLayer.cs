@@ -48,12 +48,24 @@ namespace DeanReports.Models
                     Password = "1234",
                     Type = type,
                     LastLogin = DateTime.Now,
-                    UserImg = "/Content/images/avatars/boy1.png"
+                    UserImg = "/Content/images/avatars/boy1.png",
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
                 });
             }
 
-            users.Add(new User() { UserName = "student@gmail.com", Password = "1234", Type = Types.Student, LastLogin = DateTime.Now, UserImg = "/Content/images/avatars/boy1.png" });
-            users.Add(new User() { UserName = "teacher@gmail.com", Password = "1234", Type = Types.Teacher, LastLogin = DateTime.Now, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User()
+            {
+                UserName = "student@gmail.com",
+                Password = "1234",
+                Type = Types.Student,
+                LastLogin = DateTime.Now,
+                UserImg = "/Content/images/avatars/boy1.png",
+                CreatedDate = DateTime.Now,
+                IsActive = true
+            });
+            users.Add(new User() { UserName = "teacher@gmail.com", Password = "1234", Type = Types.Teacher, LastLogin = DateTime.Now, UserImg = "/Content/images/avatars/boy1.png", CreatedDate = DateTime.Now,
+                    IsActive = true});
 
             // create departments 
 
@@ -129,11 +141,56 @@ namespace DeanReports.Models
             members.Add(new Member() { MemberUserName = "teacher@gmail.com", Identity = "200770659", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "נקבה" });
             //members.Add(new Member() { MemberUserName = "admin@gmail.com", FirstName = "ניסוי", LastName = "ניסוי", Birth = new DateTime(2000, 1, 1), Phone = "000-000-0000", Gender = "זכר" });
 
-            users.Add(new User() { UserName = "admin@gmail.com", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
-            users.Add(new User() { UserName = "admin1@gmail.com", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
-            users.Add(new User() { UserName = "admin2@gmail.com", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
-            users.Add(new User() { UserName = "admin3@gmail.com", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
-            users.Add(new User() { UserName = "admin4@gmail.com", Password = "1234", LastLogin = DateTime.Now, Type = Types.Admin, UserImg = "/Content/images/avatars/boy1.png" });
+            users.Add(new User()
+            {
+                UserName = "admin@gmail.com",
+                Password = "1234",
+                LastLogin = DateTime.Now,
+                Type = Types.Admin,
+                UserImg = "/Content/images/avatars/boy1.png",
+                CreatedDate = DateTime.Now,
+                IsActive = true
+            });
+            users.Add(new User()
+            {
+                UserName = "admin1@gmail.com",
+                Password = "1234",
+                LastLogin = DateTime.Now,
+                Type = Types.Admin,
+                UserImg = "/Content/images/avatars/boy1.png",
+                CreatedDate = DateTime.Now,
+                IsActive = true
+            });
+            users.Add(new User()
+            {
+                UserName = "admin2@gmail.com",
+                Password = "1234",
+                LastLogin = DateTime.Now,
+                Type = Types.Admin,
+                UserImg = "/Content/images/avatars/boy1.png",
+                CreatedDate = DateTime.Now,
+                IsActive = true
+            });
+            users.Add(new User()
+            {
+                UserName = "admin3@gmail.com",
+                Password = "1234",
+                LastLogin = DateTime.Now,
+                Type = Types.Admin,
+                UserImg = "/Content/images/avatars/boy1.png",
+                CreatedDate = DateTime.Now,
+                IsActive = true
+            });
+            users.Add(new User()
+            {
+                UserName = "admin4@gmail.com",
+                Password = "1234",
+                LastLogin = DateTime.Now,
+                Type = Types.Admin,
+                UserImg = "/Content/images/avatars/boy1.png",
+                CreatedDate = DateTime.Now,
+                IsActive = true
+            });
 
             // create managers
 
@@ -409,10 +466,12 @@ namespace DeanReports.Models
                     new SqlParameter("Password", u.Password),
                     new SqlParameter("Type", u.Type),
                     new SqlParameter("LastLogin", u.LastLogin),
-                    new SqlParameter("UserImg", u.UserImg)
+                    new SqlParameter("UserImg", u.UserImg),
+                    new SqlParameter("CreatedDate", u.CreatedDate),
+                    new SqlParameter("IsActive", u.IsActive)
                 };
 
-                dbContext.Database.ExecuteSqlCommand("Create_User @UserName, @Password, @Type, @LastLogin, @UserImg", parameters);
+                dbContext.Database.ExecuteSqlCommand("Create_User @UserName, @Password, @Type, @LastLogin, @UserImg, @CreatedDate, @IsActive", parameters);
                 int num = dbContext.SaveChanges();
                 Debug.WriteLine("Numbers of rows " + num);
                 return true;
@@ -432,9 +491,10 @@ namespace DeanReports.Models
                 {
                     new SqlParameter("UserName", u.UserName),
                     new SqlParameter("Password", u.Password),
-                    new SqlParameter("UserImg", u.UserImg)
+                    new SqlParameter("UserImg", u.UserImg),
+                    new SqlParameter("IsActive", u.IsActive)
                 };
-                dbContext.Database.ExecuteSqlCommand(@"Update_User @UserName, @Password, @UserImg", parameters);
+                dbContext.Database.ExecuteSqlCommand(@"Update_User @UserName, @Password, @UserImg, @IsActive", parameters);
                 dbContext.SaveChanges();
                 return true;
             }
@@ -1554,6 +1614,23 @@ namespace DeanReports.Models
             {
                 Debug.WriteLine("Problem with GetRefundRports function: " + e);
                 return new List<RefundReport>();
+            }
+        }
+        public List<UserReport> GetUsersRports(DateTime? period = null)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("Period", period ?? SqlDateTime.Null)
+                };
+                List<UserReport> users = dbContext.Database.SqlQuery<UserReport>("GetUsersRports @Period", parameters).ToList();
+                return users;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetUsersRports function: " + e);
+                return new List<UserReport>();
             }
         }
 

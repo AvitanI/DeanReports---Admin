@@ -118,17 +118,20 @@ namespace DeanReports.Controllers
             int month = searchParams.Month;
             DateTime? date = Services.Utilities.ValidateDate(year, month);
 
-            if(searchParams.Type == 1) // load charges report
+            if (searchParams.Type == 1) // load charges report
             {
-                return RedirectToAction("LoadChargesReport", new { reportDate = date });
+                ReportsViewModel reportsViewModel = this.GetChargesReportData(date);
+                return PartialView("LoadChargesReport", reportsViewModel);
             }
             else if (searchParams.Type == 2) // load refunds report
             {
-                return RedirectToAction("LoadRefundsReport", new { reportDate = date });
+                ReportsViewModel reportsViewModel = this.GetRefundsReportData(date);
+                return PartialView("LoadRefundsReport", reportsViewModel);
             }
             else if (searchParams.Type == 3) // load users report
             {
-                return RedirectToAction("LoadUsersReport", new { reportDate = date });
+                ReportsViewModel reportsViewModel = this.GetUsersReportData(date);
+                return PartialView("LoadUsersReport", reportsViewModel);
             }
             else
             {
@@ -136,28 +139,34 @@ namespace DeanReports.Controllers
             }
         }
         //[Route("Admin/SomeName")]
-        public ActionResult LoadChargesReport(DateTime? reportDate)
+        private ReportsViewModel GetUsersReportData(DateTime? reportDate)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             ReportsViewModel reportsViewModel = new ReportsViewModel();
-            List<ChargeReport> charges = bl.GetChargeRports(reportDate);
-            // in case there is no results
-            if (charges.Count() == 0) return PartialView("ReportsError");
-            List<ChargeReportViewModel> chargesVM = Services.ConverterService.ToChargeReportViewModel(charges);
-            reportsViewModel.Charges = chargesVM;
-            return PartialView("LoadChargesReport", reportsViewModel);
+            List<UserReport> users = bl.GetUsersRports(reportDate);
+            List<UsersReportViewModel> usersVM = Services.ConverterService.ToUsersReportViewModel(users);
+            reportsViewModel.Users = usersVM;
+            return reportsViewModel;
         }
-        public ActionResult LoadRefundsReport(DateTime? reportDate)
+        private ReportsViewModel GetRefundsReportData(DateTime? reportDate)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             ReportsViewModel reportsViewModel = new ReportsViewModel();
             List<RefundReport> refunds = bl.GetRefundRports(reportDate);
-            // in case there is no results
-            if (refunds.Count() == 0) return PartialView("ReportsError");
             List<RefundReportViewModel> refundsVM = Services.ConverterService.ToRefundReportViewModel(refunds);
             reportsViewModel.Refunds = refundsVM;
-            return PartialView("LoadRefundsReport", reportsViewModel);
+            return reportsViewModel;
         }
+        private ReportsViewModel GetChargesReportData(DateTime? reportDate)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            ReportsViewModel reportsViewModel = new ReportsViewModel();
+            List<ChargeReport> charges = bl.GetChargeRports(reportDate);
+            List<ChargeReportViewModel> chargesVM = Services.ConverterService.ToChargeReportViewModel(charges);
+            reportsViewModel.Charges = chargesVM;
+            return reportsViewModel;
+        }
+
         [NonAction]
         public void SetErrorMsg(string msg)
         {
@@ -220,16 +229,47 @@ namespace DeanReports.Controllers
             return View();
         }
 
-        public ActionResult Invoice()
+        public ActionResult Test()
         {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            ReportsViewModel reportsViewModel = new ReportsViewModel();
+            List<UserReport> users = bl.GetUsersRports();
+            // in case there is no results
+            if (users.Count() == 0) return PartialView("ReportsError");
+            List<UsersReportViewModel> usersVM = Services.ConverterService.ToUsersReportViewModel(users);
+            reportsViewModel.Users = usersVM;
             // code to retrieve data from a database
-            return View("Invoice");
+            return View("Test", reportsViewModel);
         }
 
-        public ActionResult PrintInvoice()
+        public ActionResult TestPDF()
         {
             return new ActionAsPdf(
-                           "Invoice") { FileName = "Invoice.pdf" };
+                           "Test") { FileName = "Invoice.pdf" };
+        }
+
+        public ActionResult ExportReport(SearchReportParamsViewModel searchParams)
+        {
+            if(searchParams.ExportTo == "xls")
+            {
+                return this.ExportToPDF(searchParams);
+            }
+            else if (searchParams.ExportTo == "pdf")
+            {
+                this.ExportToExcel();
+            }
+            else
+            {
+                return PartialView("ReportsError");
+            }
+            return View();
+        }
+
+        public ActionResult ExportToPDF(SearchReportParamsViewModel searchParams)
+        {
+
+
+            return View();
         }
     }
 }

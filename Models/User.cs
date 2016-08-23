@@ -22,5 +22,7 @@ namespace DeanReports.Models
         public DateTime LastLogin { get; set; }
         [Required]
         public string UserImg { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public bool IsActive { get; set; }
     }
 }

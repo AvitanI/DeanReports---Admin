@@ -1,0 +1,62 @@
+﻿@model DeanReports.ViewModels.ReportsViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+    <link href="~/Content/style.css" rel="stylesheet" />
+</head>
+<body>
+    <h2 class="tableTitle">טופס משתמשים</h2>
+    <div class="tableWrap engtable">
+        <div class="tableHeaderWrap">
+            <div class="tr">
+                <div class="td">שם משתמש</div>
+                <div class="td">שם חניך</div>
+                <div class="td">ת"ז חניך</div>
+                <div class="td">תאריך יצירה</div>
+                <div class="td">פעיל</div>
+                <div class="td">סוג משתמש</div>
+                <div class="td">חוג</div>
+                <div class="td">שנה</div>
+                <div class="td">ת.לידה</div>
+                <div class="td">טלפון</div>
+                <div class="td">מין</div>
+            </div>
+        </div>
+        <div class="tableItemWrap">
+            @foreach (var item in Model.Users)
+            {
+                <div class="tr">
+                    <div class="td">@item.UserName</div>
+                    <div class="td">@item.MemberFullName</div>
+                    <div class="td">@item.Identity</div>
+                    <div class="td">@item.CreatedDate</div>
+                    <div class="td">
+                        @if (item.IsActive)
+                        {
+                            <span class="label label-success">מאושר</span>
+                        }
+                        else
+                        {
+                            <span class="label label-danger"> נדחה</span>
+                        }
+                </div>
+                <div class="td">@item.Type</div>
+                <div class="td">@item.DepartmentName</div>
+                <div class="td">@item.Year</div>
+                <div class="td">@item.Birth</div>
+                <div class="td">@item.Phone</div>
+                <div class="td">@item.Gender</div>
+            </div>
+            }
+        </div>
+    </div>
+</body>
+</html>
