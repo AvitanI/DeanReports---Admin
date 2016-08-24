@@ -6,6 +6,7 @@ using Rotativa;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -117,56 +118,38 @@ namespace DeanReports.Controllers
             int year = searchParams.Year;
             int month = searchParams.Month;
             DateTime? date = Services.Utilities.ValidateDate(year, month);
-
-            if (searchParams.Type == 1) // load charges report
-            {
-                ReportsViewModel reportsViewModel = this.GetChargesReportData(date);
-                return PartialView("LoadChargesReport", reportsViewModel);
-            }
-            else if (searchParams.Type == 2) // load refunds report
-            {
-                ReportsViewModel reportsViewModel = this.GetRefundsReportData(date);
-                return PartialView("LoadRefundsReport", reportsViewModel);
-            }
-            else if (searchParams.Type == 3) // load users report
-            {
-                ReportsViewModel reportsViewModel = this.GetUsersReportData(date);
-                return PartialView("LoadUsersReport", reportsViewModel);
-            }
-            else
-            {
-                return PartialView("ReportsError");
-            }
+            ReportsViewModel vm = this.GetReportByType(searchParams.Type, date);
+            return PartialView("ShowReportByType", vm);
         }
         //[Route("Admin/SomeName")]
-        private ReportsViewModel GetUsersReportData(DateTime? reportDate)
+        private ReportsViewModel GetReportByType(int type, DateTime? reportDate)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             ReportsViewModel reportsViewModel = new ReportsViewModel();
-            List<UserReport> users = bl.GetUsersRports(reportDate);
-            List<UsersReportViewModel> usersVM = Services.ConverterService.ToUsersReportViewModel(users);
-            reportsViewModel.Users = usersVM;
-            return reportsViewModel;
-        }
-        private ReportsViewModel GetRefundsReportData(DateTime? reportDate)
-        {
-            BussinesLayer bl = new BussinesLayer(new FinalDB());
-            ReportsViewModel reportsViewModel = new ReportsViewModel();
-            List<RefundReport> refunds = bl.GetRefundRports(reportDate);
-            List<RefundReportViewModel> refundsVM = Services.ConverterService.ToRefundReportViewModel(refunds);
-            reportsViewModel.Refunds = refundsVM;
-            return reportsViewModel;
-        }
-        private ReportsViewModel GetChargesReportData(DateTime? reportDate)
-        {
-            BussinesLayer bl = new BussinesLayer(new FinalDB());
-            ReportsViewModel reportsViewModel = new ReportsViewModel();
-            List<ChargeReport> charges = bl.GetChargeRports(reportDate);
-            List<ChargeReportViewModel> chargesVM = Services.ConverterService.ToChargeReportViewModel(charges);
-            reportsViewModel.Charges = chargesVM;
-            return reportsViewModel;
-        }
 
+            if (type == (int)ReportType.Charge) // load charges report
+            {
+                List<ChargeReport> charges = bl.GetChargeRports(reportDate);
+                List<ChargeReportViewModel> chargesVM = Services.ConverterService.ToChargeReportViewModel(charges);
+                reportsViewModel.Type = ReportType.Charge;
+                reportsViewModel.Charges = chargesVM;
+            }
+            else if (type == (int)ReportType.Refund) // load refunds report
+            {
+                List<RefundReport> refunds = bl.GetRefundRports(reportDate);
+                List<RefundReportViewModel> refundsVM = Services.ConverterService.ToRefundReportViewModel(refunds);
+                reportsViewModel.Type = ReportType.Refund;
+                reportsViewModel.Refunds = refundsVM;
+            }
+            else if (type == (int)ReportType.User) // load users report
+            {
+                List<UserReport> users = bl.GetUsersRports(reportDate);
+                List<UsersReportViewModel> usersVM = Services.ConverterService.ToUsersReportViewModel(users);
+                reportsViewModel.Type = ReportType.User;
+                reportsViewModel.Users = usersVM;
+            }
+            return reportsViewModel;
+        }
         [NonAction]
         public void SetErrorMsg(string msg)
         {
@@ -177,7 +160,6 @@ namespace DeanReports.Controllers
             };
             TempData["FancyBox"] = fb;
         }
-
         public ActionResult ExportToExcel()
         {
             // Step 1 - get the data from database
@@ -228,48 +210,45 @@ namespace DeanReports.Controllers
             }
             return View();
         }
-
-        public ActionResult Test()
+        public ActionResult ShowPDFReports(int Type, int Year, int Month)
         {
-            BussinesLayer bl = new BussinesLayer(new FinalDB());
-            ReportsViewModel reportsViewModel = new ReportsViewModel();
-            List<UserReport> users = bl.GetUsersRports();
-            // in case there is no results
-            if (users.Count() == 0) return PartialView("ReportsError");
-            List<UsersReportViewModel> usersVM = Services.ConverterService.ToUsersReportViewModel(users);
-            reportsViewModel.Users = usersVM;
-            // code to retrieve data from a database
-            return View("Test", reportsViewModel);
+            DateTime? date = Services.Utilities.ValidateDate(Year, Month);
+            ReportsViewModel vm = this.GetReportByType(Type, date);
+            return View("ShowPDFReports", vm);
         }
-
-        public ActionResult TestPDF()
+        public ActionResult ExportReport(string type, string year, string month, string ex)
         {
-            return new ActionAsPdf(
-                           "Test") { FileName = "Invoice.pdf" };
-        }
+            // handle with uncastable int
 
-        public ActionResult ExportReport(SearchReportParamsViewModel searchParams)
-        {
-            if(searchParams.ExportTo == "xls")
+            int rType = 0;
+            int rYear = 0;
+            int rMonth = 0;
+
+            Int32.TryParse(type, out rType);
+            Int32.TryParse(year, out rYear);
+            Int32.TryParse(month, out rMonth);
+
+            SearchReportParamsViewModel searchParams = new SearchReportParamsViewModel()
             {
-                return this.ExportToPDF(searchParams);
+                Type = rType,
+                Year = rYear,
+                Month = rMonth,
+                ExportTo = ex
+            };
+
+            if (searchParams.ExportTo == "xls")
+            {
+                this.ExportToExcel();
+                return View("");
             }
             else if (searchParams.ExportTo == "pdf")
             {
-                this.ExportToExcel();
+                return new ActionAsPdf("ShowPDFReports", new { Type = searchParams.Type, Year = searchParams.Year, Month = searchParams.Month }) { FileName = "TestPDF.pdf" };
             }
             else
             {
                 return PartialView("ReportsError");
             }
-            return View();
-        }
-
-        public ActionResult ExportToPDF(SearchReportParamsViewModel searchParams)
-        {
-
-
-            return View();
         }
     }
 }

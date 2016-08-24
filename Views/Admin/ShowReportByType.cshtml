@@ -1,0 +1,162 @@
+﻿@model DeanReports.ViewModels.ReportsViewModel
+
+@if (Model.Type == DeanReports.ViewModels.ReportType.Charge)
+{
+    <h2 class="tableTitle">טופס חיוב חניך עבור קבלת סיוע לימודי (תוצאות:@Model.Charges.Count())</h2>
+    <div class="tableWrap engtable">
+        <div class="tableHeaderWrap">
+            <div class="tr">
+                <div class="td">שם חניך</div>
+                <div class="td">ת"ז חניך</div>
+                <div class="td">שם חונך</div>
+                <div class="td">ת"ז חונך</div>
+                <div class="td">תאריך</div>
+                <div class="td">עלות לשעה</div>
+                <div class="td">סה"כ שעות סיוע</div>
+                <div class="td">סה"כ חיוב לתשלום</div>
+                <div class="td">הערות</div>
+                <div class="td">מס תקציב</div>
+                <div class="td">שם גורם מאשר</div>
+                <div class="td">סטטוס</div>
+            </div>
+        </div>
+        <div class="tableItemWrap">
+            @foreach (var item in Model.Charges)
+            {
+                <div class="tr">
+                    <div class="td">@item.StudentFullName</div>
+                    <div class="td">@item.StudentID</div>
+                    <div class="td">@item.TeacherFullName</div>
+                    <div class="td">@item.TeacherID</div>
+                    <div class="td">@item.Date</div>
+                    <div class="td">@item.CostPerHour</div>
+                    <div class="td">@item.SumOfHours</div>
+                    <div class="td">@item.SumOfBill &#x20AA;</div>
+                    <div class="td">@item.Notes</div>
+                    <div class="td">@item.BudgetNumber</div>
+                    <div class="td">@item.ManagerUserName</div>
+                    <div class="td">
+                        @if (item.ManagerSignature)
+                        {
+                            <span class="label label-success">מאושר</span>
+                        }
+                        else
+                        {
+                            <span class="label label-danger"> נדחה</span>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else if (Model.Type == DeanReports.ViewModels.ReportType.Refund)
+{
+    <h2 class="tableTitle">טופס זיכוי חונך עבור קבלת סיוע לימודי (תוצאות @Model.Refunds.Count())</h2>
+    <div class="tableWrap engtable">
+        <div class="tableHeaderWrap">
+            <div class="tr">
+                <div class="td">קוד טופס</div>
+                <div class="td">שם משתמש חונך</div>
+                <div class="td">שם חונך</div>
+                <div class="td">תאריך</div>
+                <div class="td">קוד קורס</div>
+                <div class="td">שם קורס</div>
+                <div class="td">שם חוג</div>
+                <div class="td">שם מרצה</div>
+                <div class="td">קבוצתי</div>
+                <div class="td">סהכ שעות לטופס</div>
+                <div class="td">שם מנהל</div>
+                <div class="td">מס תקציב</div>
+                <div class="td">מקור מימון</div>
+                <div class="td">אישור מנהל</div>
+                <div class="td">תאריך אישור</div>
+            </div>
+        </div>
+        <div class="tableItemWrap">
+            @foreach (var item in Model.Refunds)
+            {
+                <div class="tr">
+                    <div class="td">@item.ID</div>
+                    <div class="td">@item.TeacherUserName</div>
+                    <div class="td">@item.TeacherFullName</div>
+                    <div class="td">@item.Date</div>
+                    <div class="td">@item.CourseID</div>
+                    <div class="td">@item.CourseName</div>
+                    <div class="td">@item.DepartmentName</div>
+                    <div class="td">@item.LecturerName</div>
+                    <div class="td">@item.IsGrouped</div>
+                    <div class="td">@item.TotalHours</div>
+                    <div class="td">@item.ManagerFullName</div>
+                    <div class="td">@item.BudgetNumber</div>
+                    <div class="td">@item.SourceFund</div>
+                    <div class="td">
+                        @if (item.ManagerSignature)
+                        {
+                            <span class="label label-success">מאושר</span>
+                        }
+                        else
+                        {
+                            <span class="label label-danger"> נדחה</span>
+                        }
+                    </div>
+                    <div class="td">@item.SignatureDate</div>
+                </div>
+            }
+        </div>
+    </div>
+
+}
+else if (Model.Type == DeanReports.ViewModels.ReportType.User)
+{
+    <h2 class="tableTitle">(תוצאות @Model.Users.Count()) טופס משתמשים</h2>
+    <div class="tableWrap engtable">
+        <div class="tableHeaderWrap">
+            <div class="tr">
+                <div class="td">שם משתמש</div>
+                <div class="td">שם חניך</div>
+                <div class="td">ת"ז חניך</div>
+                <div class="td">תאריך יצירה</div>
+                <div class="td">פעיל</div>
+                <div class="td">סוג משתמש</div>
+                <div class="td">חוג</div>
+                <div class="td">שנה</div>
+                <div class="td">ת.לידה</div>
+                <div class="td">טלפון</div>
+                <div class="td">מין</div>
+            </div>
+        </div>
+        <div class="tableItemWrap">
+            @foreach (var item in Model.Users)
+            {
+                <div class="tr">
+                    <div class="td">@item.UserName</div>
+                    <div class="td">@item.MemberFullName</div>
+                    <div class="td">@item.Identity</div>
+                    <div class="td">@item.CreatedDate</div>
+                    <div class="td">
+                        @if (item.IsActive)
+                        {
+                            <span class="label label-success">מאושר</span>
+                        }
+                        else
+                        {
+                            <span class="label label-danger"> נדחה</span>
+                        }
+                </div>
+                <div class="td">@item.Type</div>
+                <div class="td">@item.DepartmentName</div>
+                <div class="td">@item.Year</div>
+                <div class="td">@item.Birth</div>
+                <div class="td">@item.Phone</div>
+                <div class="td">@item.Gender</div>
+            </div>
+            }
+        </div>
+    </div>
+
+}
+else
+{
+    <h1 style="color:red;">לא נמצאו תוצאות</h1>
+}

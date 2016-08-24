@@ -465,9 +465,10 @@ $("[tool-tip='true']")
 
 $('#searchReports').click(function () {
     var obj = getReportSearchParams();
+    createReportsHref(obj);
     console.log(obj);
     $.get('/Admin/SearchReports', obj).done(function (data) {
-        console.log(data);
+        //console.log(data);
         $('#table-container').html(data);
     });
 });
@@ -479,6 +480,11 @@ function getReportSearchParams() {
         reportObj[$(this).attr('data-type')] = $(this).val();
     });
     return reportObj;
+}
+
+function createReportsHref(obj) {
+    var qs = '/Admin/ExportReport?type=' + obj.type + '&year=' + obj.year + '&month=' + obj.month + '&ex=pdf';
+    $("#pdfHref").attr('href', qs);
 }
 
 $("#refundCourses").select2({
@@ -505,4 +511,8 @@ $("#refundCourses").select2({
             };
         }
     }
+});
+
+$('#print').click(function () {
+    window.print();
 });

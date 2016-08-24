@@ -1077,11 +1077,12 @@ body {
 .bg-blue {
     background-color: #0073b7 !important;
 }
-.print {
+#print {
     float: left;
     font-size: 25px;
     color: #3b3b3b;
     padding: 0 15px 0px 0;
+    cursor: pointer;
 }
 .pdf {
     float: left;

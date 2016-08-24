@@ -247,12 +247,9 @@
     <Content Include="Views\Member\ShowStatistics.cshtml" />
     <Content Include="Views\Admin\ShowReports.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
-    <Content Include="Views\Admin\Invoice.cshtml" />
-    <Content Include="Views\Admin\LoadChargesReport.cshtml" />
     <Content Include="Views\Shared\ReportsError.cshtml" />
-    <Content Include="Views\Admin\LoadRefundsReport.cshtml" />
-    <Content Include="Views\Admin\LoadUsersReport.cshtml" />
-    <Content Include="Views\Admin\Test.cshtml" />
+    <Content Include="Views\Admin\ShowReportByType.cshtml" />
+    <Content Include="Views\Admin\ShowPDFReports.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
