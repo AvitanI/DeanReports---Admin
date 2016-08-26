@@ -491,10 +491,11 @@ namespace DeanReports.Models
                 {
                     new SqlParameter("UserName", u.UserName),
                     new SqlParameter("Password", u.Password),
+                    new SqlParameter("Type", u.Type),
                     new SqlParameter("UserImg", u.UserImg),
                     new SqlParameter("IsActive", u.IsActive)
                 };
-                dbContext.Database.ExecuteSqlCommand(@"Update_User @UserName, @Password, @UserImg, @IsActive", parameters);
+                dbContext.Database.ExecuteSqlCommand(@"Update_User @UserName, @Password, @Type, @UserImg, @IsActive", parameters);
                 dbContext.SaveChanges();
                 return true;
             }
@@ -537,6 +538,19 @@ namespace DeanReports.Models
             {
                 Debug.WriteLine("Problem with Update Last Login Details function: " + e);
                 return false;
+            }
+        }
+        public List<UserReport> GetAllUsers()
+        {
+            try
+            {
+                List<UserReport> users = dbContext.Database.SqlQuery<UserReport>(@"GetAllUsers").ToList();
+                return users;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetAllUsers function: " + e);
+                return new List<UserReport>();
             }
         }
 
@@ -1442,6 +1456,45 @@ namespace DeanReports.Models
             {
                 Debug.WriteLine("Problem with GetCoursesByDepartmentID function: " + e);
                 return new List<Course>();
+            }
+        }
+
+        // Manager messages section
+
+        public bool AddManagerMessage(ManagerMessages m)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("Content", m.Content),
+                    new SqlParameter("Created", m.Created)  
+                };
+
+                dbContext.Database.ExecuteSqlCommand("Create_ManagerMessage @Content, @Created", parameters);
+                dbContext.SaveChanges();
+                return true;
+
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with AddManagerMessage function: " + e);
+                return false;
+            }
+        }
+        public bool RemoveManagerMessage(ManagerMessages m)
+        {
+            try
+            {
+                var messageID = new SqlParameter("ID", m.ID);
+                dbContext.Database.ExecuteSqlCommand("Delete_ManagerMessage @ID", messageID);
+                dbContext.SaveChanges();
+                return true;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with RemoveManagerMessage function: " + e);
+                return false;
             }
         }
     

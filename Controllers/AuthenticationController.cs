@@ -29,7 +29,7 @@ namespace DeanReports.Controllers
             {
                 BussinesLayer bl = new BussinesLayer(new FinalDB());
                 User user = bl.GetUserValidity(new User() { UserName = u.UserName, Password = u.Password });
-                if (user != null && user.Type != Types.NonUser)
+                if (user != null && user.Type != Types.NonUser && user.IsActive)
                 {
                     FormsAuthentication.SetAuthCookie(u.UserName, false);
                     this.CreateMemberShipByUser(user);
@@ -147,9 +147,10 @@ namespace DeanReports.Controllers
                     {
                         UserName = registerViewModel.UserName,
                         Password = registerViewModel.Password,
-                        LastLogin = System.DateTime.Now,
-                        Type = Types.Admin,
-                        UserImg = imgPath
+                        LastLogin = DateTime.Now,
+                        Type = Types.NonUser,
+                        UserImg = imgPath,
+                        CreatedDate = DateTime.Now
                     };
                     bl.AddUser(u);
                     // add new member to user
@@ -217,9 +218,6 @@ namespace DeanReports.Controllers
                     Name = item.Name
                 });
             }
-            //userProfileVM.DepartmentName = (from a in departments
-            //                               where a.ID == userProfileModel.DepartmentID
-            //                               select a.Name).Single();
             userProfileVM.Departments = departmentViewModelList;
             return View("ShowUserProfile", userProfileVM);
         }

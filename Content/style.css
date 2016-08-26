@@ -947,6 +947,9 @@ body {
     display: table-row-group;
     width: 100%;
 }
+.tr.noUndLn{
+    text-decoration: none;
+}
 .tableItemWrap .tr:nth-child(odd) {
     background: #f6f6f6;
 }
@@ -1088,6 +1091,12 @@ body {
     float: left;
     font-size: 25px;
     color: #f80000;
+    padding: 0 15px 0px 0;
+}
+.xls {
+    float: left;
+    font-size: 25px;
+    color: #008f00;
 }
 .serachReports {
     
@@ -1109,3 +1118,18 @@ body {
     text-align:right;
     color:#343434 ;
 }
+.usersTabWrapper {
+    padding:20px;
+}
+.checkActive {
+    text-align: right;
+    margin-bottom: 10px;
+}
+.typeComb {
+    text-align: right;
+    display: block;
+}
+/*.swiper-container {
+    width: 600px;
+    height: 300px;
+}*/  

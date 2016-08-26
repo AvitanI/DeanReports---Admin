@@ -7,7 +7,7 @@ using System.Web;
 
 namespace DeanReports.Models
 {
-    public enum Types { Admin, Teacher, Student, NonUser }
+    public enum Types { NonUser, Student, Teacher, Admin }
 
     [Table("User")]
     public class User

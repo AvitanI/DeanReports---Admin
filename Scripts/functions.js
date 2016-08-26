@@ -1,4 +1,13 @@
-﻿$('#userToggle').click(function (event) {
+﻿var mySwiper = new Swiper('.swiper-container', {
+    // Optional parameters
+    direction: 'vertical',
+    loop: true,
+    autoplay: 2500,
+    slidesPerView: 1
+});
+
+
+$('#userToggle').click(function (event) {
     event.stopPropagation();
     $('.userProfile').toggleClass('active');
 });
@@ -483,8 +492,9 @@ function getReportSearchParams() {
 }
 
 function createReportsHref(obj) {
-    var qs = '/Admin/ExportReport?type=' + obj.type + '&year=' + obj.year + '&month=' + obj.month + '&ex=pdf';
-    $("#pdfHref").attr('href', qs);
+    var qs = '/Admin/ExportReport?type=' + obj.type + '&year=' + obj.year + '&month=' + obj.month + '&ex=';
+    $("#pdfHref").attr('href', qs + 'pdf');
+    $("#xlsHref").attr('href', qs + 'xls');
 }
 
 $("#refundCourses").select2({
@@ -515,4 +525,13 @@ $("#refundCourses").select2({
 
 $('#print').click(function () {
     window.print();
+});
+
+$('#isActive').click(function () {
+    if($(this).is(':checked')){
+        $(this).val(true);
+    }
+    else {
+        $(this).val(false);
+    }
 });

@@ -22,5 +22,6 @@ namespace DeanReports.Models
         public Types Type { get; set; }
         public DateTime LastLogin { get; set; }
         public string UserImg { get; set; }
+        public bool IsActive { get; set; }
     }
 }

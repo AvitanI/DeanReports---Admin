@@ -98,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\swiper.min.css" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\circles.min.js" />
     <Content Include="Content\fancybox_overlay.png" />
@@ -138,6 +139,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\select2.js" />
+    <Content Include="Scripts\swiper.min.js" />
     <Content Include="Scripts\test.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -152,6 +154,7 @@
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Models\ChargeReport.cs" />
+    <Compile Include="Models\ManagerMessages.cs" />
     <Compile Include="Models\RefundReport.cs" />
     <Compile Include="Models\StudentStatistics.cs" />
     <Compile Include="Models\UserReport.cs" />
@@ -250,6 +253,9 @@
     <Content Include="Views\Shared\ReportsError.cshtml" />
     <Content Include="Views\Admin\ShowReportByType.cshtml" />
     <Content Include="Views\Admin\ShowPDFReports.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Admin\EditUsers.cshtml" />
+    <Content Include="Views\Admin\EditUserByID.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

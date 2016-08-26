@@ -4,6 +4,7 @@
 <head>
     <title>@ViewBag.Title</title>
     <meta charset="UTF-8" />
+    <link href="~/Content/swiper.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.min.css" />
@@ -204,18 +205,22 @@
                 הודעות שוטפות
             </div>
             <div class="generalMessages">
-                <div class="messageItem">
-                    גב' מיכל פישר
-                    <br>
-                    תיעדר בין התאריכים
-                    <br>
-                    1/1/2016 - 7/1/2016
-                </div>
-                <div class="messageItem">
-                    קבלת סטודנטים תתבצע<br>
-                    בימים א' - ה'<br>
-                    בין השעות<br>
-                    10:00 - 14:00
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide messageItem">
+                            גב' מיכל פישר
+                            <br>
+                            תיעדר בין התאריכים
+                            <br>
+                            1/1/2016 - 7/1/2016
+                        </div>
+                        <div class="swiper-slide messageItem">
+                            קבלת סטודנטים תתבצע<br>
+                            בימים א' - ה'<br>
+                            בין השעות<br>
+                            10:00 - 14:00
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -239,6 +244,7 @@
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.carouFredSel.packed.js"></script>
     <script src="~/Scripts/circles.min.js"></script>
+    <script src="~/Scripts/swiper.min.js"></script>
     <script src="~/Scripts/functions.js"></script>
     @RenderSection("statJS", required: false)
 </body>

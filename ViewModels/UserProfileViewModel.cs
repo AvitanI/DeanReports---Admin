@@ -31,10 +31,13 @@ namespace DeanReports.ViewModels
         [Required]
         public string Password { get; set; }
         public Types Type { get; set; }
+        public string[] UserTypesNames { get { return new string[] {"אינו משתמש", "חניך", "חונך", "מנהל" }; } }
+        public int[] UserTypes { get { return new int[]{0, 1, 2, 3};} }
         public DateTime LastLogin { get; set; }
         [Required]
         public string UserImg { get; set; }
         public List<DepartmentViewModel> Departments { get; set; }
         public string[] UserProfileImages { get; set; }
+        public bool IsActive { get; set; }
     }
 }
