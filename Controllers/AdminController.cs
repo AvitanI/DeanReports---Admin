@@ -445,8 +445,14 @@ namespace DeanReports.Controllers
             return RedirectToAction("EditUsers");
         }
 
+        public ActionResult AddManagerMessages(ManagerMessagesViewModel managerMessagesVM)
+        {
+            
+        }
+
         public string Test()
         {
+            ManagerMessagesViewModel c = new ManagerMessagesViewModel();
             User u = new User() { UserName="shimi", Password="1234"};
 
             string txt = "";
