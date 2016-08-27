@@ -445,10 +445,15 @@ namespace DeanReports.Controllers
             return RedirectToAction("EditUsers");
         }
 
-        public ActionResult AddManagerMessages(ManagerMessagesViewModel managerMessagesVM)
-        {
-            
-        }
+        //public ActionResult AddManagerMessages()
+        //{
+        //    return View("");
+        //}
+        //[HttpPost]
+        //public ActionResult AddManagerMessages(ManagerMessagesViewModel managerMessagesVM)
+        //{
+        //    return View("");
+        //}
 
         public string Test()
         {

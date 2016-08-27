@@ -193,6 +193,7 @@
     <Compile Include="ViewModels\CourseViewModel.cs" />
     <Compile Include="ViewModels\DepartmentViewModel.cs" />
     <Compile Include="ViewModels\FancyBox.cs" />
+    <Compile Include="ViewModels\ManagerMessagesViewModel.cs" />
     <Compile Include="ViewModels\MemberListViewModel.cs" />
     <Compile Include="ViewModels\MemberViewModel.cs" />
     <Compile Include="ViewModels\MessagesListViewModel.cs" />
@@ -256,6 +257,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Admin\EditUsers.cshtml" />
     <Content Include="Views\Admin\EditUserByID.cshtml" />
+    <Content Include="Views\Emails\SendUserDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

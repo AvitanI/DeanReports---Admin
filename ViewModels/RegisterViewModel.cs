@@ -21,8 +21,7 @@ namespace DeanReports.ViewModels
         public int? DepartmentID { get; set; }
         [Required]
         public string Gender { get; set; }
-        [Required, Range(0, 4)]
-        public int SelectedYear { get; set; }
+        public int? SelectedYear { get; set; }
         public string Year { get; set; }
         [Required, RegularExpression(@"^\d{2}\/\d{2}\/\d{2}$")]
         public string Birth { get; set; }

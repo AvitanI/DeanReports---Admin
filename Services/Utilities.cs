@@ -11,6 +11,8 @@ namespace DeanReports.Services
 {
     public class Utilities
     {
+        public enum MessageFilter { To, From, Both}
+
         // class variables
 
         public static List<SideBarMenuViewModel> Menus = new List<SideBarMenuViewModel>()
@@ -107,10 +109,11 @@ namespace DeanReports.Services
             }
             return result;
         }
-        public static void SendEmail(string to, string type)
+        public static void SendEmail(string to, string type, string content = "")
         {
             dynamic email = new Email(type);
             email.To = to;
+            email.Content = content;
             email.Send();
         }
         public static string GetTextWithoutHTML(string htmlContents)

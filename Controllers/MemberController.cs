@@ -111,14 +111,25 @@ namespace DeanReports.Controllers
             }
             return Json(new { success = false }, JsonRequestBehavior.AllowGet);
         }
-        public ActionResult ShowAllMessages()
+        public ActionResult ShowAllMessages(int type)
         {
             var username = Session["Username"] as string;
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             MessagesListViewModel messagesListViewModel = new MessagesListViewModel();
-            List<Messages> messagesModel = bl.GetMessagesByUser(username);
+            List<Messages> messagesModel = bl.GetMessagesByUser(username, (Utilities.MessageFilter)type);
             messagesListViewModel.List = Services.ConverterService.ToMessagesViewModel(messagesModel);
-            return View("ShowAllMessages", messagesListViewModel);
+            if ((Utilities.MessageFilter)type == Utilities.MessageFilter.To)
+            {
+                return View("ShowInMessages", messagesListViewModel);
+            }
+            else if ((Utilities.MessageFilter)type == Utilities.MessageFilter.From)
+            {
+                return View("ShowOutMessages", messagesListViewModel);
+            }
+            else
+            {
+                return new EmptyResult();
+            }
         }
         public ActionResult ReadMessageByID(int? id)
         {

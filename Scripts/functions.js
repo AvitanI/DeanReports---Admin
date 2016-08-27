@@ -1,11 +1,12 @@
-﻿var mySwiper = new Swiper('.swiper-container', {
-    // Optional parameters
-    direction: 'vertical',
-    loop: true,
-    autoplay: 2500,
-    slidesPerView: 1
-});
-
+﻿$('.swiper-container').length && (function () {
+    var mySwiper = new Swiper('.swiper-container', {
+        // Optional parameters
+        direction: 'vertical',
+        loop: true,
+        autoplay: 2500,
+        slidesPerView: 1
+    });
+}());
 
 $('#userToggle').click(function (event) {
     event.stopPropagation();

@@ -28,4 +28,4 @@ C:\Users\Idan's\documents\visual studio 2013\Projects\DeanReports\bin\HtmlAgilit
 C:\Users\Idan's\documents\visual studio 2013\Projects\DeanReports\bin\HtmlAgilityPack.pdb
 C:\Users\Idan's\documents\visual studio 2013\Projects\DeanReports\bin\HtmlAgilityPack.xml
 C:\Users\Idan's\documents\visual studio 2013\Projects\DeanReports\bin\Rotativa.dll
-C:\Users\Idan's\Documents\Visual Studio 2013\Projects\DeanReports\obj\Debug\DeanReports.csprojResolveAssemblyReference.cache
+C:\Users\Idan's\documents\visual studio 2013\Projects\DeanReports\obj\Debug\DeanReports.csprojResolveAssemblyReference.cache

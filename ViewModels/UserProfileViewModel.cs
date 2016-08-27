@@ -20,7 +20,6 @@ namespace DeanReports.ViewModels
         [Required]
         public string Gender { get; set; }
         public string DepartmentName { get; set; }
-        [Required]
         public string Year { get; set; }
         [Required]
         public string Birth { get; set; }
@@ -39,5 +38,6 @@ namespace DeanReports.ViewModels
         public List<DepartmentViewModel> Departments { get; set; }
         public string[] UserProfileImages { get; set; }
         public bool IsActive { get; set; }
+        public bool IsStudent { get; set; }
     }
 }

@@ -44,7 +44,7 @@ namespace DeanReports.Controllers
                         Message = "שם משתמש ו/או סיסמה לא תקינים"
                     };
                     TempData["FancyBox"] = fb;
-                    return View("Login", new UserViewModel() { });
+                    return View("Login", new UserViewModel() { UserName= u.UserName});
                 }
             }
             else
@@ -71,7 +71,7 @@ namespace DeanReports.Controllers
             Session["UserImg"] = u.UserImg;
             Session["FullName"] = member.LastName + " " + member.FirstName;
             Session["DepartmentID"] = member.DepartmentID;
-            Session["Messages"] = Services.ConverterService.ToMessagesViewModel(bl.GetMessagesByUser(u.UserName));
+            Session["Messages"] = Services.ConverterService.ToMessagesViewModel(bl.GetMessagesByUser(u.UserName, Services.Utilities.MessageFilter.To));
             Session["Menu"] = Services.Utilities.GetMenuByUserType(u);
         }
         [AllowAnonymous]
@@ -159,7 +159,7 @@ namespace DeanReports.Controllers
                         MemberUserName = registerViewModel.UserName,
                         Identity = registerViewModel.Identity,
                         DepartmentID = registerViewModel.DepartmentID,
-                        Year = Services.Utilities.AcademicYears[registerViewModel.SelectedYear],
+                        Year = (registerViewModel.SelectedYear == null) ? "Default" : Services.Utilities.AcademicYears[(int)registerViewModel.SelectedYear],
                         FirstName = registerViewModel.FirstName,
                         LastName = registerViewModel.LastName,
                         Birth = DateTime.ParseExact(registerViewModel.Birth, "dd/MM/yy", null),
@@ -196,7 +196,7 @@ namespace DeanReports.Controllers
                 Identity = userProfileModel.Identity,
                 FirstName = userProfileModel.FirstName,
                 LastName = userProfileModel.LastName,
-                DepartmentID = userProfileModel.DepartmentID,
+                DepartmentID = (userProfileModel.DepartmentID != null) ? userProfileModel.DepartmentID : 1,
                 Year = userProfileModel.Year,
                 Gender = userProfileModel.Gender,
                 Birth = userProfileModel.Birth.ToString("dd/MM/yyyy"),
@@ -218,6 +218,11 @@ namespace DeanReports.Controllers
                     Name = item.Name
                 });
             }
+            string departName = (from d in departmentViewModelList
+                            where userProfileVM.DepartmentID == d.ID
+                            select d.Name).Single();
+
+            userProfileVM.IsStudent = (departName == "אחר") ? false : true;
             userProfileVM.Departments = departmentViewModelList;
             return View("ShowUserProfile", userProfileVM);
         }
@@ -242,15 +247,19 @@ namespace DeanReports.Controllers
                 {
                     UserName = userProfileVM.UserName,
                     Password = userProfileVM.Password,
-                    UserImg = userProfileVM.UserImg
+                    UserImg = userProfileVM.UserImg,
+                    IsActive = true,
+                    Type = (Types)Session["Role"]
+
                 };
                 bl.EditUser(userModel);
+
                 Member memberModel = new Member()
                 {
                     MemberUserName = userProfileVM.UserName,
                     Identity = userProfileVM.Identity,
-                    DepartmentID = userProfileVM.DepartmentID,
-                    Year = userProfileVM.Year,
+                    DepartmentID = (userProfileVM.DepartmentID != null) ? userProfileVM.DepartmentID : 1,
+                    Year = (String.IsNullOrEmpty(userProfileVM.Year)) ? "Default" : userProfileVM.Year,
                     Gender = userProfileVM.Gender,
                     FirstName = userProfileVM.FirstName,
                     LastName = userProfileVM.LastName,
@@ -283,7 +292,14 @@ namespace DeanReports.Controllers
         {
             return Json(new { answer = new BussinesLayer(new FinalDB()).IsUserExist(username) }, JsonRequestBehavior.AllowGet);
         }
-
+        public ActionResult SendUserDetails(string username)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            User u = bl.GetUserByUsername(username);
+            if (u == null) return View("Login");
+            Services.Utilities.SendEmail(username, "SendUserDetails", "Username: " + u.UserName + "</br>" + "Password: " + u.Password);
+            return View("Login", new UserViewModel() { UserName = username });
+        }
         public string test()
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());

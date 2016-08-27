@@ -34,7 +34,7 @@
             <div class="formTitle">התחברות למערכת</div>
             <form id="loginForm" method="post" action="/Authentication/Login" class="loginForm">
                 <div class="inputWrapper">
-                    <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs" />
+                    <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs" value="@Model.UserName" />
                     <i class="fa fa-envelope inputsIcons" aria-hidden="true"></i>
                     <div class="clear"></div>
                 </div>
@@ -45,7 +45,7 @@
                 </div>
                 <a href="/Authentication/Register" class="hrefBlue">הרשמה לאתר</a>
                 <div class="clear"></div>
-                <a href="#" class="hrefBlue">שכחתי סיסמה</a>
+                <a href="/Authentication/SendUserDetails?username=@Model.UserName" class="hrefBlue">שכחתי סיסמה</a>
                 <div class="clear"></div>
                 <input type="submit" name="submit" value="התחבר" class="submit" />
 

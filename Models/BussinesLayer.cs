@@ -71,6 +71,7 @@ namespace DeanReports.Models
 
             List<Department> departments = new List<Department>()
             {
+                new Department(){ID = 0, Name = "אחר"},
                 new Department(){ID = 1, Name = "מערכות מידע ניהוליות"},
                 new Department(){ID = 2, Name = "כלכלה וניהול"},
                 new Department(){ID = 3, Name = "שירותי אנוש"},
@@ -1551,13 +1552,29 @@ namespace DeanReports.Models
                 return false;
             }
         }
-        public List<Messages> GetMessagesByUser(string username)
+        public List<Messages> GetMessagesByUser(string username, DeanReports.Services.Utilities.MessageFilter filter)
         {
             try
             {
                 var Username = new SqlParameter("Username", username);
                 List<Messages> messages = dbContext.Database.SqlQuery<Messages>(@"GetMessagesByUser @Username", Username).ToList();
-                return messages;
+                switch (filter)
+                {
+                    case DeanReports.Services.Utilities.MessageFilter.To:
+                        return (from m in messages
+                                where m.ToUser == username
+                                select m).ToList<Messages>();
+                    case DeanReports.Services.Utilities.MessageFilter.From:
+                        return (from m in messages
+                                where m.From == username
+                                select m).ToList<Messages>();
+                    case DeanReports.Services.Utilities.MessageFilter.Both:
+                        return (from m in messages
+                                where m.ToUser == username || m.From == username
+                                select m).ToList<Messages>();
+                    default:
+                        return messages;
+                }
             }
             catch (SqlException e)
             {

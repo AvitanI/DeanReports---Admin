@@ -63,6 +63,8 @@
                         <i class="fa fa-calendar inputsIcons" aria-hidden="true"></i>
                         <div class="clear"></div>
                     </div>
+                    @if (Model.IsStudent)
+                    { 
                     <div class="inputWrapper">
                         <select name="DepartmentID" class="departmentCombo">
                             @foreach (var item in Model.Departments)
@@ -85,6 +87,7 @@
                         <i class="fa fa-hourglass-half inputsIcons" aria-hidden="true"></i>
                         <div class="clear"></div>
                     </div>
+                    }
                     <div class="inputWrapper">
                         <input type="text" name="Phone" placeholder="טלפון נייד" class="loginInputs" value="@Model.Phone" />
                         <i class="fa fa-phone inputsIcons" aria-hidden="true"></i>
