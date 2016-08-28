@@ -1723,6 +1723,40 @@ namespace DeanReports.Models
                 return new StudentStatistics();
             }
         }
+        public TeacherStatistics GetTeacherStatistics(string username)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("Username", username)
+                };
+                TeacherStatistics statistics = dbContext.Database.SqlQuery<TeacherStatistics>("GetTeacherStatistics @Username", parameters).Single();
+                return statistics;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetTeacherStatistics function: " + e);
+                return new TeacherStatistics();
+            }
+        }
+        public ManagerStatistics GetManagerStatistics(string username)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("Username", username)
+                };
+                ManagerStatistics statistics = dbContext.Database.SqlQuery<ManagerStatistics>("GetManagerStatistics @Username", parameters).Single();
+                return statistics;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetManagerStatistics function: " + e);
+                return new ManagerStatistics();
+            }
+        }
     
     }
 }

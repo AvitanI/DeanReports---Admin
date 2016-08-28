@@ -11,13 +11,9 @@ namespace DeanReports.Models
     [NotMapped]
     public class StudentStatistics
     {
-        [Display(Name = "test1")]
         public string Requests { get; set; }
-        [Display(Name = "test2")]
         public string Sessions { get; set; }
-        [Display(Name = "test3")]
         public string CourseRequets { get; set; }
-        [Display(Name = "test4")]
         public string ApprovalHours { get; set; }
     }
 }

@@ -155,8 +155,10 @@
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Models\ChargeReport.cs" />
     <Compile Include="Models\ManagerMessages.cs" />
+    <Compile Include="Models\ManagerStatistics.cs" />
     <Compile Include="Models\RefundReport.cs" />
     <Compile Include="Models\StudentStatistics.cs" />
+    <Compile Include="Models\TeacherStatistics.cs" />
     <Compile Include="Models\UserReport.cs" />
     <Compile Include="Models\UserSessions.cs" />
     <Compile Include="Services\Utilities.cs" />
@@ -246,8 +248,8 @@
     <Content Include="Views\Student\CreateNewEnglishRequest.cshtml" />
     <Content Include="Views\Student\ShowSessions.cshtml" />
     <Content Include="Views\Member\SendMessages.cshtml" />
-    <Content Include="Views\Member\ShowAllMessages.cshtml" />
-    <Content Include="Views\Member\ShowMessage.cshtml" />
+    <Content Include="Views\Member\ShowInMessages.cshtml" />
+    <Content Include="Views\Member\ShowOutMessages.cshtml" />
     <Content Include="Views\Member\ShowStatistics.cshtml" />
     <Content Include="Views\Admin\ShowReports.cshtml" />
     <Content Include="App_Browsers\qt.browser" />
@@ -258,6 +260,7 @@
     <Content Include="Views\Admin\EditUsers.cshtml" />
     <Content Include="Views\Admin\EditUserByID.cshtml" />
     <Content Include="Views\Emails\SendUserDetails.cshtml" />
+    <Content Include="ClassDiagram1.cd" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

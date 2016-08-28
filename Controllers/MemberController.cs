@@ -85,7 +85,7 @@ namespace DeanReports.Controllers
             Messages messagesModel = Services.ConverterService.ToMessagesModel(messageVM);
             messagesModel.Type = MessageType.General;
             this.SendMessage(messagesModel);
-            return Redirect("ShowAllMessages");
+            return RedirectToAction("ShowAllMessages", new { type = (int)Utilities.MessageFilter.From });
         }
         [NonAction]
         public bool SendMessage(Messages message)
@@ -158,52 +158,142 @@ namespace DeanReports.Controllers
         public ActionResult ShowStatistics() 
         {
             string username = Session["Username"] as string;
-            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            Types role = (Types)Session["Role"];
             StatisticsViewModel statViewModel = new StatisticsViewModel();
-            List<CircleDataViewModel> circleList = new List<CircleDataViewModel>();
-            StudentStatistics statistics = bl.GetStudentStatistics(username);
-
-            circleList.Add(new CircleDataViewModel() 
-            {
-                ID = "quadrant1",
-                Title = "בקשות שאושרו מתוך סך הבקשות",
-                Value = this.GetPercent(statistics.Requests),
-                MaxValue = 100
-            });
-
-            circleList.Add(new CircleDataViewModel()
-            {
-                ID = "quadrant2",
-                Title = "פגישות שאישרתי מתוך סך הפגישות",
-                Value = this.GetPercent(statistics.Sessions),
-                MaxValue = 100
-            });
-
-            circleList.Add(new CircleDataViewModel()
-            {
-                ID = "quadrant3",
-                Title = "בקשות שהוגשו מאותו הקורס",
-                Value = this.GetPercent(statistics.CourseRequets),
-                MaxValue = 100
-            });
-
-            circleList.Add(new CircleDataViewModel()
-            {
-                ID = "quadrant4",
-                Title = "ניצול השעות מתוך השעות המאושרות",
-                Value = this.GetPercent(statistics.ApprovalHours),
-                MaxValue = 100
-            });
+            List<CircleDataViewModel> circleList = LoadStatisticsByType(username, role);
             statViewModel.Data = circleList;
             return View("ShowStatistics", statViewModel);
         }
+        private List<CircleDataViewModel> LoadStatisticsByType(string username, Types role)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            List<CircleDataViewModel> circleList = new List<CircleDataViewModel>();
+
+            if (role == Types.Student)
+            {
+                StudentStatistics statistics = bl.GetStudentStatistics(username);
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant1",
+                    Title = "בקשות שאושרו מתוך סך הבקשות",
+                    Value = this.GetPercent(statistics.Requests),
+                    MaxValue = 100
+                });
+
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant2",
+                    Title = "פגישות שאישרתי מתוך סך הפגישות",
+                    Value = this.GetPercent(statistics.Sessions),
+                    MaxValue = 100
+                });
+
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant3",
+                    Title = "בקשות שהוגשו מאותו הקורס",
+                    Value = this.GetPercent(statistics.CourseRequets),
+                    MaxValue = 100
+                });
+
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant4",
+                    Title = "ניצול השעות מתוך השעות המאושרות",
+                    Value = this.GetPercent(statistics.ApprovalHours),
+                    MaxValue = 100
+                });
+            }
+            else if (role == Types.Teacher)
+            {
+                TeacherStatistics statistics = bl.GetTeacherStatistics(username);
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant1",
+                    Title = "אחוז החניכים שלימדתי מתוך הסך",
+                    Value = this.GetPercent(statistics.NumOfTeachedStudents),
+                    MaxValue = 100
+                });
+
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant2",
+                    Title = "אחוז השעות הלימוד מתוך סך הפגישות",
+                    Value = this.GetPercent(statistics.NumOfHours),
+                    MaxValue = 100
+                });
+
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant3",
+                    Title = "אחוז הפגישות שאושרו על-ידי חניכים",
+                    Value = this.GetPercent(statistics.NumOfApprovalSessions),
+                    MaxValue = 100
+                });
+
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant4",
+                    Title = "אחוז הפגישות שהן שיעור יחיד מתוך הסך ",
+                    Value = this.GetPercent(statistics.NumOfSingleRefunds),
+                    MaxValue = 100
+                });
+            }
+            else if (role == Types.Admin)
+            {
+                ManagerStatistics statistics = bl.GetManagerStatistics(username);
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant1",
+                    Title = "אחוז הבקשות שאישרתי מתוך סך הבקשות",
+                    Value = this.GetPercent(statistics.NumOfApprovalRequets),
+                    MaxValue = 100
+                });
+
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant2",
+                    Title = "אחוז ההודעות ששלחתי מתוך ההודעות שקיבלתי",
+                    Value = this.GetPercent(statistics.NumOfMessages),
+                    MaxValue = 100
+                });
+
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant3",
+                    Title = "אחוז החניכים מתוך כלל המשתמשים",
+                    Value = this.GetPercent(statistics.NumOfStudents),
+                    MaxValue = 100
+                });
+
+                circleList.Add(new CircleDataViewModel()
+                {
+                    ID = "quadrant4",
+                    Title = "אחוז הבקשות שהן לשיעורי אנגלית מתוך כלל הבקשות",
+                    Value = this.GetPercent(statistics.NumOfENRequets),
+                    MaxValue = 100
+                });
+            }
+            else
+            {
+                return new List<CircleDataViewModel>();
+            }
+            return circleList;
+        }
         private int GetPercent(string input)
         {
-            string[] values = input.Split('/');
-            if(input == null || values.Length < 2) return 0;
-            int numerator = Int32.Parse(values[0].Trim());
-            int denominator = Int32.Parse(values[1].Trim());
-            return (int)Math.Floor((double)numerator / denominator * 100);
+            try
+            {
+                string[] values = input.Split('/');
+                if(input == null || values.Length < 2) return 0;
+                int numerator = Int32.Parse(values[0].Trim());
+                int denominator = Int32.Parse(values[1].Trim());
+                return (int)Math.Floor((double)numerator / denominator * 100);
+            }
+            catch (Exception e)
+            {
+                return 0;
+            }
         }
         public JsonResult SerachMessages(string query)
         {
