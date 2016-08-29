@@ -132,13 +132,32 @@ body {
 #messagesParent {
     position: relative;
 }
+.settings {
+    display: none;
+    background: #222d32;
+    width: 280px;
+    height: 100px;
+    position: absolute;
+    top: 51px;
+    left: -50%;
+    border: 1px solid #ccc;
+    z-index: 5;
+    transition: all 0.4s ease-in-out;
+    animation-delay: 2s;
+}
+.settings.active {
+    transition: all 0.4s ease-in-out;
+    animation-delay: 2s;
+    display: block;
+    left: 0%;
+}
 .messagesDropDown {
     list-style-type: none;
     padding:0;
     margin:0;
     position: absolute;
     top: 50px;
-    left: 244px;
+    left: 0;
     background: #fff;
     width: 280px;
     border: 1px solid #eee;
@@ -726,6 +745,7 @@ body {
     padding: 10px;
 }
 .updateSubmit {
+    font-size: 16px;
     height: 34px;
     width: 84px;
     border: none;
@@ -1129,7 +1149,41 @@ body {
     text-align: right;
     display: block;
 }
-/*.swiper-container {
-    width: 600px;
-    height: 300px;
-}*/  
+#example_filter input {
+    height: 32px;
+    border: 1px solid #aaa !important;
+    margin-bottom: 10px;
+    padding: 0 10px 0 0px;
+}
+.paginate_active {
+    background: #3c8dbc !important;
+    color: #fff !important;
+    font-size: 20px !important;
+    padding: 5px !important;
+}
+.paginate_button:hover{
+    background: #3c8dbc !important;
+    border: 1px solid #fff !important;
+}
+.messagesForm {
+    padding: 20px;
+}
+.messageSubject {
+    height: 32px;
+    border: 1px solid #aaa !important;
+    margin-bottom: 10px;
+    padding: 0 10px 0 0px;
+    width: 100%;
+}
+.messagesForm .select2-selection.select2-selection--single {
+    height: 32px !important;
+    width: 100% !important;
+    border: 1px solid #aaa !important; 
+}
+.messagesForm .select2-container {
+    width: 100% !important;
+}
+.messagesInputsWrap {
+    width: 1000px;
+    margin: auto;
+}

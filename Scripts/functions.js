@@ -1,4 +1,8 @@
-﻿$('.swiper-container').length && (function () {
+﻿$(document).ready(function () {
+    $('#example').dataTable({ "sPaginationType": "full_numbers" });
+});
+
+$('.swiper-container').length && (function () {
     var mySwiper = new Swiper('.swiper-container', {
         // Optional parameters
         direction: 'vertical',
@@ -8,23 +12,20 @@
     });
 }());
 
-$(document).mouseup(function (e) {
-    var container = $(".userProfile");
-
-    if (!container.is(e.target) // if the target of the click isn't the container...
-        && container.has(e.target).length === 0) // ... nor a descendant of the container
-    {
-        $(container).remove('active');
-        //container.hide();
-    }
-});
-
 $('#userToggle').click(function (event) {
+    $('.topMenu > li').find('.active').removeClass('active');
     event.stopPropagation();
     $('.userProfile').toggleClass('active');
 });
 
+$('#userSettings').click(function (event) {
+    $('.topMenu > li').find('.active').removeClass('active');
+    event.stopPropagation();
+    $('.settings').toggleClass('active');
+});
+
 $('#messagesParent').click(function (event) {
+    $('.topMenu > li').find('.active').removeClass('active');
     event.stopPropagation();
     var ids = "";
     var length = $('.userMessages').length;
@@ -323,12 +324,13 @@ $('textarea#ckAdmin').length && $('textarea#ckAdmin').ckeditor({
 });
 
 $(".membersMessages").length && $(".membersMessages").select2({
+    placeholder: "בחר משתמש אשר ברצונך לשלוח לו הודעה",
     ajax: {
         url: "/Member/GetMemberDetails",
         dataType: 'json',
         delay: 250,
         data: function (params) {
-            console.log(params);
+            //console.log(params);
             return {
                 query: params.term// search term
                 //page: params.page
@@ -342,10 +344,10 @@ $(".membersMessages").length && $(".membersMessages").select2({
             //params.page = params.page || 1;
             return {
                 results: $.map(data, function (item) {
-                    //console.log(item);
+                    console.log(item);
                     if (item) {
                         return {
-                            text: item.MemberUserName + " || " + item.FirstName + " || " + item.LastName,
+                            text: item.MemberUserName + " || " + item.FirstName + " || " + item.LastName + " || " + item.Phone + " || " + item.Gender,
                             //slug: item.slug,
                             id: item.MemberUserName
                         }

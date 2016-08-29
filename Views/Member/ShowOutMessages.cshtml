@@ -5,6 +5,10 @@
 }
 
 @section mainContent {
+    @if (Model.List.Count() == 0)
+    {
+        <h1>לא נמצאו תוצאות מתאימות</h1>
+    }
     @foreach (var item in Model.List)
     {
         <div class="blockWrapper" style="width:55%;">

@@ -5,6 +5,10 @@
 }
 
 @section  mainContent {
+    @if (Model.List.Count() == 0)
+    {
+        <h1>לא נמצאו תוצאות מתאימות</h1>
+    }
     <div class="allMessagesWrapper">
     @{string[] labelColor = { "labelYellow", "labelRed", "labelGreen", "labelBlue" }; int index = -1;}
     <ul class="timelineMessages">

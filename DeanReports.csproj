@@ -98,7 +98,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jquery.dataTables.css" />
+    <Content Include="images\sort_asc.png" />
+    <Content Include="images\sort_asc_disabled.png" />
+    <Content Include="images\sort_both.png" />
+    <Content Include="images\sort_desc.png" />
+    <Content Include="images\sort_desc_disabled.png" />
     <Content Include="Content\swiper.min.css" />
+    <Content Include="Content\TableReports.css" />
     <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\circles.min.js" />
     <Content Include="Content\fancybox_overlay.png" />
@@ -133,6 +140,7 @@
     <Content Include="Scripts\jquery-2.2.3.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.carouFredSel.packed.js" />
+    <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery.datetimepicker.full.min.js" />
     <Content Include="Scripts\jquery.fancybox.js" />
     <Content Include="Scripts\jquery.js" />
@@ -261,6 +269,7 @@
     <Content Include="Views\Admin\EditUserByID.cshtml" />
     <Content Include="Views\Emails\SendUserDetails.cshtml" />
     <Content Include="ClassDiagram1.cd" />
+    <Content Include="Views\Admin\test.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -17,7 +17,7 @@ using System.Web.UI.WebControls;
 
 namespace DeanReports.Controllers
 {
-
+    [AdminFilter]
     public class AdminController : Controller
     {
         // GET: Admin
@@ -466,6 +466,10 @@ namespace DeanReports.Controllers
                 txt += prop.Name + " " + prop.GetValue(u, null) + " ";
             }
             return txt;
+        }
+        public ActionResult koko()
+        {
+            return View("test");
         }
     }
 }

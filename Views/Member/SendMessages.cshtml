@@ -5,24 +5,22 @@
 }
 
 @section mainContent{
-<form action="/Member/SendMessages" method="post">
-    <label for="" class="">נושא ההודעה:</label>
-    <br>
-    <input type="text" name="subject" value="" />
-    <br><br><br>
-    <select name="ToUser" class="membersMessages">
-        
-    </select>
-    <div id="ckContainer"> 
-        <textarea id="ckAdmin" name="Content"></textarea>
+<div class="blockWrapper" style="width:100%;">
+    <div class="block borderTopBlue">
+        <div class="blockTitle">
+            שליחת הודעה
+        </div>
+        <form action="/Member/SendMessages" class="messagesForm" method="post">
+            <div class="messagesInputsWrap">
+                <input type="text" name="subject" value="" placeholder="נושא ההודעה" class="messageSubject" />
+                <select name="ToUser" class="membersMessages"></select>
+            </div>
+            <div id="ckContainer">
+                <textarea id="ckAdmin" name="Content"></textarea>
+            </div>
+            <input type="submit" name="submit" class="updateSubmit" value="שלח הודעה" />
+        </form>
     </div>
-    <input type="submit" name="submit" value="submit" />
-</form>
+</div>
+
 }
-
-
-@*@foreach (var item in Model.Members)
-{
-    <option value="@item.MemberUserName">@item.MemberUserName</option>
-}*@
-
