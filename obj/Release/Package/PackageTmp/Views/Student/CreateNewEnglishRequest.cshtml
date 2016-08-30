@@ -1,0 +1,45 @@
+﻿@model DeanReports.ViewModels.RequestViewModel
+@{
+    ViewBag.Title = "יצירת בקשה חדשה";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section  mainContent {
+    <div class="blockWrapper" style="width:55%;">
+        <div class="block borderTopBlue">
+            <div class="blockTitle">
+                פרטי בקשה
+            </div>
+            <form action="/Student/CreateNewRequest" method="post" class="formWrapper">
+                <input type="hidden" name="FormType" value="English" />
+                <div class="clear"></div>
+                <div class="requestedCourses">
+                    <div class="courseWrapper">
+                        <label for="" id="" name="" class="requestLbl">סיבת פנייה</label>
+                        <select id="" name="SelectedCause" class="causes courses">
+                            @for (int i = 0; i < Model.englishCauseCombo.Length; i++)
+                            {
+                                <option value="@i">@Model.englishCauseCombo[i]</option>
+                            }
+                        </select>
+                        <div class="clear"></div>
+                        <label for="" id="" name="" class="requestLbl">שם הקורס</label>
+                        <select id="" name="SelectedCourses" class="courses">
+                            @foreach (var course in Model.englishCourseLevel)
+                            {
+                                <option value="@course.ID">@course.Name</option>
+                            }
+                        </select>
+                        <label for="" id="" name="" class="requestLbl">שם המרצה</label>
+                        <input type="text" id="" name="LecturerName" class="requestInputs" />
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <div class="updateSubmitWraspper">
+                    <input type="submit" name="submit" value="שלח בקשה" class="updateSubmit" />
+                </div>
+            </form>
+        </div>
+    </div>
+}

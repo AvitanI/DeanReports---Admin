@@ -7,7 +7,7 @@ using System.Web;
 
 namespace DeanReports.Models
 {
-    public enum MessageType { General, Request, Session, Refund}
+    public enum MessageType { General, Request, Session, Refund, Charge}
 
     [Table("Messages")]
     public class Messages

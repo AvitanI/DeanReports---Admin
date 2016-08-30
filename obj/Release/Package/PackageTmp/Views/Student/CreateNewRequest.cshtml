@@ -1,0 +1,55 @@
+﻿@model DeanReports.ViewModels.RequestViewModel
+@{
+    ViewBag.Title = "יצירת בקשה חדשה";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section  mainContent {
+<div class="blockWrapper" style="width:55%;">
+    <div class="block borderTopBlue">
+        <div class="blockTitle">
+            פרטי בקשה
+        </div>
+        <form action="/Student/CreateNewRequest" method="post" class="formWrapper">
+            <input type="hidden" name="FormType" value="General" />
+            <div class="clear"></div>
+            <div class="requestedCourses">
+                <div class="courseWrapper">
+                    <label for="" id="" name="" class="requestLbl">סיבת פנייה</label>
+                    <select id="" name="SelectedCause" class="causes courses">
+                        @for (int i = 0; i < Model.generalCauseCombo.Length; i++)
+                        {
+                            <option value="@i">@Model.generalCauseCombo[i]</option>
+                        }
+                    </select>
+                    <div class="clear"></div>
+                    <label for="" id="" name="" class="requestLbl">שם הקורס</label>
+                    <select id="" name="SelectedCourses" class="courses">
+                        @foreach (var course in Model.CoursesCombo)
+                        {
+                            <option value="@course.ID">@course.Name</option>
+                        }
+                    </select>
+                    <label for="" id="" name="" class="requestLbl">שם המרצה</label>
+                    <input type="text" id="" name="LecturerName" class="requestInputs" />
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <button type="button" id="addCourse">הוסף קורס <i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+            <div class="clear"></div>
+            <div class="updateSubmitWraspper">
+                <input type="submit" name="submit" value="שלח בקשה" class="updateSubmit" />
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    var coursesArr = [];
+
+    @foreach (var d in Model.CoursesCombo)
+    {
+        @:coursesArr.push({ id: "@d.ID", name: "@d.Name" });
+    }
+</script>
+}

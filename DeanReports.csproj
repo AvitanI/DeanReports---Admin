@@ -197,7 +197,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ConverterService.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ChargeListViewModel.cs" />
     <Compile Include="ViewModels\ChargeReportViewModel.cs" />
+    <Compile Include="ViewModels\ChargeViewModel.cs" />
     <Compile Include="ViewModels\CircleDataViewModel.cs" />
     <Compile Include="ViewModels\CourseRequestViewModel.cs" />
     <Compile Include="ViewModels\CourseViewModel.cs" />
@@ -270,6 +272,8 @@
     <Content Include="Views\Emails\SendUserDetails.cshtml" />
     <Content Include="ClassDiagram1.cd" />
     <Content Include="Views\Admin\test.cshtml" />
+    <None Include="Properties\PublishProfiles\idan.yifat.net.pubxml" />
+    <Content Include="Views\Admin\ShowNewCharges.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

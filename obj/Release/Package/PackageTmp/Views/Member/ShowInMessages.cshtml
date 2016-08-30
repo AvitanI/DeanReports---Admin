@@ -1,0 +1,45 @@
+﻿@model DeanReports.ViewModels.MessagesListViewModel
+@{
+    ViewBag.Title = "הצגת כלל הודעות";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section  mainContent {
+    @if (Model.List.Count() == 0)
+    {
+        <h1>לא נמצאו תוצאות מתאימות</h1>
+    }
+    <div class="allMessagesWrapper">
+    @{string[] labelColor = { "labelYellow", "labelRed", "labelGreen", "labelBlue" }; int index = -1;}
+    <ul class="timelineMessages">
+        @for (int i = 0; i < Model.List.Count(); i++)
+        {
+            if (index == 3) { index = -1; }
+            index++;
+
+            if (!(i != 0 && Model.List[i].Date.ToString("dd/MM/yyyy") == Model.List[i - 1].Date.ToString("dd/MM/yyyy")))
+            {
+                <li class="time-label">
+                    <span class="@labelColor[index]">
+                        @Model.List[i].Date.ToString("dd/MM/yyyy")
+                    </span>
+                </li>
+            }
+            <li>
+                <i class="fa fa-envelope bg-blue"></i>
+                <div class="timeline-item">
+                    <span class="time"><i class="fa fa-clock-o"></i> @Model.List[i].Date.ToString("hh:mm")</span>
+                    <h3 class="timeline-header">@Model.List[i].Subject</h3>
+                    <div class="timeline-body">
+                        @MvcHtmlString.Create(Model.List[i].Content)
+                    </div>
+                    <div class="timeline-footer">
+                        התקבל מ - @Model.List[i].From
+                    </div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>
+
+}

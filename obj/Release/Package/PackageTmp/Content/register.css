@@ -1,0 +1,45 @@
+﻿.contentLeft {
+	width: 100% !important;
+}
+.registerForm {
+	margin: 0 auto;
+	width: 310px;
+}
+.label {
+
+}
+.input {
+	margin: 0;
+	padding: 0;
+	width: 167px;
+	height: 27px;
+	border-radius: 4px;
+	border: 1px solid #AFAFAF;
+}
+.table {
+	display:table;
+	width:auto;
+	background-color:#eee;
+	/* border:1px solid  #666666; */
+	border-spacing: 25px;/*cellspacing:poor IE support for  this*/
+	border-radius: 10px;
+}
+.tr {
+	display:table-row;
+	width:auto;
+	clear:both;
+}
+.td {
+	/*float:left;fix for  buggy browsers*/
+	display:table-cell;
+	/*width:200px;         */
+	/* background-color:#ccc; */
+}
+.submit {
+	width: 100px;	
+	height: 60px;	
+	background: #E2E2E2;	
+	margin: 15px 0 0 0;	
+	border: none;	
+	border-radius: 10px;
+}

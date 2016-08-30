@@ -1,0 +1,26 @@
+﻿@model DeanReports.ViewModels.MessagesViewModel
+@{
+    ViewBag.Title = "שליחת הודעות";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent{
+<div class="blockWrapper" style="width:100%;">
+    <div class="block borderTopBlue">
+        <div class="blockTitle">
+            שליחת הודעה
+        </div>
+        <form action="/Member/SendMessages" class="messagesForm" method="post">
+            <div class="messagesInputsWrap">
+                <input type="text" name="subject" value="" placeholder="נושא ההודעה" class="messageSubject" />
+                <select name="ToUser" class="membersMessages"></select>
+            </div>
+            <div id="ckContainer">
+                <textarea id="ckAdmin" name="Content"></textarea>
+            </div>
+            <input type="submit" name="submit" class="updateSubmit" value="שלח הודעה" />
+        </form>
+    </div>
+</div>
+
+}

@@ -1,0 +1,83 @@
+﻿@model DeanReports.ViewModels.StatisticsViewModel
+@{
+    ViewBag.Title = "איזור אישי";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent{
+    <div class="row">
+        <div class="blockWrapper rowItem">
+            <div class="block borderTopBlue">
+                <div class="blockTitle"></div>
+                <div class="blockContent statistics">
+                    <div class="circle" id="quadrant1"></div>
+                </div>
+            </div>
+        </div>
+        <div class="blockWrapper rowItem">
+            <div class="block borderTopGreen">
+                <div class="blockTitle"></div>
+                <div class="blockContent statistics">
+                    <div class="circle" id="quadrant2"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="row">
+        <div class="blockWrapper rowItem">
+            <div class="block borderTopRed">
+                <div class="blockTitle"></div>
+                <div class="blockContent statistics">
+                    <div class="circle" id="quadrant3"></div>
+                </div>
+            </div>
+        </div>
+        <div class="blockWrapper rowItem">
+            <div class="block borderTopYellow">
+                <div class="blockTitle"></div>
+                <div class="blockContent statistics">
+                    <div class="circle" id="quadrant4"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+}
+    
+@section statJS{
+    <script type="text/javascript">
+    var circles = [];
+    var colorsArr = {
+        "quadrant1": ['#84cffa', '#3c8dbc'],
+        "quadrant2": ['#6ef8b9', '#00a65a'],
+        "quadrant3": ['#f0bcb6', '#dd4b39'],
+        "quadrant4": ['#f8c678', '#f39c12']
+    };
+
+    @for (int i = 0; i < Model.Data.Count(); i++)
+    {
+        @:$('#@Model.Data[i].ID').parent().prev().text('@Model.Data[i].Title');
+    	@:circles.push({ id: "@Model.Data[i].ID", value: "@Model.Data[i].Value", maxValue: "@Model.Data[i].MaxValue", colors: colorsArr["@Model.Data[i].ID"] })
+    }
+
+    for (var i = 0; i < circles.length; i++) {
+        Circles.create({
+            id: circles[i].id,
+            radius: 60,
+            value: circles[i].value,
+            maxValue: circles[i].maxValue,
+            width: 10,
+            text: function (value) { return value + '%'; },
+            colors: circles[i].colors,
+            duration: 400,
+            wrpClass: 'circles-wrp',
+            textClass: 'circles-text',
+            valueStrokeClass: 'circles-valueStroke',
+            maxValueStrokeClass: 'circles-maxValueStroke',
+            styleWrapper: true,
+            styleText: true
+        });
+    }
+    </script>
+}

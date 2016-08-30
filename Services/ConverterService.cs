@@ -232,5 +232,29 @@ namespace DeanReports.Services
             }
             return viewModel;
         }
+        public static List<ChargeViewModel> ToChargeViewModel(List<Charge> model)
+        {
+            List<ChargeViewModel> viewModel = new List<ChargeViewModel>();
+            foreach (Charge c in model)
+            {
+                viewModel.Add(new ChargeViewModel()
+                {
+                    ID  = c.ID,
+                    StudentUserName  = c.StudentUserName,
+                    TeacherUserName  = c.TeacherUserName,
+                    Period  = c.Period,
+                    CostPerHour = c.CostPerHour,
+                    SumOfHours = c.SumOfHours,
+                    Notes = c.Notes,
+                    Date = c.Date,
+                    ManagerUserName = c.ManagerUserName,
+                    BudgetNumber = c.BudgetNumber,
+                    FundSource = c.FundSource,
+                    ManagerSignature = c.ManagerSignature,
+                    SignatureDate = c.SignatureDate
+                });
+            }
+            return viewModel;
+        }
     }
 }

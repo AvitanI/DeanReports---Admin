@@ -1,0 +1,66 @@
+﻿@{
+    ViewBag.Title = "דוחות";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section  mainContent{
+    <div class="blockWrapper" style="width:100%;">
+        <div class="block borderTopBlue">
+            <div class="blockTitle">
+                הנפקת דוחות
+                <span id="print">
+                    <i class="fa fa-print" aria-hidden="true"></i>
+                </span>
+                <a id="pdfHref" href="#">
+                    <span class="pdf">
+                        <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                    </span>
+                </a>
+                <a id="xlsHref" href="#">
+                    <span class="xls">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                    </span>
+                </a>
+            </div>
+            <div class="blockContent">
+                <div class="serachReportsForm">
+                    <div style="float: right; padding: 0 0 0 35px;">
+                        <select class="jungoSelect2" data-type="type">
+                            <option value="value">בחר דוח</option>
+                            <option value="0">טפסי חיוב</option>
+                            <option value="1">טפסי זיכוי</option>
+                            <option value="2">משתמשים</option>
+                        </select>
+                    </div>
+                    <div style="float: right; padding: 0 0 0 35px;">
+                        <select class="jungoSelect2" data-type="year">
+                            <option value="value">בחר שנה</option>
+                            <option value="2016">2016</option>
+                            <option value="2015">2015</option>
+                            <option value="2014">2014</option>
+                        </select>
+                    </div>
+                    <div style="float: right; padding: 0 0 0 35px;">
+                        <select class="jungoSelect2" data-type="month">
+                            <option value="value">בחר חודש</option>
+                            <option value="1">ינואר</option>
+                            <option value="2">פברואר</option>
+                            <option value="3">מרץ</option>
+                            <option value="4">אפריל</option>
+                            <option value="5">מאי</option>
+                            <option value="6">יוני</option>
+                            <option value="7">יולי</option>
+                            <option value="8">אוגוסט</option>
+                            <option value="9">ספטמבר</option>
+                            <option value="10">אוקטובר</option>
+                            <option value="11">נובמבר</option>
+                            <option value="12">דצמבר</option>
+                        </select>
+                    </div>
+                    <button id="searchReports" type="button" class="updateSubmit">חיפוש</button>
+                </div>
+                <div id="table-container" style="overflow-x: scroll;"></div>
+            </div>
+        </div>
+    </div>
+}

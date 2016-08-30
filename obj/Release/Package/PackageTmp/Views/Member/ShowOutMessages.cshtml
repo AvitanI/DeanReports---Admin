@@ -1,0 +1,31 @@
+﻿@model DeanReports.ViewModels.MessagesListViewModel
+@{
+    ViewBag.Title = "ShowMessage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent {
+    @if (Model.List.Count() == 0)
+    {
+        <h1>לא נמצאו תוצאות מתאימות</h1>
+    }
+    @foreach (var item in Model.List)
+    {
+        <div class="blockWrapper" style="width:55%;">
+            <div class="block borderTopBlue">
+                <div class="blockTitle">
+                    @item.From - @item.Date - @item.Subject
+                    <span class="remove">
+                        <i class="fa fa-times spin"></i>
+                    </span>
+                    <span class="plusMinus">
+                        <i class="fa fa-minus sizeIcon"></i>
+                    </span>
+                </div>
+                <div class="messageContent" style="display: block" ;>
+                    @MvcHtmlString.Create(item.Content)
+                </div>
+            </div>
+        </div>
+    }
+}

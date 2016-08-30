@@ -1,0 +1,58 @@
+﻿@model DeanReports.ViewModels.SessionListViewModel
+@{
+    ViewBag.Title = "הפגישות שלי";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section  mainContent{
+    <div class="blockWrapper" style="width:100%;">
+        <div class="block borderTopBlue">
+            <div class="blockTitle">
+                פרטי פגישות
+            </div>
+            <div class="blockContent">
+                <div class="tableWrap engtable">
+                    <div class="tableHeaderWrap">
+                        <div class="tr">
+                            <div class="td">קוד בקשה</div>
+                            <div class="td">קוד טופס</div>
+                            <div class="td">שם קורס</div>
+                            <div class="td">שם חונך</div>
+                            <div class="td">תאריך</div>
+                            <div class="td">שעת התחלה</div>
+                            <div class="td">שעת סיום</div>
+                            <div class="td">סה"כ שעות</div>
+                            <div class="td">סטטוס</div>
+                        </div>
+                    </div>
+                    <div class="tableItemWrap">
+                        @foreach (var sesssion in Model.List)
+                        {
+
+                            <div class="tr">
+                                <div class="td">@sesssion.ID</div>
+                                <div class="td">@sesssion.RefundID</div>
+                                <div class="td">@sesssion.CourseName</div>
+                                <div class="td">@sesssion.TeacherUserName</div>
+                                <div class="td">@sesssion.Date.ToString("dd/MM/yy")</div>
+                                <div class="td">@sesssion.StartHour.ToString(@"hh\:mm")</div>
+                                <div class="td">@sesssion.EndHour.ToString(@"hh\:mm")</div>
+                                <div class="td">@sesssion.SumHoursPerSession</div>
+                                <div class="td">
+                                    @if (sesssion.StudentSignature)
+                                    {
+                                        <span><b>אושר</b></span>
+                                    }
+                                    else
+                                    {
+                                        <a href="/Student/ConfirmSession?sessionID=@sesssion.ID">אשר פגישה</a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,263 @@
+﻿
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="UTF-8" />
+    @*<link href="~/Content/jquery.dataTables.css" rel="stylesheet" />*@
+    <link href="~/Content/TableReports.css" rel="stylesheet" />
+    <link href="~/Content/swiper.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/jquery.fancybox.css" />
+    <link href="~/Content/jquery-ui-timepicker-addon.css" rel="stylesheet" />
+    <link href="~/Content/jquery.datetimepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/style.css" />
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    <script>
+        var CKEDITOR_BASEPATH = '/Scripts/ckeditor/';
+    </script>
+</head>
+<body>
+    @{
+        var fb = TempData["FancyBox"] as DeanReports.ViewModels.FancyBox;
+        if (fb != null && !fb.Valid)
+        {
+            <a class="fancyTrigger" href="#TheFancybox"></a>
+            <!-- <hr> -->
+            <div id="TheFancybox">@fb.Message</div>
+        }
+    }
+    <div class="header">
+        <a href="#" class="logoHref"><span class="bold">JUNGO</span></a>
+        <div class="topMenuWrapper">
+            <button type="button" class="menuBtn">
+                <i class="fa fa-bars fa-2x" aria-hidden="true"></i>
+            </button>
+            <ul class="topMenu">
+                <li id="userSettings">
+                    <a href="#">
+                        <i class="fa fa-cogs" aria-hidden="true"></i>
+                    </a>
+                    <div class="settings">
+                        <span id="setGreen">Green</span>
+                        <span id="setYellow">Yellow</span>
+                    </div>
+                </li>
+                <li id="userToggle">
+                    <a href="#">
+                        <img src="@Session["userimg"]" alt="" class="user">
+                        <span class="userName">@Session["Username"]</span>
+                    </a>
+                    <div class="userProfile">
+                        <div class="profileImg">
+                            <img src="@Session["userimg"]" alt="" class="userProfileImg" />
+                            <div class="userProfileDetails">
+                                @Session["FullName"] - @Session["Type"]<br>
+                                <span class="since">חבר במערכת מנובמבר 2015</span>
+                            </div>
+                        </div>
+                        <div class="profileActions">
+                            <a href="/Authentication/UserProfile" class="profile">פרופיל</a>
+                            <a href="/Authentication/Logout" class="signOut">צא</a>
+                            <div class="clear"></div>
+                        </div>
+                    </div>
+                </li>
+                <li id="messagesParent">
+                    <a href="#">
+                        <i class="fa fa-envelope-o fa-fw" aria-hidden="true"></i>
+                        @{
+                            List<DeanReports.ViewModels.MessagesViewModel> messages =
+                                Session["Messages"] as List<DeanReports.ViewModels.MessagesViewModel>;
+                            int NUM_OF_MESSAGES = 0;
+                            if (messages != null)
+                            {
+                                NUM_OF_MESSAGES = messages.Count();
+                            }
+                            if (NUM_OF_MESSAGES > 0)
+                            {
+                                <span class="label label-success">@NUM_OF_MESSAGES</span>
+                            }
+                        }
+                    </a>
+                    <ul class="messagesDropDown">
+                        <li class="messagesTitle">יש לך @NUM_OF_MESSAGES הודעות</li>
+                        <li>
+                            <div class="messagesContent">
+                                <ul class="messagesList">
+                                    @if (messages != null)
+                                    {
+                                        foreach (DeanReports.ViewModels.MessagesViewModel item in messages)
+                                        {
+                                            <li>
+                                                <a href="/Member/ReadMessageByID?id=@item.ID" message-id="@item.ID" class="userMessages">
+                                                    <img src="~/Content/images/user.jpg" alt="userimg" class="userMessageImg" />
+                                                    <h4 class="messageHeader">@item.Subject</h4>
+                                                    <span class="messageShortContent">@item.PureContent</span>
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </li>
+                        <li><a class="seeAllMessages" href="/Member/ShowAllMessages?type=0">ראה את כל ההודעות</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-bell-o" aria-hidden="true"></i>
+                        <span class="label label-warning">10</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fa fa-flag-o" aria-hidden="true"></i>
+                        <span class="label label-danger">6</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="content">
+        <div class="sideBarWrapper">
+            <div class="userDetailsWrapper">
+                <img src="@Session["userimg"]" alt="" class="userDetailsImg" />
+                <div class="userDetails">
+                    <span class="fullname">כניסה אחרונה: <br>@Session["LastLoginHour"] @Session["LastLoginDate"]</span>
+                    <br>
+                    <span class="type">סוג: @Session["Type"]</span>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <form action="" method="get" class="searchForm">
+                @*<input type="text" class="search" value="" placeholder="חיפוש..." />*@
+                <select name="" class="searchMessages search"></select>
+                <button type="submit" class="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+                <div class="clear"></div>
+            </form>
+            <div class="title">
+                תפריט ראשי
+            </div>
+            <ul class="sideBar">
+                <li>
+                    <a href="/Member/ShowStatistics">
+                        <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                        <span class="sideBarTitles">אזור אישי</span>
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Authentication/UserProfile">
+                        <i class="fa fa-tachometer" aria-hidden="true"></i>
+                        <span class="sideBarTitles">פרופיל משתמש</span>
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                @{List<DeanReports.ViewModels.SideBarMenuViewModel> listt = 
+                      Session["Menu"] as List<DeanReports.ViewModels.SideBarMenuViewModel>;}
+                @foreach (var item in listt)
+                {
+                    var classs = (item.SubMenus != null) ? "toggleMenu" : "";
+                    <li class="@classs">
+                        @if(item.ParentID == -1){
+                            <a href="@item.MenuItemHref">
+                                <i class="fa @item.Icon" aria-hidden="true"></i>
+                                <span class="sideBarTitles">@item.MenuItemName</span>
+                                <i class="fa fa-angle-left" aria-hidden="true"></i>
+                                @*<span class="label labelBlue labelLeft">4</span>*@
+                            </a>
+                        }
+                        @if (item.SubMenus != null)
+                        {
+                            <ul class="innerMenu">
+                            @foreach(var subMenu in item.SubMenus)
+                            {
+                                <li><a href="@subMenu.MenuItemHref"><i class="fa @subMenu.Icon"></i>@subMenu.MenuItemName</a></li>
+                            }
+                            </ul>
+                        }
+                    </li>
+                }
+                <li>
+                    <a href="/Member/SendMessages">
+                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                        <span class="sideBarTitles">שליחת הודעות</span>
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Member/ShowAllMessages?type=0">
+                        <i class="fa fa-envelope-square" aria-hidden="true"></i>
+                        <span class="sideBarTitles">הודעות נכנסות</span>
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Member/ShowAllMessages?type=1">
+                        <i class="fa fa-envelope-square" aria-hidden="true"></i>
+                        <span class="sideBarTitles">הודעות יוצאות</span>
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+            <div class="clear"></div>
+            <div class="title">
+                הודעות שוטפות
+            </div>
+            <div class="generalMessages">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide messageItem">
+                            גב' מיכל פישר
+                            <br>
+                            תיעדר בין התאריכים
+                            <br>
+                            1/1/2016 - 7/1/2016
+                        </div>
+                        <div class="swiper-slide messageItem">
+                            קבלת סטודנטים תתבצע<br>
+                            בימים א' - ה'<br>
+                            בין השעות<br>
+                            10:00 - 14:00
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mainContent">
+            @RenderSection("mainContent", false)
+        </div>
+        <div class="clear"></div>
+        <div class="push"></div>
+    </div>
+    <div class="footer">
+        <span class="rights">&reg; All the rights reserved to Idan &amp; Nisim</span>
+    </div>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <script src="~/Scripts/ckeditor.js"></script>
+    <script src="~/Scripts/jquery.js"></script>
+    <script src="~/Scripts/config.js"></script>
+    <script src="~/Scripts/select2.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.fancybox.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.carouFredSel.packed.js"></script>
+    <script src="~/Scripts/circles.min.js"></script>
+    <script src="~/Scripts/swiper.min.js"></script>
+    <script src="~/Scripts/functions.js"></script>
+    @RenderSection("statJS", required: false)
+
+    <script>
+        $('#example').length && $('#example').dataTable();
+    </script>
+</body>
+</html>

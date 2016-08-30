@@ -1,0 +1,33 @@
+﻿@model DeanReports.ViewModels.MemberListViewModel
+@{
+    ViewBag.Title = "הצגת כלל המשתמשים";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section  mainContent {
+    
+    <br />
+    <a href="/Student/AddNewRequest">צור בקשה חדשה</a>
+    <h1 class="mainContentTitle">(@Model.List.Count) משתמשים רשומים</h1>
+    <table cellpadding="10" width="1000" class="tableSession">
+        <tr>
+            <th>שם משתמש</th>
+            <th>חוג</th>
+            <th>שם פרטי</th>
+            <th>שם משפחה</th>
+            <th>ת.לידה</th>
+            <th>טלפון</th>
+        </tr>
+        @foreach (var member in Model.List)
+        {
+            <tr>
+                <td>@member.MemberUserName</td>
+                <td>@member.DepartmentID</td>
+                <td>@member.FirstName</td>
+                <td>@member.LastName</td>
+                <td>@member.Birth</td>
+                <td>@member.Phone</td>
+            </tr>
+        }
+    </table>
+}
+

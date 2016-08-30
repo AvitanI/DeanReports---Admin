@@ -1,0 +1,28 @@
+﻿@model DeanReports.ViewModels.RequestListViewModel
+@{
+    ViewBag.Title = "הבקשות שלי";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent {
+        @foreach (var r in Model.List)
+        {
+            <h3 style="text-align:right;">@r.ID - @r.StudentUserName - @r.Type - @r.Cause</h3>
+            <table border="1" cellpadding="5">
+                <tr>
+                    <th>קוד קורס</th>
+                    <th>שם מרצה</th>
+                </tr>
+                @foreach (var cr in r.CourseRequests)
+                {
+                    <tr>
+                        <td>@cr.CourseID</td>
+                        <td>@cr.LecturerName</td>
+                    </tr>
+                }
+            </table>
+            <br><br>
+            
+        }
+}
+

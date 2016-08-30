@@ -56,6 +56,15 @@ namespace DeanReports.Controllers
             requestListVM.List = rvm;
             return View("ShowNewRequests", requestListVM);
         }
+        public ActionResult ShowNewCharges()
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            ChargeListViewModel chargeViewModelListVM = new ChargeListViewModel();
+            List<Charge> chargeListModel = bl.GetNonConfirmedCharges();
+            List<ChargeViewModel> cvm = Services.ConverterService.ToChargeViewModel(chargeListModel);
+            chargeViewModelListVM.List = cvm;
+            return View("ShowNewCharges", chargeViewModelListVM);
+        }
         public ActionResult DeleteRequest(int requestID)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
@@ -68,8 +77,62 @@ namespace DeanReports.Controllers
             Request request = bl.GetRequestByID(requestID);
             request.ManagerSignature = true;
             request.SignatureDate = DateTime.Now;
+            request.ManagerUserName = Session["Username"] as string;
             bl.EditRequest(request);
             return RedirectToAction("ShowNewRequests"); 
+        }
+        public ActionResult ConfirmCharge(int chargeID)
+        {
+            
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            Charge charge = bl.GetChargeByID(chargeID);
+            charge.ManagerSignature = true;
+            charge.SignatureDate = DateTime.Now;
+            charge.ManagerUserName = Session["Username"] as string;
+            bl.EditCharge(charge);
+            return RedirectToAction("ShowNewCharges");
+        }
+        public ActionResult DeleteCharge(int chargeID)
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            bl.RemoveCharge(chargeID);
+            return RedirectToAction("ShowNewCharges");
+        }
+        [HttpPost]
+        public ActionResult UpdateCharge(ChargeViewModel chargeViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                // get existing charge
+                BussinesLayer bl = new BussinesLayer(new FinalDB());
+                Charge charge = bl.GetChargeByID(chargeViewModel.ID);
+                charge.ManagerUserName = Session["Username"] as string;
+                charge.BudgetNumber = chargeViewModel.BudgetNumber;
+                charge.FundSource = chargeViewModel.FundSource;
+                charge.SignatureDate = DateTime.Now;
+                charge.ManagerSignature = chargeViewModel.ManagerSignature;
+                // update charge
+                bl.EditCharge(charge);
+                // send message to student
+                var memberController = DependencyResolver.Current.GetService<MemberController>();
+                var sigTxt = (chargeViewModel.ManagerSignature == true) ? "מאושרת" : "לא מאושרת";
+                memberController.SendMessage(new Messages()
+                {
+                    From = Session["Username"] as string,
+                    ToUser = charge.StudentUserName,
+                    Type = MessageType.Charge,
+                    Subject = "Charge",
+                    Content = "סטטוס בקשה: " + sigTxt,
+                    Date = DateTime.Now,
+                    IsSeen = false
+                });
+                return RedirectToAction("ShowNewCharges");
+            }
+            else
+            {
+                this.SetErrorMsg("שדות לא תקינים");
+                return RedirectToAction("ShowNewCharges");
+            }
         }
         [HttpPost]
         public ActionResult UpdateRequest(RequestViewModel requestViewModel)

@@ -984,6 +984,12 @@ body {
     clear: both;
     padding: 0 0 10px 0;
 }
+.groupFour {
+    margin-bottom: 30px;
+}
+.groupFour .refDetailsItem {
+    width: 25%;
+}
 .refDetailsItem {
     float: right;
     width: 16.6666667%;

@@ -19,8 +19,8 @@ namespace DeanReports.Services
         {
             new SideBarMenuViewModel(){Type=Types.Admin, ID=1, ParentID=-1, MenuItemName="בקשות חדשות", MenuItemHref="/Admin/ShowNewRequests", Icon="fa-files-o"},
             new SideBarMenuViewModel(){Type=Types.Admin, ID=10, ParentID=-1, MenuItemName="צפיה בדוחות", MenuItemHref="/Admin/ShowReports", Icon="fa-table"},
-            new SideBarMenuViewModel(){Type=Types.Admin, ID=11, ParentID=-1, MenuItemName="טפסי חיוב", MenuItemHref="#", Icon="fa-credit-card"},
-            new SideBarMenuViewModel(){Type=Types.Admin, ID=12, ParentID=-1, MenuItemName="טפסי זיכוי", MenuItemHref="#", Icon="fa-tasks"},
+            new SideBarMenuViewModel(){Type=Types.Admin, ID=11, ParentID=-1, MenuItemName="טפסי חיוב", MenuItemHref="/Admin/ShowNewCharges", Icon="fa-credit-card"},
+            new SideBarMenuViewModel(){Type=Types.Admin, ID=12, ParentID=-1, MenuItemName="טפסי זיכוי", MenuItemHref="/Admin/ShowNewRefunds", Icon="fa-tasks"},
             new SideBarMenuViewModel(){Type=Types.Admin, ID=13, ParentID=-1, MenuItemName="עריכת משתמשים", MenuItemHref="/Admin/EditUsers", Icon="fa-user"},
             new SideBarMenuViewModel(){Type=Types.Teacher, ID=2, ParentID=-1, MenuItemName="יצירת טופס חונכות", MenuItemHref="/Teacher/CreateNewRefund", Icon="fa-edit"},
             new SideBarMenuViewModel(){Type=Types.Teacher, ID=4, ParentID=-1, MenuItemName="צפיה בפגישות", MenuItemHref="/Teacher/ShowSessions", Icon="fa-th"},

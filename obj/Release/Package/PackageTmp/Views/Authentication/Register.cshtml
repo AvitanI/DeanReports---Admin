@@ -1,0 +1,126 @@
+﻿@model DeanReports.ViewModels.RegisterViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>הרשמה למערכת</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="~/Content/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/font-awesome.min.css" />
+    <link href="~/Content/jquery.fancybox.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/jquery.datetimepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/login.css" />
+    <script src="~/Scripts/jquery-2.2.3.min.js"></script>
+    @**@
+    <style>
+        #TheFancybox {
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+    @{
+        var fb = TempData["FancyBox"] as DeanReports.ViewModels.FancyBox;
+        if (fb != null && !fb.Valid)
+        {
+            <a class="fancyTrigger" href="#TheFancybox"></a>
+            <!-- <hr> -->
+            <div id="TheFancybox">@fb.Message</div>
+        }
+    }
+    <div class="container">
+        <a class="loginTitle"><span class="bold">Admin</span>LTE</a>
+        <div class="loginFormWrapper">
+            <div class="formTitle">הרשמה למערכת</div>
+            <form method="post" action="/Authentication/Register" class="loginForm">
+                <div class="inputWrapper">
+                    <input type="text" name="Identity" placeholder="תז" class="loginInputs" value="@Model.Identity" />
+                    <i class="fa fa-key inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
+                    <input type="text" name="FirstName" placeholder="שם פרטי" class="loginInputs" value="@Model.FirstName" />
+                    <i class="fa fa-male inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
+                    <input type="text" name="LastName" placeholder="שם משפחה" class="loginInputs" value="@Model.LastName" />
+                    <i class="fa fa-male inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
+                    <input id="birth" type="text" name="Birth" placeholder="תאריך לידה" class="loginInputs" value="@Model.Birth" />
+                    <i class="fa fa-calendar inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
+                    <select name="Gender" class="genderCombo">
+                        <option value=""></option>
+                        @for (int i = 0; i < Model.GenderArr.Length; i++)
+                        {
+                            <option value="@i">@Model.GenderArr[i]</option>
+                        }
+                    </select>
+                    <i class="fa fa-venus-mars inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
+                    <select name="DepartmentID" class="departmentCombo">
+                        <option value=""></option>
+                        @foreach (var item in Model.DepartmentList)
+                        {
+                            <option value="@item.ID">@item.Name</option>
+                        }
+                    </select>
+                    <i class="fa fa-university inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
+                    @*<input type="text" name="Year" placeholder="שנת לימודים" class="loginInputs" />*@
+                    <select name="SelectedYear" class="yearsCombo">
+                        @*<option value="">שנת לימוד</option>*@
+                        <option value=""></option>
+                        @for (int i = 0; i < Model.AcademicYears.Length; i++)
+                        {
+                            <option value="@i">@Model.AcademicYears[i]</option>
+                        }
+                    </select>
+                    <i class="fa fa-hourglass-half inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
+                    <input type="text" name="Phone" placeholder="טלפון נייד" class="loginInputs" value="@Model.Phone" />
+                    <i class="fa fa-phone inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
+                    <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs checkEmail" value="@Model.UserName" />
+                    <i id="markFont" class="fa fa-envelope inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
+                    <input id="password" type="text" name="Password" placeholder="סיסמה" class="loginInputs" />
+                    <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="inputWrapper">
+                    <input id="confirmPassword" type="text" placeholder="אימות סיסמה" class="loginInputs" />
+                    <i class="fa fa-shield inputsIcons" aria-hidden="true"></i>
+                    <div class="clear"></div>
+                </div>
+                <div class="clear"></div>
+                <input type="submit" name="submit" value="הירשם" class="submit" onclick="return checkPasswords();" />
+            </form>
+        </div>
+    </div>
+    <script src="~/Scripts/select2.js"></script>
+    <script src="~/Scripts/jquery.fancybox.js"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/jquery.datetimepicker.full.min.js"></script>
+    <script src="~/Scripts/functions.js"></script>
+</body>
+</html>

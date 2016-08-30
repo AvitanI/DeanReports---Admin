@@ -1,0 +1,133 @@
+﻿@model DeanReports.ViewModels.UserProfileViewModel
+@{
+    ViewBag.Title = "פרופיל משתמש";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent {
+<form method="post" action="/Authentication/UpdateUserProfile" class="memberDetailsForm">
+    <input id="userImg" type="hidden" name="UserImg" value="@Model.UserImg" />
+    <div class="rowGrid">
+        <div class="blockWrapper">
+            <div class="block borderTopYellow">
+                <div class="blockTitle">
+                    עריכת תמונה
+                </div>
+                <div class="swiper-container">
+                    <button id="next" type="button"></button>
+                    <ul class="caruselList">
+                        <li class="carouselParagraph"><img src="@Model.UserImg" class="memberDetailsPic" /></li>
+                        @foreach (var imgPath in Model.UserProfileImages)
+                        {
+                            if (imgPath == Model.UserImg) { continue; }
+                            <li class="carouselParagraph"><img src="@imgPath" class="memberDetailsPic" /></li>
+                        }
+                    </ul>
+                    <button id="prev" type="button"></button>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+<div class="clear"></div>
+    <div class="rowGrid">
+        <div class="prof blockWrapper">
+            <div class="block borderTopBlue">
+                <div class="blockTitle">
+                    עריכת פרטי משתמש
+                </div>
+                <div class="formWrapper">
+                    <div class="inputWrapper">
+                        <input type="text" name="Identity" placeholder="תז" class="loginInputs" value="@Model.Identity" />
+                        <i class="fa fa-key inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input type="text" name="FirstName" placeholder="שם פרטי" class="loginInputs" value="@Model.FirstName" />
+                        <i class="fa fa-male inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input type="text" name="LastName" placeholder="שם משפחה" class="loginInputs" value="@Model.LastName" />
+                        <i class="fa fa-male inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input id="birth" type="text" name="Birth" placeholder="תאריך לידה" class="loginInputs" value="@Model.Birth" />
+                        <i class="fa fa-calendar inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input id="gender" type="text" name="Gender" placeholder="מגדר" class="loginInputs" value="@Model.Gender" />
+                        <i class="fa fa-calendar inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    @if (Model.IsStudent)
+                    { 
+                    <div class="inputWrapper">
+                        <select name="DepartmentID" class="departmentCombo">
+                            @foreach (var item in Model.Departments)
+                            {
+                                if (item.ID == Model.DepartmentID)
+                                {
+                                    <option value="@item.ID" selected="selected">@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            }
+                        </select>
+                        <i class="fa fa-university inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input type="text" name="Year" placeholder="שנת לימודים" class="loginInputs" value="@Model.Year" />
+                        <i class="fa fa-hourglass-half inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    }
+                    <div class="inputWrapper">
+                        <input type="text" name="Phone" placeholder="טלפון נייד" class="loginInputs" value="@Model.Phone" />
+                        <i class="fa fa-phone inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="updateSubmitWraspper">
+                    <input type="submit" name="submit" value="עדכן" class="updateSubmit" />
+                </div>
+            </div>
+        </div>
+        <div class="prof blockWrapper">
+            <div class="block borderTopRed">
+                <div class="blockTitle">
+                    שינוי שם משתמש וסיסמה
+                </div>
+                <div class="formWrapper">
+                    <div class="inputWrapper">
+                        <input type="text" name="UserName" placeholder="אי-מייל" class="loginInputs" value="@Model.UserName" />
+                        <i class="fa fa-envelope inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input type="text" name="Password" placeholder="סיסמה" class="loginInputs" value="@Model.Password" />
+                        <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="inputWrapper">
+                        <input type="text" name="Password" placeholder="אימות סיסמה" class="loginInputs" />
+                        <i class="fa fa-lock inputsIcons" aria-hidden="true"></i>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="updateSubmitWraspper">
+                    <input type="submit" name="submit" value="עדכן" class="updateSubmit" />
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+}

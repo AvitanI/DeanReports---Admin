@@ -9,6 +9,7 @@ namespace DeanReports.DataAccessLayer
 {
     public class FinalDB : DbContext
     {
+        //public FinalDB() : base("idan.yifat.net") { }
         public DbSet<User> Users { get; set; }
         public DbSet<Manager> Managers { get; set; }
         public DbSet<Session> Sessions { get; set; }

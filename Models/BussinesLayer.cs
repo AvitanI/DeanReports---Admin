@@ -1401,6 +1401,7 @@ namespace DeanReports.Models
             {
                 Object[] parameters =
                 {
+                    new SqlParameter("ID", c.ID),
                     new SqlParameter("TeacherUserName", c.TeacherUserName),
                     new SqlParameter("Period", c.Period),
                     new SqlParameter("CostPerHour", c.CostPerHour),
@@ -1414,7 +1415,7 @@ namespace DeanReports.Models
                     new SqlParameter("ManagerSignature", c.ManagerSignature),
                     new SqlParameter("SignatureDate", c.SignatureDate)
                 };
-                dbContext.Database.ExecuteSqlCommand(@"Update_Charge @TeacherUserName, @Period, @CostPerHour, @SumOfHours, @SumOfBill,
+                dbContext.Database.ExecuteSqlCommand(@"Update_Charge @ID, @TeacherUserName, @Period, @CostPerHour, @SumOfHours, @SumOfBill,
                                                                     @Notes, @Date, @ManagerUserName, @BudgetNumber, @FundSource, @ManagerSignature, @SignatureDate",
                                                                      parameters);
                 dbContext.SaveChanges();
@@ -1427,20 +1428,35 @@ namespace DeanReports.Models
                 return false;
             }
         }
-        public bool RemoveCharge(Charge c)
+        public bool RemoveCharge(int chargeID)
         {
             try
             {
-                var ID = new SqlParameter("ID", c.ID);
+                var ID = new SqlParameter("ID", chargeID);
                 dbContext.Database.ExecuteSqlCommand("Delete_Charge @ID", ID);
-                dbContext.SaveChanges();
-                Console.WriteLine("success");
                 return true;
             }
             catch (SqlException e)
             {
                 Debug.WriteLine("Problem with Delete Charge Details function: " + e);
                 return false;
+            }
+        }
+        public Charge GetChargeByID(int chargeID)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("ID", chargeID)
+                };
+                Charge charge = dbContext.Database.SqlQuery<Charge>("GetChargeByID @ID", parameters).Single();
+                return charge;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetChargeByID function: " + e);
+                return new Charge();
             }
         }
 
@@ -1525,6 +1541,19 @@ namespace DeanReports.Models
             {
                 Debug.WriteLine("Problem with GetNonConfirmedRequests function: " + e);
                 return new List<Request>();
+            }
+        }
+        public List<Charge> GetNonConfirmedCharges()
+        {
+            try
+            {
+                List<Charge> charges = dbContext.Database.SqlQuery<Charge>("GetNonConfirmedCharges").ToList();
+                return charges;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetNonConfirmedCharges function: " + e);
+                return new List<Charge>();
             }
         }
         public bool AddMessage(Messages message)

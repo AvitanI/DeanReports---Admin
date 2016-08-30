@@ -23,11 +23,7 @@ namespace DeanReports.Models
         [Required]
         public int SumOfHours { get; set; }
         [Required, DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public double SumOfBill
-        {
-            get { return CostPerHour * SumOfHours; }
-            private set { }
-        }
+        public double SumOfBill {get;set;}
         [Required, StringLength(250)]
         public string Notes { get; set; }
         [Required]
