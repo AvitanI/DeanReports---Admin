@@ -22,10 +22,9 @@ namespace DeanReports.ViewModels
         public int? ApprovalHours { get; set; }
         [Required, RegularExpression(@"^\d+$")]
         public int? BudgetNumber { get; set; }
-        [Required, RegularExpression(@"^[א-ת\s]+$")]
+        [Required] //RegularExpression(@"^[א-ת\s]+$")
         public string Notes { get; set; }
         public bool? ManagerSignature { get; set; }
-        [Required]
         public DateTime? SignatureDate { get; set; }
         // each request has list of courses and progrmas
         public List<CourseRequestViewModel> CourseRequests { get; set; }

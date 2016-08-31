@@ -1459,6 +1459,24 @@ namespace DeanReports.Models
                 return new Charge();
             }
         }
+        public List<MonthlyCharge> GetChargeByStudent(string studentUsername, DateTime? date = null)
+        {
+            try
+            {
+                Object[] parameters =
+                {
+                    new SqlParameter("StudentUsername", studentUsername),
+                    new SqlParameter("Date", date ?? SqlDateTime.Null)
+                };
+                List<MonthlyCharge> charges = dbContext.Database.SqlQuery<MonthlyCharge>("GetChargeByStudent @StudentUsername, @Date", parameters).ToList();
+                return charges;
+            }
+            catch (SqlException e)
+            {
+                Debug.WriteLine("Problem with GetChargeByStudent function: " + e);
+                return new List<MonthlyCharge>();
+            }
+        }
 
         // course section
         public List<Course> GetCoursesByDepartmentID(int departmentID)

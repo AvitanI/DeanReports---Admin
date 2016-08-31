@@ -216,20 +216,20 @@ $('#birth').length && jQuery('#birth').datetimepicker({
     placeholder: "בחר משתמש"
 });
 
-$('.checkEmail').focusout(function () {
-    var username = $(this).val();
-    if (username) {
-        $.get("/Authentication/IsUserExist?username=" + username).done(function (data) {
-            console.log(data);
-            if (data.answer == false) {
-                $('#markFont').addClass("markRed");
-            }
-            else {
-                $('#markFont').removeClass("markRed");
-            }
-        });
-    }
-});
+//$('.checkEmail').focusout(function () {
+//    var username = $(this).val();
+//    if (username) {
+//        $.get("/Authentication/IsUserExist?username=" + username).done(function (data) {
+//            console.log(data);
+//            if (data.answer == false) {
+//                $('#markFont').addClass("markRed");
+//            }
+//            else {
+//                $('#markFont').removeClass("markRed");
+//            }
+//        });
+//    }
+//});
 
 function checkPasswords() {
     var password = $('#password').val();
@@ -252,28 +252,28 @@ function checkPasswords() {
 //$('.programsCombo').select2("val", "").trigger('change')
 
 
-$(".requestUsername").hover(function () {
-        var username = $(this).text();
-        var self = $(this);
-        var fName = self.parent().find('.firstName');
-        var lName = self.parent().find('.lastName');
+//$(".requestUsername").hover(function () {
+//        var username = $(this).text();
+//        var self = $(this);
+//        var fName = self.parent().find('.firstName');
+//        var lName = self.parent().find('.lastName');
 
-        if (fName.text() == "" && lName.text() == "") {
-            $.get("/Member/GetMemberDetails?username=" + username).done(function (data) {
-                console.log(data);
-                self.parent().find('.firstName').text("שם: " + data.firstName);
-                self.parent().find('.lastName').text("שם משפחה: " + data.firstName);
-                self.next().show();
-            });
-        }
-        else {
-            $(this).next().show();
-        }
+//        if (fName.text() == "" && lName.text() == "") {
+//            $.get("/Member/GetMemberDetails?username=" + username).done(function (data) {
+//                console.log(data);
+//                self.parent().find('.firstName').text("שם: " + data.firstName);
+//                self.parent().find('.lastName').text("שם משפחה: " + data.firstName);
+//                self.next().show();
+//            });
+//        }
+//        else {
+//            $(this).next().show();
+//        }
         
-    },
-    function () {
-        $(this).next().hide();
-    });
+//    },
+//    function () {
+//        $(this).next().hide();
+//    });
 
 $('.actions').click(function () {
     $(this).toggleClass('active');

@@ -25,12 +25,13 @@
         if (fb != null && !fb.Valid)
         {
             <a class="fancyTrigger" href="#TheFancybox"></a>
-            <!-- <hr> -->
-            <div id="TheFancybox">@fb.Message</div>
+            <!-- <hr> -->@*@fb.Message*@
+
+            <<div id="TheFancybox">@MvcHtmlString.Create(fb.Message)</div>
         }
     }
     <div class="header">
-        <a href="#" class="logoHref"><span class="bold">JUNGO</span></a>
+        <a href="/Member/ShowStatistics" class="logoHref"><span class="bold">JUNGO</span></a>
         <div class="topMenuWrapper">
             <button type="button" class="menuBtn">
                 <i class="fa fa-bars fa-2x" aria-hidden="true"></i>

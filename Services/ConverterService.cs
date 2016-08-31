@@ -145,6 +145,7 @@ namespace DeanReports.Services
                 Date = viewModel.Date,
                 StartHour = viewModel.StartHour,
                 EndHour = viewModel.EndHour,
+                SumHoursPerSession = viewModel.SumHoursPerSession,
                 Details = viewModel.Details,
                 StudentSignature = viewModel.StudentSignature
             };
@@ -252,6 +253,19 @@ namespace DeanReports.Services
                     FundSource = c.FundSource,
                     ManagerSignature = c.ManagerSignature,
                     SignatureDate = c.SignatureDate
+                });
+            }
+            return viewModel;
+        }
+        public static List<MonthlyChargeViewModel> ToMonthlyChargeViewModel(List<MonthlyCharge> model)
+        {
+            List<MonthlyChargeViewModel> viewModel = new List<MonthlyChargeViewModel>();
+            foreach (MonthlyCharge mc in model)
+            {
+                viewModel.Add(new MonthlyChargeViewModel()
+                {
+                    TeacherUserName = mc.TeacherUserName,
+                    SumOfHours = mc.SumOfHours
                 });
             }
             return viewModel;

@@ -124,15 +124,20 @@ namespace DeanReports.Controllers
             sessionListVM.List = sessionVM;
             return View("ShowSessions", sessionListVM);
         }
+        public ActionResult ShowMonthlyCharges()
+        {
+            BussinesLayer bl = new BussinesLayer(new FinalDB());
+            MonthlyChargeListViewModel listVM = new MonthlyChargeListViewModel();
+            var studentUsername = Session["Username"] as string;
+            List<MonthlyCharge> mcModel = bl.GetChargeByStudent(studentUsername, DateTime.Now);
+            listVM.List = Services.ConverterService.ToMonthlyChargeViewModel(mcModel);
+            return View("ShowMonthlyCharges", listVM);
+        }
         public ActionResult ConfirmSession(int sessionID)
         {
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             bl.ConfirmSessionByID(sessionID);
             return Redirect("ShowSessions");
-        }
-        public JsonResult Test()
-        {
-            return Json(new {foo="bar", baz="Blech"}, JsonRequestBehavior.AllowGet);
         }
     }
 }

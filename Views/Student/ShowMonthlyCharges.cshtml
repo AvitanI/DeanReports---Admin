@@ -1,0 +1,30 @@
+﻿@model DeanReports.ViewModels.MonthlyChargeListViewModel
+@{
+    ViewBag.Title = "הצגת טפסי חיוב חדשים";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section mainContent {
+<div class="blockWrapper">
+    <div class="block borderTopBlue">
+        <div class="blockTitle">
+            פרטי חיוב
+        </div>
+        <div class="blockContent">
+            <table border="1" cellpadding="5" cellspacing="5">
+                <tr>
+                    <th>שם חונך</th>
+                    <th>סהכ שעות</th>
+                </tr>
+                @foreach (var item in Model.List)
+                {
+                    <tr>
+                        <td>@item.TeacherUserName</td>
+                        <td>@item.SumOfHours</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+}

@@ -164,6 +164,7 @@
     <Compile Include="Models\ChargeReport.cs" />
     <Compile Include="Models\ManagerMessages.cs" />
     <Compile Include="Models\ManagerStatistics.cs" />
+    <Compile Include="Models\MonthlyCharge.cs" />
     <Compile Include="Models\RefundReport.cs" />
     <Compile Include="Models\StudentStatistics.cs" />
     <Compile Include="Models\TeacherStatistics.cs" />
@@ -210,6 +211,8 @@
     <Compile Include="ViewModels\MemberViewModel.cs" />
     <Compile Include="ViewModels\MessagesListViewModel.cs" />
     <Compile Include="ViewModels\MessagesViewModel.cs" />
+    <Compile Include="ViewModels\MonthlyChargeListViewModel.cs" />
+    <Compile Include="ViewModels\MonthlyChargeViewModel.cs" />
     <Compile Include="ViewModels\ProgramsListViewModel.cs" />
     <Compile Include="ViewModels\ProgramsMembersViewModel.cs" />
     <Compile Include="ViewModels\ProgramsViewModel.cs" />
@@ -274,6 +277,7 @@
     <Content Include="Views\Admin\test.cshtml" />
     <None Include="Properties\PublishProfiles\idan.yifat.net.pubxml" />
     <Content Include="Views\Admin\ShowNewCharges.cshtml" />
+    <Content Include="Views\Student\ShowMonthlyCharges.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -297,7 +297,7 @@ namespace DeanReports.Controllers
             BussinesLayer bl = new BussinesLayer(new FinalDB());
             User u = bl.GetUserByUsername(username);
             if (u == null) return View("Login");
-            Services.Utilities.SendEmail(username, "SendUserDetails", "Username: " + u.UserName + "</br>" + "Password: " + u.Password);
+            Services.Utilities.SendEmail(username, "SendUserDetails", "Username: " + u.UserName + ", " + "Password: " + u.Password);
             return View("Login", new UserViewModel() { UserName = username });
         }
         public string test()

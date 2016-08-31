@@ -191,15 +191,15 @@ namespace DeanReports.Controllers
         }
         private string GetDuplicateMsg(List<Session> duplicates)
         {
-            string dupStr = "נמצאה כפילות בפגישות: </br>";
+            string dupStr = "נמצאה כפילות בפגישות:<div style=\"min-width:700px;\"> </br>";
             foreach (var item in duplicates)
             {
-                dupStr += "מס טופס: " + item.RefundID +
+                dupStr += "מס טופס: " + item.RefundID + 
                         " מס בקשה: " + item.ID +
                         " שם חונך: " + item.TeacherUserName +
-                        " שם סטודנט: " + item.StudentUserName;
+                        " שם סטודנט: " + item.StudentUserName + "<br>";
             }
-            return dupStr;
+            return dupStr + "</div>";
         }
         public ActionResult ShowSessions()
         {
